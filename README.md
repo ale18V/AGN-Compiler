@@ -61,8 +61,8 @@ A custom compiler developed in CS 152.
 
 ### Comments
 
-Comments can be single line comments starting with `#`. For example:
+Comments can be single line comments starting with `//`. For example:
 
 ```
-int x; #This is a variable declaration.
+int x; //This is a variable declaration.
 ```
