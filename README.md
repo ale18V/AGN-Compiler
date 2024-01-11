@@ -20,7 +20,7 @@ A custom compiler developed in CS 152.
 | Write                 | write(x)     |
 | Read                  | read(x)      |
 | Arrays                | int [8] array|
-| Comments              | # This is a comment|
+| Comments              | // This is a comment|
 
 ### Table of Symbols
 
@@ -29,7 +29,7 @@ A custom compiler developed in CS 152.
 |method                | Func         |
 |return                | Return       |
 |int                   | Int          |
-|print                 | Print        |
+|write                 | Print        |
 |read                  | Read         |
 |while                 | While        |
 |if                    | If           |
