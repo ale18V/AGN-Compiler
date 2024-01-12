@@ -1,0 +1,13 @@
+// Example program demonstrating a break statement within a while-loop
+
+func main() {
+    int x;
+    x = 0;
+    while x < 10 {
+        if x >= 5 {
+            break;
+        }
+        print(x);
+        x = x + 1;
+    }
+}
