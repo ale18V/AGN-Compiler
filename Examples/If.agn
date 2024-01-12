@@ -15,7 +15,7 @@ func main() {
     }
 
     // Should print out '0'.
-    print(z);
+    write(z);
 
     x = 10;
     y = 5;
@@ -26,5 +26,5 @@ func main() {
     }
 
     // Should print out '1'
-    print(z);
+    write(z);
 }
