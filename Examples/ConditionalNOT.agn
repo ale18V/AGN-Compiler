@@ -1,0 +1,13 @@
+//example demonstrating the conditional not operator
+
+func main(){
+	int x = 5;
+	int result = -1;
+
+	if !(x < 7) {
+		result = 0;
+	}else{
+		result = 1;
+	}
+
+}
