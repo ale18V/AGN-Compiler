@@ -12,7 +12,7 @@ func main() {
     int x;
     int y;
     x = add(10, 2);
-    print(x);
+    write(x);
     y = mul(x, x + y);
-    print(y);
+    write(y);
 }
