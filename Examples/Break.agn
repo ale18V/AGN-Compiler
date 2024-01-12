@@ -7,7 +7,7 @@ func main() {
         if x >= 5 {
             break;
         }
-        print(x);
+        write(x);
         x = x + 1;
     }
 }
