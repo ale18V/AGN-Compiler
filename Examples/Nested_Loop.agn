@@ -1,13 +1,15 @@
+// Example program demonstrating a nested loop
+
 func main() {
-    int i;
-    int j;
-    i = 0;
-    while i < 2 {
-        j = 0;
-        while j < 3 {
-            write(j);
-            j = j + 1;
+    int x;
+    int y;
+    x = 0;
+    while x < 2 {
+        y = 0;
+        while y < 3 {
+            write(y);
+            y = y + 1;
         }
-        i = i + 1;
+        x = x + 1;
     }
 }
