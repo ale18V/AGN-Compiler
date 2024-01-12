@@ -10,27 +10,27 @@ func main() {
 
   // This should output '15'
   z = x + y;
-  print(z);
+  write(z);
 
   // This should output '5'
   z = x - y;
-  print(z);
+  write(z);
 
   // This should output '50'
   z = x * y;
-  print(z);
+  write(z);
 
   // This should output '2'
   z = x / y;
-  print(z);
+  write(z);
 
   // This should output '0'
   z = x % y;
-  print(z);
+  write(z);
 
   // Complex Expression. (5 + 1) * 4
   x = 5;
   y = 4;
   z = (x + 1) * y;
-  print(z);
+  write(z);
 }
