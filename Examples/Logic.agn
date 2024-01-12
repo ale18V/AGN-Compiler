@@ -1,0 +1,29 @@
+// Example program demonstrating if-else statements
+
+func main() {
+    int x;
+    int y;
+    int z;
+
+    
+    x = 10;
+    y = 5;
+    if x or y {
+        z = 0;
+    } else {
+        z = 1;
+    }
+
+    // Should print out '0'.
+    write(z);
+
+    if x and z {
+		write(x and z); 
+	}
+	else {
+		write(x);
+	}
+	// Should print out '10' (x)
+
+    write(z and y); // Should print out '0'
+}
