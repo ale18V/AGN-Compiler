@@ -28,7 +28,8 @@ LessEqual           <=
 Greater             >                            
 GreaterEqual        >=                      
 Equality            ==                          
-NotEqual            !=                          
+NotEqual            !=   
+Not					!
 Ident               [a-zA-Z_]+                  
 Num                 [0-9]+                     
 %}
