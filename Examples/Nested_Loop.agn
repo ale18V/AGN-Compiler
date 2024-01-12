@@ -5,7 +5,7 @@ func main() {
     while i < 2 {
         j = 0;
         while j < 3 {
-            print(j);
+            write(j);
             j = j + 1;
         }
         i = i + 1;
