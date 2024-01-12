@@ -17,6 +17,9 @@ A custom compiler developed in CS 152.
 | Not Equality          | x != y       |
 | Greater Than          | x > y        |
 | Greater Than Equal    | x >= y       |
+| Logical or            | x or y       |
+| Logical and           | x and y      |
+| Logical xor           | x xor y      |
 | Write                 | write(x)     |
 | Read                  | read(x)      |
 | Arrays                | int [8] array|
@@ -36,6 +39,9 @@ A custom compiler developed in CS 152.
 |else                  | Else         |
 |break                 | Break        |
 |continue              | Continue     |
+|or                    | Logical or   |
+|and                   | Logical and  |
+|xor                    | Logical xor   |
 |(                     | LeftParen    |
 |)                     | RightParen   |
 |{                     | LeftCurly    |

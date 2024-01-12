@@ -32,3 +32,7 @@ NotEqual            !=
 Ident               [a-zA-Z_]+                  
 Num                 [0-9]+                     
 %}
+
+%{
+
+}
