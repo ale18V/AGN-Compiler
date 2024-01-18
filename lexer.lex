@@ -1,4 +1,7 @@
 %{
+#include <stdio.h>
+%}
+
 Func                method                          
 Return              return                        
 Int                 int                              
@@ -32,8 +35,7 @@ NotEqual            !=
 Not					!
 Ident               [a-zA-Z_]+                  
 Num                 [0-9]+                     
-%}
 
-%{
+%%
 
-}
+%%
