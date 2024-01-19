@@ -46,6 +46,7 @@ LogicalXor          xor
 NotEqual            !=   
 Not					!
 Ident               [a-zA-Z]+[a-zA-Z_0-9]*
+IncorrectIdent      [0-9]+{Ident}
 Num                 [0-9]+                
 Comment             \/\/.*\n
 WhiteSpace          [ \r\t]
@@ -64,7 +65,7 @@ WhiteSpace          [ \r\t]
 {Continue}          {puts("Continue keyword"); }
 {LeftParen}         {puts("Left parenthesis keyword"); }
 {RightParen}        {puts("Right parenthesis keyword");}
-{LeftCurly}         {puts("Left curly brakcet keyword");}
+{LeftCurly}         {puts("Left curly bracket keyword");}
 {RightCurly}        {puts("Right curly bracket keyword");}
 {LeftBracket}       {puts("Left bracket keyword");}
 {RightBracket}      {puts("Right bracket keyword");}
@@ -84,6 +85,7 @@ WhiteSpace          [ \r\t]
 {NotEqual}			{puts("Not equal symbol");}
 {Not}				{puts("Logical NOT symbol");}
 {Ident}				{printf("IDENTIFIER: %s\n", yytext);}
+{IncorrectIdent}    {puts("ERROR"; //gotta find how to end the program after this)}
 {Num}				{printf("NUMBER: %s\n", yytext);}
 {Comment}			{nrow++; ncol=1; }
 {WhiteSpace}		{}
