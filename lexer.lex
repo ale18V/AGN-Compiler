@@ -48,7 +48,7 @@ Not					!
 Ident               [a-zA-Z]+[a-zA-Z_0-9]*
 Num                 [0-9]+                
 Comment             //.*\n
-WhiteSpace          [ \n\r\t]
+WhiteSpace          [ \r\t]
 
 %%
 {Func}              {puts("Method declaration");}
