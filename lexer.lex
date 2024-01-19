@@ -1,5 +1,9 @@
 %{
 #include <stdio.h>
+
+//THIS IS WHERE WE IMPLEMENT THE ROW AND COLUMN COUNTER
+//ROW IS INCREMENTED WHEN A "\N" SYMBOL IS FOUND
+//COLUMN IS INCREMENTED EACH TIME THE LOOP IS ITERATED
 %}
 
 Func                method                          
@@ -59,22 +63,22 @@ WhiteSpace          [ \n\r\t]
 {RightBracket}      {puts("Right bracket keyword");}
 {Comma}             {puts("Comma keyword");}             
 {Semicolon}         {puts("Semicolon");}
-{Plus}              {puts("Right curly bracket keyword");}
-{Subtract}
-{Multiply}
-{Divide}
-{Modulus}
-{Assign}
-{Less}
-{LessEqual}
-{Greater}
-{GreaterEqu}al
-{Equality}
-{NotEqual}
-{Not}
-{Ident}
-{Num}
-{Comment}
-{WhiteSpace}
+{Plus}              {puts("Plus symbol");}
+{Subtract}			{puts("Subtract symbol");}
+{Multiply}			{puts("Multiply symbol");}
+{Divide}			{puts("Divide symbol");}
+{Modulus}			{puts("Modulus symbol");}
+{Assign}			{puts("Equals sign symbol");}
+{Less}				{puts("Less than symbol");}
+{LessEqual}			{puts("Less than or Equal symbol");}
+{Greater}			{puts("Greater than symbol");}
+{GreaterEqual}		{puts("Greater than or Equal symbol");}
+{Equality}			{puts("Equality symbol");}
+{NotEqual}			{puts("Not equal symbol");}
+{Not}				{puts("Logical NOT symbol");}
+{Ident}				{printf("IDENTIFIER: %s\n", yytext);}
+{Num}				{printf("NUMBER: %s\n", yytext);}
+{Comment}			{}
+{WhiteSpace}		{}
 
 %%
