@@ -21,18 +21,18 @@ If                  if
 Else                else                            
 Break               break                          
 Continue            continue                    
-LeftParen           (                          
-RightParen          )                         
-LeftCurly           {                          
-RightCurly          }                         
-LeftBracket         [                        
-RightBracket        ]                       
+LeftParen           \(                          
+RightParen          \)                         
+LeftCurly           \{                          
+RightCurly          \}                         
+LeftBracket         \[                        
+RightBracket        \]                       
 Comma               ,                                  
 Semicolon           ;                          
-Plus                +                                   
+Plus                \+                                   
 Subtract            -                           
-Multiply            *                           
-Divide              /                             
+Multiply            \*                           
+Divide              \/                             
 Modulus             %                            
 Assign              =                             
 Less                <                               
@@ -47,7 +47,7 @@ NotEqual            !=
 Not					!
 Ident               [a-zA-Z]+[a-zA-Z_0-9]*
 Num                 [0-9]+                
-Comment             //.*\n
+Comment             \/\/.*\n
 WhiteSpace          [ \r\t]
 
 %%
@@ -56,13 +56,13 @@ WhiteSpace          [ \r\t]
 {LogicalAnd}        {puts("Logical AND");}
 {Return}            {puts("Return keyword"); }
 {Int}               {puts("Int keyword");}
-{Print}             {puts("Print keyword"); ncol += strlen(yytext);}
-{While}             {puts("While keyword"); ncol += strlen(yytext);}
-{If}                {puts("If keyword"); ncol += strlen(yytext);}
-{Else}              {puts("Else keyword"); ncol += strlen(yytext);}
-{Break}             {puts("Break keyword"); ncol += strlen(yytext);}
-{Continue}          {puts("Continue keyword"); ncol += strlen(yytext);}
-{LeftParen}         {puts("Left parenthesis keyword"); ncol += strlen(yytext);}
+{Print}             {puts("Print keyword"); }
+{While}             {puts("While keyword");}
+{If}                {puts("If keyword");}
+{Else}              {puts("Else keyword");}
+{Break}             {puts("Break keyword"); }
+{Continue}          {puts("Continue keyword"); }
+{LeftParen}         {puts("Left parenthesis keyword"); }
 {RightParen}        {puts("Right parenthesis keyword");}
 {LeftCurly}         {puts("Left curly brakcet keyword");}
 {RightCurly}        {puts("Right curly bracket keyword");}
@@ -91,6 +91,6 @@ WhiteSpace          [ \r\t]
 %%
 
 int main() {
-    yylex():
+    yylex();
 
 }
