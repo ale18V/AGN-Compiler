@@ -85,7 +85,7 @@ WhiteSpace          [ \r\t]
 {NotEqual}			{puts("Not equal symbol");}
 {Not}				{puts("Logical NOT symbol");}
 {Ident}				{printf("IDENTIFIER: %s\n", yytext);}
-{IncorrectIdent}    {puts("ERROR"; //gotta find how to end the program after this)}
+{IncorrectIdent}    {printf("Incorrect identifier at line %d, column %d\n", nrow, ncol); exit(-1);}
 {Num}				{printf("NUMBER: %s\n", yytext);}
 {Comment}			{nrow++; ncol=1; }
 {WhiteSpace}		{}
@@ -94,5 +94,4 @@ WhiteSpace          [ \r\t]
 
 int main() {
     yylex();
-
 }
