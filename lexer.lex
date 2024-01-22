@@ -85,7 +85,7 @@ WhiteSpace          [ \r\t]
 {NotEqual}			{puts("Not equal symbol");}
 {Not}				{puts("Logical NOT symbol");}
 {Ident}				{printf("IDENTIFIER: %s\n", yytext);}
-{IncorrectIdent}    {printf("Incorrect identifier at line %d, column %d\n", nrow, ncol); exit(-1);}
+{IncorrectIdent}    {printf("Invalid identifier %s starts with a number: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
 {Num}				{printf("NUMBER: %s\n", yytext);}
 {Comment}			{nrow++; ncol=1; }
 {WhiteSpace}		{}
