@@ -1,0 +1,75 @@
+IDENTIFIER: func
+IDENTIFIER: main
+Left parenthesis keyword
+Right parenthesis keyword
+Left curly bracket keyword
+Int keyword
+IDENTIFIER: x
+Semicolon
+Int keyword
+IDENTIFIER: y
+Semicolon
+Int keyword
+IDENTIFIER: z
+Semicolon
+IDENTIFIER: x
+Equals sign symbol
+NUMBER: 10
+Semicolon
+IDENTIFIER: y
+Equals sign symbol
+NUMBER: 5
+Semicolon
+If keyword
+IDENTIFIER: x
+Greater than symbol
+IDENTIFIER: y
+Left curly bracket keyword
+IDENTIFIER: z
+Equals sign symbol
+NUMBER: 0
+Semicolon
+Right curly bracket keyword
+Else keyword
+Left curly bracket keyword
+IDENTIFIER: z
+Equals sign symbol
+NUMBER: 1
+Semicolon
+Right curly bracket keyword
+Print keyword
+Left parenthesis keyword
+IDENTIFIER: z
+Right parenthesis keyword
+Semicolon
+IDENTIFIER: x
+Equals sign symbol
+NUMBER: 10
+Semicolon
+IDENTIFIER: y
+Equals sign symbol
+NUMBER: 5
+Semicolon
+If keyword
+IDENTIFIER: x
+Less than or Equal symbol
+IDENTIFIER: y
+Left curly bracket keyword
+IDENTIFIER: z
+Equals sign symbol
+NUMBER: 0
+Semicolon
+Right curly bracket keyword
+Else keyword
+Left curly bracket keyword
+IDENTIFIER: z
+Equals sign symbol
+NUMBER: 1
+Semicolon
+Right curly bracket keyword
+Print keyword
+Left parenthesis keyword
+IDENTIFIER: z
+Right parenthesis keyword
+Semicolon
+Right curly bracket keyword

@@ -1,0 +1,32 @@
+IDENTIFIER: func
+IDENTIFIER: main
+Left parenthesis keyword
+Right parenthesis keyword
+Left curly bracket keyword
+Int keyword
+IDENTIFIER: x
+Comma keyword
+IDENTIFIER: y
+Comma keyword
+IDENTIFIER: z
+Semicolon
+IDENTIFIER: x
+Equals sign symbol
+NUMBER: 10
+Semicolon
+IDENTIFIER: y
+Equals sign symbol
+NUMBER: 5
+Semicolon
+IDENTIFIER: z
+Equals sign symbol
+IDENTIFIER: x
+Plus symbol
+IDENTIFIER: y
+Semicolon
+Print keyword
+Left parenthesis keyword
+IDENTIFIER: z
+Right parenthesis keyword
+Semicolon
+Right curly bracket keyword

@@ -1,0 +1,38 @@
+IDENTIFIER: func
+IDENTIFIER: main
+Left parenthesis keyword
+Right parenthesis keyword
+Left curly bracket keyword
+Int keyword
+IDENTIFIER: x
+Semicolon
+IDENTIFIER: x
+Equals sign symbol
+NUMBER: 0
+Semicolon
+While keyword
+IDENTIFIER: x
+Less than symbol
+NUMBER: 10
+Left curly bracket keyword
+If keyword
+IDENTIFIER: x
+Greater than or Equal symbol
+NUMBER: 5
+Left curly bracket keyword
+Break keyword
+Semicolon
+Right curly bracket keyword
+Print keyword
+Left parenthesis keyword
+IDENTIFIER: x
+Right parenthesis keyword
+Semicolon
+IDENTIFIER: x
+Equals sign symbol
+IDENTIFIER: x
+Plus symbol
+NUMBER: 1
+Semicolon
+Right curly bracket keyword
+Right curly bracket keyword
