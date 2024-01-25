@@ -1,4 +1,4 @@
-method main(){
+define main as() -> {
 
   int[8] array; //sets array of type int with length 8
   array[0] = 0;

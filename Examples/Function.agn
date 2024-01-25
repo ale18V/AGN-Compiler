@@ -1,14 +1,14 @@
 // Example file to demonstrate function notation
 
-func add(int x, int y) {
+define as add(int x, int y) -> int {
     return x + y;
 }
 
-func mul(int x, int y) {
+define as mul(int x, int y) -> int {
      return x * y;
 }
 
-func main() {
+define main as() -> {
     int x;
     int y;
     x = add(10, 2);

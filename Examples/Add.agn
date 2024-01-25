@@ -1,7 +1,7 @@
 // A simple program which adds two numbers together
 // This program should output '15'
 
-func main() {
+define main as() -> {
   int x, y, z;
   x = 10;
   y = 5;
