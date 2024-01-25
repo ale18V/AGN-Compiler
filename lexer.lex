@@ -11,22 +11,27 @@ int nrow = 1, ncol = 1;
 //ALSO THERE IS A WAY TO FEED A FILE INTO THE LEXER USING "a.out < code.file"
 %}
 
-Func                method                          
+Define              define
+As                  as                          
 Return              return                        
 Int                 int                              
 Print               write                          
 Read                read                            
 While               while                          
-If                  if                                
+If                  if                              
 Else                else                            
 Break               break                          
-Continue            continue                    
+Continue            continue
+LogicalAnd          and
+LogicalOr           or
+LogicalXor          xor                    
 LeftParen           \(                          
 RightParen          \)                         
 LeftCurly           \{                          
 RightCurly          \}                         
 LeftBracket         \[                        
-RightBracket        \]                       
+RightBracket        \]
+Arrow               ->                       
 Comma               ,                                  
 Semicolon           ;                          
 Plus                \+                                   
@@ -40,53 +45,50 @@ LessEqual           <=
 Greater             >                            
 GreaterEqual        >=                      
 Equality            == 
-LogicalAnd          and
-LogicalOr           or
-LogicalXor          xor
 NotEqual            !=   
 Not					!
 Ident               [a-zA-Z]+[a-zA-Z_0-9]*
-IncorrectIdent      [0-9]+{Ident}
-Num                 [0-9]+                
+IncorrectIdent      [_0-9]+{Ident}?
 Comment             \/\/.*\n
 WhiteSpace          [ \r\t]
 
 %%
-{Func}              {puts("Method declaration");}
-{LogicalOr}         {puts("Logical OR");}
-{LogicalAnd}        {puts("Logical AND");}
-{Return}            {puts("Return keyword"); }
-{Int}               {puts("Int keyword");}
-{Print}             {puts("Print keyword"); }
-{While}             {puts("While keyword");}
-{If}                {puts("If keyword");}
-{Else}              {puts("Else keyword");}
-{Break}             {puts("Break keyword"); }
-{Continue}          {puts("Continue keyword"); }
-{LeftParen}         {puts("Left parenthesis keyword"); }
-{RightParen}        {puts("Right parenthesis keyword");}
-{LeftCurly}         {puts("Left curly bracket keyword");}
-{RightCurly}        {puts("Right curly bracket keyword");}
-{LeftBracket}       {puts("Left bracket keyword");}
-{RightBracket}      {puts("Right bracket keyword");}
-{Comma}             {puts("Comma keyword");}             
-{Semicolon}         {puts("Semicolon");}
-{Plus}              {puts("Plus symbol");}
-{Subtract}			{puts("Subtract symbol");}
-{Multiply}			{puts("Multiply symbol");}
-{Divide}			{puts("Divide symbol");}
-{Modulus}			{puts("Modulus symbol");}
-{Less}				{puts("Less than symbol");}
-{LessEqual}			{puts("Less than or Equal symbol");}
-{Greater}			{puts("Greater than symbol");}
-{GreaterEqual}		{puts("Greater than or Equal symbol");}
-{Equality}			{puts("Equality symbol");}
-{Assign}			{puts("Equals sign symbol");}
-{NotEqual}			{puts("Not equal symbol");}
-{Not}				{puts("Logical NOT symbol");}
-{Ident}				{printf("IDENTIFIER: %s\n", yytext);}
-{IncorrectIdent}    {printf("Invalid identifier %s starts with a number: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
+{Define}            {puts("DEFINE keyword");}
+{As}                {puts("AS keyword)}
+{LogicalOr}         {puts("OR keyword");}
+{LogicalAnd}        {puts("AND keyword");}
+{Return}            {puts("RETURN keyword"); }
+{Int}               {puts("INT keyword");}
+{Print}             {puts("PRINT keyword"); }
+{While}             {puts("WHILE keyword");}
+{If}                {puts("IF keyword");}
+{Else}              {puts("ELSE keyword");}
+{Break}             {puts("BREAK keyword"); }
+{Continue}          {puts("CONTINUE keyword"); }
+{LeftParen}         {puts("LEFTPAREN keyword"); }
+{RightParen}        {puts("RIGHTPAREN keyword");}
+{LeftCurly}         {puts("LEFTCURLY keyword");}
+{RightCurly}        {puts("RIGHTCURLY keyword");}
+{LeftBracket}       {puts("LEFTBRACKET keyword");}
+{RightBracket}      {puts("RIGHT keyword");}
+{Comma}             {puts("COMMA keyword");}             
+{Semicolon}         {puts("SEMICOLON keywork");}
+{Plus}              {puts("PLUS symbol");}
+{Subtract}			{puts("SUBTRACT symbol");}
+{Multiply}			{puts("MULTIPLY symbol");}
+{Divide}			{puts("DIVIDE symbol");}
+{Modulus}			{puts("MODULUS symbol");}
+{Less}				{puts("LT symbol");}
+{LessEqual}			{puts("LTEQ symbol");}
+{Greater}			{puts("GT symbol");}
+{GreaterEqual}		{puts("GTEQ symbol");}
+{Equality}			{puts("EQ symbol");}
+{Assign}			{puts("ASSIGN symbol");}
+{NotEqual}			{puts("NOTEQ symbol");}
+{Not}				{puts("NOT symbol");}
 {Num}				{printf("NUMBER: %s\n", yytext);}
+{Ident}				{printf("IDENTIFIER: %s\n", yytext);}
+{IncorrectIdent}    {printf("Invalid identifier %s: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
 {Comment}			{nrow++; ncol=1; }
 {WhiteSpace}		{}
 \n                  {nrow++; ncol=1;}
