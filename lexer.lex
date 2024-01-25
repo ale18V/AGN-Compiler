@@ -54,7 +54,7 @@ WhiteSpace          [ \r\t]
 
 %%
 {Define}            {puts("DEFINE keyword");}
-{As}                {puts("AS keyword)}
+{As}                {puts("AS keyword");}
 {LogicalOr}         {puts("OR keyword");}
 {LogicalAnd}        {puts("AND keyword");}
 {Return}            {puts("RETURN keyword"); }

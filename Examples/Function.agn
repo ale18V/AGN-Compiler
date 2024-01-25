@@ -1,10 +1,10 @@
 // Example file to demonstrate function notation
 
-define as add(int x, int y) -> int {
+define add as (int x, int y) -> int {
     return x + y;
 }
 
-define as mul(int x, int y) -> int {
+define mul as (int x, int y) -> int {
      return x * y;
 }
 
