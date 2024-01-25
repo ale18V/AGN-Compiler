@@ -43,7 +43,7 @@ Authors: Nicolas Karalis, Garrett Greenup, Alessandro Bombarda.
 |continue              | Continue     |
 |or                    | Logical or   |
 |and                   | Logical and  |
-|xor                    | Logical xor   |
+|xor                   | Logical xor  |
 |(                     | LeftParen    |
 |)                     | RightParen   |
 |{                     | LeftCurly    |

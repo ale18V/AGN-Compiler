@@ -1,0 +1,74 @@
+IDENTIFIER: func
+IDENTIFIER: add
+Left parenthesis keyword
+Int keyword
+IDENTIFIER: x
+Comma keyword
+Int keyword
+IDENTIFIER: y
+Right parenthesis keyword
+Left curly bracket keyword
+Return keyword
+IDENTIFIER: x
+Plus symbol
+IDENTIFIER: y
+Semicolon
+Right curly bracket keyword
+IDENTIFIER: func
+IDENTIFIER: mul
+Left parenthesis keyword
+Int keyword
+IDENTIFIER: x
+Comma keyword
+Int keyword
+IDENTIFIER: y
+Right parenthesis keyword
+Left curly bracket keyword
+Return keyword
+IDENTIFIER: x
+Multiply symbol
+IDENTIFIER: y
+Semicolon
+Right curly bracket keyword
+IDENTIFIER: func
+IDENTIFIER: main
+Left parenthesis keyword
+Right parenthesis keyword
+Left curly bracket keyword
+Int keyword
+IDENTIFIER: x
+Semicolon
+Int keyword
+IDENTIFIER: y
+Semicolon
+IDENTIFIER: x
+Equals sign symbol
+IDENTIFIER: add
+Left parenthesis keyword
+NUMBER: 10
+Comma keyword
+NUMBER: 2
+Right parenthesis keyword
+Semicolon
+Print keyword
+Left parenthesis keyword
+IDENTIFIER: x
+Right parenthesis keyword
+Semicolon
+IDENTIFIER: y
+Equals sign symbol
+IDENTIFIER: mul
+Left parenthesis keyword
+IDENTIFIER: x
+Comma keyword
+IDENTIFIER: x
+Plus symbol
+IDENTIFIER: y
+Right parenthesis keyword
+Semicolon
+Print keyword
+Left parenthesis keyword
+IDENTIFIER: y
+Right parenthesis keyword
+Semicolon
+Right curly bracket keyword
