@@ -1,19 +1,22 @@
-Method declaration
+DEFINE keyword
 IDENTIFIER: main
-Left parenthesis keyword
-Right parenthesis keyword
-Left curly bracket keyword
-Int keyword
-Left bracket keyword
+AS keyword
+LEFTPAREN keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+LEFTCURLY keyword
+INT keyword
+LEFTBRACKET keyword
 NUMBER: 8
-Right bracket keyword
+RIGHT keyword
 IDENTIFIER: array
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: array
-Left bracket keyword
+LEFTBRACKET keyword
 NUMBER: 0
-Right bracket keyword
-Equals sign symbol
+RIGHT keyword
+ASSIGN symbol
 NUMBER: 0
-Semicolon
-Right curly bracket keyword
+SEMICOLON keywork
+RIGHTCURLY keyword

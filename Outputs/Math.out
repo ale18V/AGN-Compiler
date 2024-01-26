@@ -1,101 +1,104 @@
-IDENTIFIER: func
+DEFINE keyword
 IDENTIFIER: main
-Left parenthesis keyword
-Right parenthesis keyword
-Left curly bracket keyword
-Int keyword
+AS keyword
+LEFTPAREN keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+LEFTCURLY keyword
+INT keyword
 IDENTIFIER: x
-Semicolon
-Int keyword
+SEMICOLON keywork
+INT keyword
 IDENTIFIER: y
-Semicolon
-Int keyword
+SEMICOLON keywork
+INT keyword
 IDENTIFIER: z
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: x
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 10
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: y
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 5
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: x
-Plus symbol
+PLUS symbol
 IDENTIFIER: y
-Semicolon
-Print keyword
-Left parenthesis keyword
+SEMICOLON keywork
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: z
-Right parenthesis keyword
-Semicolon
+RIGHTPAREN keyword
+SEMICOLON keywork
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: x
-Subtract symbol
+SUBTRACT symbol
 IDENTIFIER: y
-Semicolon
-Print keyword
-Left parenthesis keyword
+SEMICOLON keywork
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: z
-Right parenthesis keyword
-Semicolon
+RIGHTPAREN keyword
+SEMICOLON keywork
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: x
-Multiply symbol
+MULTIPLY symbol
 IDENTIFIER: y
-Semicolon
-Print keyword
-Left parenthesis keyword
+SEMICOLON keywork
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: z
-Right parenthesis keyword
-Semicolon
+RIGHTPAREN keyword
+SEMICOLON keywork
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: x
-Divide symbol
+DIVIDE symbol
 IDENTIFIER: y
-Semicolon
-Print keyword
-Left parenthesis keyword
+SEMICOLON keywork
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: z
-Right parenthesis keyword
-Semicolon
+RIGHTPAREN keyword
+SEMICOLON keywork
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: x
-Modulus symbol
+MODULUS symbol
 IDENTIFIER: y
-Semicolon
-Print keyword
-Left parenthesis keyword
+SEMICOLON keywork
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: z
-Right parenthesis keyword
-Semicolon
+RIGHTPAREN keyword
+SEMICOLON keywork
 IDENTIFIER: x
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 5
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: y
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 4
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: z
-Equals sign symbol
-Left parenthesis keyword
+ASSIGN symbol
+LEFTPAREN keyword
 IDENTIFIER: x
-Plus symbol
+PLUS symbol
 NUMBER: 1
-Right parenthesis keyword
-Multiply symbol
+RIGHTPAREN keyword
+MULTIPLY symbol
 IDENTIFIER: y
-Semicolon
-Print keyword
-Left parenthesis keyword
+SEMICOLON keywork
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: z
-Right parenthesis keyword
-Semicolon
-Right curly bracket keyword
+RIGHTPAREN keyword
+SEMICOLON keywork
+RIGHTCURLY keyword

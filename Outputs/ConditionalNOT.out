@@ -1,37 +1,40 @@
-IDENTIFIER: func
+DEFINE keyword
 IDENTIFIER: main
-Left parenthesis keyword
-Right parenthesis keyword
-Left curly bracket keyword
-Int keyword
+AS keyword
+LEFTPAREN keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+LEFTCURLY keyword
+INT keyword
 IDENTIFIER: x
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 5
-Semicolon
-Int keyword
+SEMICOLON keywork
+INT keyword
 IDENTIFIER: result
-Equals sign symbol
-Subtract symbol
+ASSIGN symbol
+SUBTRACT symbol
 NUMBER: 1
-Semicolon
-If keyword
-Logical NOT symbol
-Left parenthesis keyword
+SEMICOLON keywork
+IF keyword
+NOT symbol
+LEFTPAREN keyword
 IDENTIFIER: x
-Less than symbol
+LT symbol
 NUMBER: 7
-Right parenthesis keyword
-Left curly bracket keyword
+RIGHTPAREN keyword
+LEFTCURLY keyword
 IDENTIFIER: result
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 0
-Semicolon
-Right curly bracket keyword
-Else keyword
-Left curly bracket keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
+ELSE keyword
+LEFTCURLY keyword
 IDENTIFIER: result
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 1
-Semicolon
-Right curly bracket keyword
-Right curly bracket keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
+RIGHTCURLY keyword

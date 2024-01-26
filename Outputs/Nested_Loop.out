@@ -1,49 +1,52 @@
-IDENTIFIER: func
+DEFINE keyword
 IDENTIFIER: main
-Left parenthesis keyword
-Right parenthesis keyword
-Left curly bracket keyword
-Int keyword
+AS keyword
+LEFTPAREN keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+LEFTCURLY keyword
+INT keyword
 IDENTIFIER: x
-Semicolon
-Int keyword
+SEMICOLON keywork
+INT keyword
 IDENTIFIER: y
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: x
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 0
-Semicolon
-While keyword
+SEMICOLON keywork
+WHILE keyword
 IDENTIFIER: x
-Less than symbol
+LT symbol
 NUMBER: 2
-Left curly bracket keyword
+LEFTCURLY keyword
 IDENTIFIER: y
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 0
-Semicolon
-While keyword
+SEMICOLON keywork
+WHILE keyword
 IDENTIFIER: y
-Less than symbol
+LT symbol
 NUMBER: 3
-Left curly bracket keyword
-Print keyword
-Left parenthesis keyword
+LEFTCURLY keyword
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: y
-Right parenthesis keyword
-Semicolon
+RIGHTPAREN keyword
+SEMICOLON keywork
 IDENTIFIER: y
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: y
-Plus symbol
+PLUS symbol
 NUMBER: 1
-Semicolon
-Right curly bracket keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
 IDENTIFIER: x
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: x
-Plus symbol
+PLUS symbol
 NUMBER: 1
-Semicolon
-Right curly bracket keyword
-Right curly bracket keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
+RIGHTCURLY keyword

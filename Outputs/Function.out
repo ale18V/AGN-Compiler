@@ -1,74 +1,85 @@
-IDENTIFIER: func
+DEFINE keyword
 IDENTIFIER: add
-Left parenthesis keyword
-Int keyword
+AS keyword
+LEFTPAREN keyword
+INT keyword
 IDENTIFIER: x
-Comma keyword
-Int keyword
+COMMA keyword
+INT keyword
 IDENTIFIER: y
-Right parenthesis keyword
-Left curly bracket keyword
-Return keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+INT keyword
+LEFTCURLY keyword
+RETURN keyword
 IDENTIFIER: x
-Plus symbol
+PLUS symbol
 IDENTIFIER: y
-Semicolon
-Right curly bracket keyword
-IDENTIFIER: func
+SEMICOLON keywork
+RIGHTCURLY keyword
+DEFINE keyword
 IDENTIFIER: mul
-Left parenthesis keyword
-Int keyword
+AS keyword
+LEFTPAREN keyword
+INT keyword
 IDENTIFIER: x
-Comma keyword
-Int keyword
+COMMA keyword
+INT keyword
 IDENTIFIER: y
-Right parenthesis keyword
-Left curly bracket keyword
-Return keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+INT keyword
+LEFTCURLY keyword
+RETURN keyword
 IDENTIFIER: x
-Multiply symbol
+MULTIPLY symbol
 IDENTIFIER: y
-Semicolon
-Right curly bracket keyword
-IDENTIFIER: func
+SEMICOLON keywork
+RIGHTCURLY keyword
+DEFINE keyword
 IDENTIFIER: main
-Left parenthesis keyword
-Right parenthesis keyword
-Left curly bracket keyword
-Int keyword
+AS keyword
+LEFTPAREN keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+LEFTCURLY keyword
+INT keyword
 IDENTIFIER: x
-Semicolon
-Int keyword
+SEMICOLON keywork
+INT keyword
 IDENTIFIER: y
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: x
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: add
-Left parenthesis keyword
+LEFTPAREN keyword
 NUMBER: 10
-Comma keyword
+COMMA keyword
 NUMBER: 2
-Right parenthesis keyword
-Semicolon
-Print keyword
-Left parenthesis keyword
+RIGHTPAREN keyword
+SEMICOLON keywork
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: x
-Right parenthesis keyword
-Semicolon
+RIGHTPAREN keyword
+SEMICOLON keywork
 IDENTIFIER: y
-Equals sign symbol
+ASSIGN symbol
 IDENTIFIER: mul
-Left parenthesis keyword
+LEFTPAREN keyword
 IDENTIFIER: x
-Comma keyword
+COMMA keyword
 IDENTIFIER: x
-Plus symbol
+PLUS symbol
 IDENTIFIER: y
-Right parenthesis keyword
-Semicolon
-Print keyword
-Left parenthesis keyword
+RIGHTPAREN keyword
+SEMICOLON keywork
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: y
-Right parenthesis keyword
-Semicolon
-Right curly bracket keyword
+RIGHTPAREN keyword
+SEMICOLON keywork
+RIGHTCURLY keyword

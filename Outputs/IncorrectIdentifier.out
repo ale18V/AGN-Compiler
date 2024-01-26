@@ -1,7 +1,10 @@
-IDENTIFIER: func
+DEFINE keyword
 IDENTIFIER: main
-Left parenthesis keyword
-Right parenthesis keyword
-Left curly bracket keyword
-Int keyword
-Incorrect identifier at line 2, column 8
+AS keyword
+LEFTPAREN keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+LEFTCURLY keyword
+INT keyword
+Invalid identifier 2a: at line 2, column 6.

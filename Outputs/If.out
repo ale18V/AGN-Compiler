@@ -1,75 +1,78 @@
-IDENTIFIER: func
+DEFINE keyword
 IDENTIFIER: main
-Left parenthesis keyword
-Right parenthesis keyword
-Left curly bracket keyword
-Int keyword
+AS keyword
+LEFTPAREN keyword
+RIGHTPAREN keyword
+SUBTRACT symbol
+GT symbol
+LEFTCURLY keyword
+INT keyword
 IDENTIFIER: x
-Semicolon
-Int keyword
+SEMICOLON keywork
+INT keyword
 IDENTIFIER: y
-Semicolon
-Int keyword
+SEMICOLON keywork
+INT keyword
 IDENTIFIER: z
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: x
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 10
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: y
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 5
-Semicolon
-If keyword
+SEMICOLON keywork
+IF keyword
 IDENTIFIER: x
-Greater than symbol
+GT symbol
 IDENTIFIER: y
-Left curly bracket keyword
+LEFTCURLY keyword
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 0
-Semicolon
-Right curly bracket keyword
-Else keyword
-Left curly bracket keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
+ELSE keyword
+LEFTCURLY keyword
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 1
-Semicolon
-Right curly bracket keyword
-Print keyword
-Left parenthesis keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: z
-Right parenthesis keyword
-Semicolon
+RIGHTPAREN keyword
+SEMICOLON keywork
 IDENTIFIER: x
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 10
-Semicolon
+SEMICOLON keywork
 IDENTIFIER: y
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 5
-Semicolon
-If keyword
+SEMICOLON keywork
+IF keyword
 IDENTIFIER: x
-Less than or Equal symbol
+LTEQ symbol
 IDENTIFIER: y
-Left curly bracket keyword
+LEFTCURLY keyword
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 0
-Semicolon
-Right curly bracket keyword
-Else keyword
-Left curly bracket keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
+ELSE keyword
+LEFTCURLY keyword
 IDENTIFIER: z
-Equals sign symbol
+ASSIGN symbol
 NUMBER: 1
-Semicolon
-Right curly bracket keyword
-Print keyword
-Left parenthesis keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
+PRINT keyword
+LEFTPAREN keyword
 IDENTIFIER: z
-Right parenthesis keyword
-Semicolon
-Right curly bracket keyword
+RIGHTPAREN keyword
+SEMICOLON keywork
+RIGHTCURLY keyword
