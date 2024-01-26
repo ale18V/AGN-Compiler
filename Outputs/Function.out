@@ -8,8 +8,7 @@ COMMA keyword
 INT keyword
 IDENTIFIER: y
 RIGHTPAREN keyword
-SUBTRACT symbol
-GT symbol
+ARROW keyword
 INT keyword
 LEFTCURLY keyword
 RETURN keyword
@@ -28,8 +27,7 @@ COMMA keyword
 INT keyword
 IDENTIFIER: y
 RIGHTPAREN keyword
-SUBTRACT symbol
-GT symbol
+ARROW keyword
 INT keyword
 LEFTCURLY keyword
 RETURN keyword
@@ -43,8 +41,7 @@ IDENTIFIER: main
 AS keyword
 LEFTPAREN keyword
 RIGHTPAREN keyword
-SUBTRACT symbol
-GT symbol
+ARROW keyword
 LEFTCURLY keyword
 INT keyword
 IDENTIFIER: x

@@ -3,8 +3,7 @@ IDENTIFIER: main
 AS keyword
 LEFTPAREN keyword
 RIGHTPAREN keyword
-SUBTRACT symbol
-GT symbol
+ARROW keyword
 LEFTCURLY keyword
 INT keyword
 Invalid identifier 2a: at line 2, column 6.
