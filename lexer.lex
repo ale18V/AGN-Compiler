@@ -94,6 +94,7 @@ WhiteSpace          [ \r\t]
 {Comment}			{nrow++; ncol=1; }
 {WhiteSpace}		{}
 \n                  {nrow++; ncol=1;}
+.                   {printf("Unrecognized character %s at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1); }
 %%
 
 int main() {

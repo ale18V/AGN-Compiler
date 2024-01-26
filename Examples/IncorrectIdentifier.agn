@@ -1,4 +1,4 @@
 define main as() -> {
-	int 2a = 3;
+	int 2a = 3;	
 	int b3 = 2a + 3;
 }
