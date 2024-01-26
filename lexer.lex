@@ -47,6 +47,7 @@ GreaterEqual        >=
 Equality            == 
 NotEqual            !=   
 Not					!
+Num                 [0-9]+
 Ident               [a-zA-Z]+[a-zA-Z_0-9]*
 IncorrectIdent      [_0-9]+{Ident}?
 Comment             \/\/.*\n
