@@ -361,8 +361,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 41
-#define YY_END_OF_BUFFER 42
+#define YY_NUM_RULES 42
+#define YY_END_OF_BUFFER 43
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -372,7 +372,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[91] =
     {   0,
-        0,    0,   42,   41,   39,   40,   34,   26,   14,   15,
+        0,    0,   43,   41,   39,   40,   34,   26,   14,   15,
        24,   22,   20,   23,   25,   35,   21,   27,   32,   29,
        36,   18,   19,   37,   36,   36,   36,   36,   36,   36,
        36,   36,   36,   16,   17,   33,   13,    0,   35,   37,
@@ -1013,9 +1013,14 @@ YY_RULE_SETUP
 case 41:
 YY_RULE_SETUP
 #line 97 "lexer.lex"
+{printf("Unrecognized character %s at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1); }
+	YY_BREAK
+case 42:
+YY_RULE_SETUP
+#line 98 "lexer.lex"
 ECHO;
 	YY_BREAK
-#line 1019 "lexer.c"
+#line 1024 "lexer.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2009,10 +2014,11 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 97 "lexer.lex"
+#line 98 "lexer.lex"
 
 
 
 int main() {
     yylex();
 }
+
