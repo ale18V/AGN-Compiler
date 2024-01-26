@@ -31,7 +31,8 @@ Authors: Nicolas Karalis, Garrett Greenup, Alessandro Bombarda.
 
 |Symbol                | Token Name   |
 |----------------------|--------------|
-|method                | Func         |
+|define                | Define       |
+|as					   | As           |
 |return                | Return       |
 |int                   | Int          |
 |write                 | Print        |
@@ -41,8 +42,8 @@ Authors: Nicolas Karalis, Garrett Greenup, Alessandro Bombarda.
 |else                  | Else         |
 |break                 | Break        |
 |continue              | Continue     |
-|or                    | Logical or   |
 |and                   | Logical and  |
+|or                    | Logical or   |
 |xor                   | Logical xor  |
 |(                     | LeftParen    |
 |)                     | RightParen   |
@@ -50,6 +51,7 @@ Authors: Nicolas Karalis, Garrett Greenup, Alessandro Bombarda.
 |}                     | RightCurly   |
 |[                     | LeftBracket  |
 |]                     | RightBracket |
+|->                    | Arrow        |			
 |,                     | Comma        |
 |;                     | Semicolon    |
 |+                     | Plus         |
@@ -64,6 +66,7 @@ Authors: Nicolas Karalis, Garrett Greenup, Alessandro Bombarda.
 |>=                    | GreaterEqual |
 |==                    | Equality     |
 |!=                    | NotEqual     |
+|!                     | Not          |
 |variable_name         | Ident        |
 |10311517              | Num          |
 
