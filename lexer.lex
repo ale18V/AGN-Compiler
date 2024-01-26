@@ -66,6 +66,7 @@ WhiteSpace          [ \r\t]
 {Else}              {puts("ELSE keyword");}
 {Break}             {puts("BREAK keyword"); }
 {Continue}          {puts("CONTINUE keyword"); }
+{Arrow}             {puts("ARROW keyword");}
 {LeftParen}         {puts("LEFTPAREN keyword"); }
 {RightParen}        {puts("RIGHTPAREN keyword");}
 {LeftCurly}         {puts("LEFTCURLY keyword");}
