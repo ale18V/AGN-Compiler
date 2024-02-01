@@ -88,8 +88,8 @@ WhiteSpace          [ \r\t]
 {Assign}			{return ASSIGN;}
 {NotEqual}			{return NOTEQ;}
 {Not}				{return NOT;}
-{Num}				{printf("NUMBER: %s\n", yytext);}
-{Ident}				{printf("IDENTIFIER: %s\n", yytext);}
+{Num}				{return NUM;}
+{Ident}				{return IDENT;}
 {IncorrectIdent}    {printf("Invalid identifier %s: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
 {Comment}			{nrow++; ncol=1; }
 {WhiteSpace}		{}
