@@ -11,6 +11,11 @@ void yyerror(const char* s);
 
 %}
 
+%locations
+%define api.value.type union
+%define parse.error verbose
+%define parse.lac full
+
 %left SUB ADD
 %left MULT DIV MOD
 

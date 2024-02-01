@@ -13,7 +13,7 @@ int nrow = 1, ncol = 1;
 
 Define              define
 As                  as                          
-Return              return                        
+Return              return                         
 Int                 int                              
 Print               write                          
 Read                read                            
@@ -54,40 +54,40 @@ Comment             \/\/.*\n
 WhiteSpace          [ \r\t]
 
 %%
-{Define}            {puts("DEFINE keyword");}
-{As}                {puts("AS keyword");}
-{LogicalOr}         {puts("OR keyword");}
-{LogicalAnd}        {puts("AND keyword");}
-{Return}            {puts("RETURN keyword"); }
-{Int}               {puts("INT keyword");}
-{Print}             {puts("PRINT keyword"); }
-{While}             {puts("WHILE keyword");}
-{If}                {puts("IF keyword");}
-{Else}              {puts("ELSE keyword");}
-{Break}             {puts("BREAK keyword"); }
-{Continue}          {puts("CONTINUE keyword"); }
-{Arrow}             {puts("ARROW keyword");}
-{LeftParen}         {puts("LEFTPAREN keyword"); }
-{RightParen}        {puts("RIGHTPAREN keyword");}
-{LeftCurly}         {puts("LEFTCURLY keyword");}
-{RightCurly}        {puts("RIGHTCURLY keyword");}
-{LeftBracket}       {puts("LEFTBRACKET keyword");}
-{RightBracket}      {puts("RIGHT keyword");}
-{Comma}             {puts("COMMA keyword");}             
-{Semicolon}         {puts("SEMICOLON keywork");}
-{Plus}              {puts("PLUS symbol");}
-{Subtract}			{puts("SUBTRACT symbol");}
-{Multiply}			{puts("MULTIPLY symbol");}
-{Divide}			{puts("DIVIDE symbol");}
-{Modulus}			{puts("MODULUS symbol");}
-{Less}				{puts("LT symbol");}
-{LessEqual}			{puts("LTEQ symbol");}
-{Greater}			{puts("GT symbol");}
-{GreaterEqual}		{puts("GTEQ symbol");}
-{Equality}			{puts("EQ symbol");}
-{Assign}			{puts("ASSIGN symbol");}
-{NotEqual}			{puts("NOTEQ symbol");}
-{Not}				{puts("NOT symbol");}
+{Define}            {return DEFINE;}
+{As}                {return AS;}
+{LogicalOr}         {return OR;}
+{LogicalAnd}        {return AND;}
+{Return}            {return RETURN; }
+{Int}               {return INT;}
+{Print}             {return PRINT; }
+{While}             {return WHILE;}
+{If}                {return IF;}
+{Else}              {return ELSE;}
+{Break}             {return BREAK; }
+{Continue}          {return CONTINUE; }
+{Arrow}             {return ARROW;}
+{LeftParen}         {return LEFTPAREN; }
+{RightParen}        {return RIGHTPAREN;}
+{LeftCurly}         {return LEFTCURLY;}
+{RightCurly}        {return RIGHTCURLY;}
+{LeftBracket}       {return LEFTBRACKET;}
+{RightBracket}      {return RIGHT;}
+{Comma}             {return COMMA;}             
+{Semicolon}         {return SEMICOLON;}
+{Plus}              {return PLUS;}
+{Subtract}			{return SUBTRACT;}
+{Multiply}			{return MULTIPLY;}
+{Divide}			{return DIVIDE;}
+{Modulus}			{return MODULUS;}
+{Less}				{return LT;}
+{LessEqual}			{return LTEQ;}
+{Greater}			{return GT;}
+{GreaterEqual}		{return GTEQ;}
+{Equality}			{return EQ;}
+{Assign}			{return ASSIGN;}
+{NotEqual}			{return NOTEQ;}
+{Not}				{return NOT;}
 {Num}				{printf("NUMBER: %s\n", yytext);}
 {Ident}				{printf("IDENTIFIER: %s\n", yytext);}
 {IncorrectIdent}    {printf("Invalid identifier %s: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
