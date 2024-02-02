@@ -52,8 +52,14 @@ comparison: LT | LTEQ | GT | GTEQ | EQ ;
 boolexp: NOT expression comparison expression | expression comparision expression ;
 
 statement: variable ASSIGN expression
+		| %empty
+		| statement statement
 		| CONTINUE
 		| BREAK
 		| RETURN expression
+		| IF boolexp LEFTCURLY statement SEMICOLON RIGHTCURLY
+		| IF boolexp LEFTCURLY statement SEMICOLON RIGHTCURLY ELSE LEFTCURLY statement SEMICOLON RIGHTCURLY
+		;
+		
 %%
 
