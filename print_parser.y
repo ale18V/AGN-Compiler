@@ -19,10 +19,26 @@ void yyerror(const char* s);
 %left SUB ADD
 %left MULT DIV MOD
 
-%interm <double> expression comparison
+%interm <double> expression comparison function variable
 
+%start program
 
 %%
+program: program function | %empty ;
+
+
+
+variable: IDENT | IDENT LEFTBRACKET expression RIGHTBRACKET ;
+
+term: variable | NUM | LEFTPAREN expression RIGHTPAREN ;
+
+multipliexp : term | term MULT term | term DIV term | term MOD term ;
+
+expression: multiexp | multiexp ADD multiexp | multiexp SUB multiexp ;
+
+comparison: LT | LTEQ | GT | GTEQ | EQ ;
+
+boolexp: 
 
 %%
 
