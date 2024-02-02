@@ -5,7 +5,7 @@
 //ROW IS INCREMENTED WHEN A "\N" SYMBOL IS FOUND
 //COLUMN IS INCREMENTED EACH TIME THE LOOP IS ITERATED
 int nrow = 1, ncol = 1;
-
+#include "parser.tab.h"
 #define YY_USER_ACTION ncol += yyleng;
 
 //ALSO THERE IS A WAY TO FEED A FILE INTO THE LEXER USING "a.out < code.file"
@@ -88,7 +88,7 @@ WhiteSpace          [ \r\t]
 {Assign}			{return ASSIGN;}
 {NotEqual}			{return NOTEQ;}
 {Not}				{return NOT;}
-{Num}				{return NUM;}
+{Num}				{    return NUM;}
 {Ident}				{return IDENT;}
 {IncorrectIdent}    {printf("Invalid identifier %s: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
 {Comment}			{nrow++; ncol=1; }

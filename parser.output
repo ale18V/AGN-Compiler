@@ -1,0 +1,127 @@
+Terminals unused in grammar
+
+    DEFINE
+    AS
+    RETURN
+    INT
+    PRINT
+    READ
+    WHILE
+    IF
+    ELSE
+    BREAK
+    CONTINUE
+    LOGICALAND
+    LOGICALOR
+    LOGICALXOR
+    LEFTPAREN
+    RIGHTPAREN
+    LEFTCURLY
+    RIGHTCURLY
+    LEFTBRACKET
+    RIGHTBRACKET
+    ARROW
+    COMMA
+    SEMICOLON
+    PLUS
+    SUBTRACT
+    MULTIPLY
+    DIVIDE
+    MODULUS
+    ASSIGN
+    LESS
+    LESSEQUAL
+    GREATER
+    GREATEREQUAL
+    EQUALITY
+    NOTEQUAL
+    NOT
+    NUM
+    IDENT
+    COMMENT
+    WHITESPACE
+
+
+Grammar
+
+    0 $accept: PROGRAM $end
+
+    1 PROGRAM: ε
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    DEFINE (258)
+    AS (259)
+    RETURN (260)
+    INT (261)
+    PRINT (262)
+    READ (263)
+    WHILE (264)
+    IF (265)
+    ELSE (266)
+    BREAK (267)
+    CONTINUE (268)
+    LOGICALAND (269)
+    LOGICALOR (270)
+    LOGICALXOR (271)
+    LEFTPAREN (272)
+    RIGHTPAREN (273)
+    LEFTCURLY (274)
+    RIGHTCURLY (275)
+    LEFTBRACKET (276)
+    RIGHTBRACKET (277)
+    ARROW (278)
+    COMMA (279)
+    SEMICOLON (280)
+    PLUS (281)
+    SUBTRACT (282)
+    MULTIPLY (283)
+    DIVIDE (284)
+    MODULUS (285)
+    ASSIGN (286)
+    LESS (287)
+    LESSEQUAL (288)
+    GREATER (289)
+    GREATEREQUAL (290)
+    EQUALITY (291)
+    NOTEQUAL (292)
+    NOT (293)
+    NUM (294)
+    IDENT (295)
+    COMMENT (296)
+    WHITESPACE (297)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (43)
+        on left: 0
+    PROGRAM (44)
+        on left: 1
+        on right: 0
+
+
+State 0
+
+    0 $accept: • PROGRAM $end
+
+    $default  reduce using rule 1 (PROGRAM)
+
+    PROGRAM  go to state 1
+
+
+State 1
+
+    0 $accept: PROGRAM • $end
+
+    $end  shift, and go to state 2
+
+
+State 2
+
+    0 $accept: PROGRAM $end •
+
+    $default  accept
