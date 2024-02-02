@@ -1,6 +1,7 @@
 all: build test
 
 build:
+	bison -t -d -v parser.y
 	flex -o lexer.c lexer.lex
 	gcc -O2 -g lexer.c -o lexer.bin -lfl
 
