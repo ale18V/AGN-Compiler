@@ -34,7 +34,13 @@ int paren_count = 0;
 %start program
 
 %%
+<<<<<<< HEAD
+PROGRAM: %empty
 
+
+
+%%
+=======
 program: program function | %empty ;
 
 
@@ -56,4 +62,4 @@ statement: variable ASSIGN expression
 		| BREAK
 		| RETURN expression
 %%
-
+>>>>>>> 74eae89 (updated parser to include more grammar rule)
