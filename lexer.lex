@@ -56,8 +56,9 @@ WhiteSpace          [ \r\t]
 %%
 {Define}            {return DEFINE;}
 {As}                {return AS;}
-{LogicalOr}         {return OR;}
-{LogicalAnd}        {return AND;}
+{LogicalOr}         {return LLOR;}
+{LogicalAnd}        {return LLAND;}
+{LogicalXor}		{return LLXOR; }
 {Return}            {return RETURN; }
 {Int}               {return INT;}
 {Print}             {return PRINT; }
@@ -88,7 +89,7 @@ WhiteSpace          [ \r\t]
 {Assign}			{return ASSIGN;}
 {NotEqual}			{return NOTEQ;}
 {Not}				{return NOT;}
-{Num}				{    return NUM;}
+{Num}				{return NUM;}
 {Ident}				{return IDENT;}
 {IncorrectIdent}    {printf("Invalid identifier %s: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
 {Comment}			{nrow++; ncol=1; }
