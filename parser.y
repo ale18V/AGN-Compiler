@@ -26,10 +26,10 @@ int paren_count = 0;
 %token NUM IDENT 
 
 %left MODULUS
+%left LT LTEQ GT GTEQ EQ NOTEQ LLAND LLOR LLXOR 
 %left PLUS SUBTRACT 
 %left MULTIPLY DIVIDE 
-%left LT LTEQ GT GTEQ EQ NOTEQ NOT LLAND LLOR LLXOR 
-
+%left NOT
 
 %start program
 
