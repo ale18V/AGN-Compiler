@@ -41,6 +41,7 @@ statements: statement statements | statement;
 
 statement: function-declaration
 		| variable-declaration
+		| variable-assignment
 		| if-statement
 		| while-statement
 		| return-statement
@@ -64,6 +65,7 @@ return-statement: RETURN expression SEMICOLON | RETURN SEMICOLON;
 variable-declaration: type IDENT SEMICOLON 
 		| type IDENT ASSIGN expression SEMICOLON;
 
+variable-assignment: IDENT ASSIGN EXPRESSION;
 
 // --- IF ELSE GRAMMAR ---
 if-statement: IF expression LEFTCURLY statements RIGHTCURLY
@@ -74,9 +76,12 @@ while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY
 
 
 // --- MATHS GRAMMAR ---
-expression: unary-operator expression | expression binary-operator expression | ( expression ) | operand;
-
-operand: IDENT | NUM | IDENT LEFTBRACKET expression RIGHTBRACKET;
+expression: unary-operator expression |	
+			expression binary-operator expression | 
+			( expression ) |
+			IDENT LEFTPAREN expression RIGHTPAREN |
+			IDENT LEFTBRACKET expression RIGHTBRACKET |
+			IDENT | NUM;
 
 unary-operator: NOT | MINUS; 
 
