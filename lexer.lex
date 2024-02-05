@@ -35,7 +35,7 @@ Arrow               ->
 Comma               ,                                  
 Semicolon           ;                          
 Plus                \+                                   
-Subtract            -                           
+Minus				-                           
 Multiply            \*                           
 Divide              \/                             
 Modulus             %                            
@@ -77,7 +77,7 @@ WhiteSpace          [ \r\t]
 {Comma}             {return COMMA;}             
 {Semicolon}         {return SEMICOLON;}
 {Plus}              {return PLUS;}
-{Subtract}			{return SUBTRACT;}
+{Minus}				{return MINUS;}
 {Multiply}			{return MULTIPLY;}
 {Divide}			{return DIVIDE;}
 {Modulus}			{return MODULUS;}

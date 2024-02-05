@@ -55,7 +55,7 @@ Authors: Nicolas Karalis, Garrett Greenup, Alessandro Bombarda.
 |,                     | Comma        |
 |;                     | Semicolon    |
 |+                     | Plus         |
-|-                     | Subtract     |
+|-                     | Minus		  |
 |*                     | Multiply     |
 |/                     | Divide       |
 |%                     | Modulus      |
