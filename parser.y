@@ -25,9 +25,9 @@ int paren_count = 0;
 %token COMMA SEMICOLON 
 %token NUM IDENT 
 
-%left MODULUS
 %left LT LTEQ GT GTEQ EQ NOTEQ LLAND LLOR LLXOR 
-%left PLUS SUBTRACT 
+%left MODULUS
+%left PLUS MINUS 
 %left MULTIPLY DIVIDE 
 %left NOT
 
@@ -35,31 +35,53 @@ int paren_count = 0;
 
 %%
 
-program: program function | %empty ;
+program: statements | %empty;
 
+statements: statement statements | statement;
 
-
-variable: IDENT | IDENT LEFTBRACKET expression RIGHTBRACKET ;
-
-term: variable | NUM | LEFTPAREN expression RIGHTPAREN ;
-
-multipliexp : term | term MULT term | term DIV term | term MOD term ;
-
-expression: multiexp | multiexp ADD multiexp | multiexp SUB multiexp ;
-
-comparison: LT | LTEQ | GT | GTEQ | EQ ;
-
-boolexp: NOT expression comparison expression | expression comparision expression ;
-
-statement: variable ASSIGN expression
-		| %empty
-		| statement statement
+statement: function-declaration
+		| variable-declaration
+		| if-statement
+		| while-statement
+		| variable ASSIGN expression
 		| CONTINUE
 		| BREAK
 		| RETURN expression
-		| IF boolexp LEFTCURLY statement SEMICOLON RIGHTCURLY
-		| IF boolexp LEFTCURLY statement SEMICOLON RIGHTCURLY ELSE LEFTCURLY statement SEMICOLON RIGHTCURLY
 		;
-		
+
+type: INT;
+
+// --- FUNCTION GRAMMAR ---
+
+function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements return-statement RIGHTCURLY;
+
+function-parameters: type IDENT COMMA function-parameters | %empty;
+
+return-type: type | %empty;
+
+return-statement: RETURN expression SEMICOLON;
+
+// --- VARIABLES GRAMMAR ---
+variable-declaration: type IDENT SEMICOLON 
+		| type IDENT ASSIGN expression SEMICOLON;
+
+
+// --- IF ELSE GRAMMAR ---
+if-statement: IF expression LEFTCURLY statements RIGHTCURLY
+		| IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
+
+// --- MATHS GRAMMAR ---
+expression: unary-operator expression | expression binary-operator expression | ( expression ) | operand;
+
+operand: IDENT | NUM | IDENT LEFTBRACKET expression RIGHTBRACKET;
+
+unary-operator: NOT | MINUS; 
+
+binary-operator: comparison-operator | arithmetic-operator | LLAND | LLOR | LLXOR;
+
+comparison-operator: LT | LTEQ | GT | GTEQ | EQ | NOTEQ;
+
+arithmetic-operator: PLUS | MINUS | MULTIPLY | DIVIDE | MODULUS;
+	
 %%
 
