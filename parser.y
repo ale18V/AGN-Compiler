@@ -43,10 +43,9 @@ statement: function-declaration
 		| variable-declaration
 		| if-statement
 		| while-statement
-		| variable ASSIGN expression
-		| CONTINUE
-		| BREAK
-		| RETURN expression
+		| return-statement
+		| CONTINUE SEMICOLON
+		| BREAK SEMICOLON
 		;
 
 type: INT;
@@ -59,7 +58,7 @@ function-parameters: type IDENT COMMA function-parameters | %empty;
 
 return-type: type | %empty;
 
-return-statement: RETURN expression SEMICOLON;
+return-statement: RETURN expression SEMICOLON | RETURN SEMICOLON;
 
 // --- VARIABLES GRAMMAR ---
 variable-declaration: type IDENT SEMICOLON 
@@ -69,6 +68,10 @@ variable-declaration: type IDENT SEMICOLON
 // --- IF ELSE GRAMMAR ---
 if-statement: IF expression LEFTCURLY statements RIGHTCURLY
 		| IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
+
+// --- LOOPS GRAMMAR ---
+while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY
+
 
 // --- MATHS GRAMMAR ---
 expression: unary-operator expression | expression binary-operator expression | ( expression ) | operand;
