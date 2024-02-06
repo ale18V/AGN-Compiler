@@ -53,7 +53,7 @@ type: INT;
 
 // --- FUNCTION GRAMMAR ---
 
-function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements return-statement RIGHTCURLY;
+function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY;
 
 function-parameters: type IDENT COMMA function-parameters | %empty;
 
@@ -65,7 +65,7 @@ return-statement: RETURN expression SEMICOLON | RETURN SEMICOLON;
 variable-declaration: type IDENT SEMICOLON 
 		| type IDENT ASSIGN expression SEMICOLON;
 
-variable-assignment: IDENT ASSIGN EXPRESSION;
+variable-assignment: IDENT ASSIGN expression SEMICOLON;
 
 // --- IF ELSE GRAMMAR ---
 if-statement: IF expression LEFTCURLY statements RIGHTCURLY
@@ -76,14 +76,14 @@ while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY
 
 
 // --- MATHS GRAMMAR ---
-expression: unary-operator expression |	
-			expression binary-operator expression | 
-			( expression ) |
+expression: expression binary-operator expression | 
+			NOT expression |
+			LEFTPAREN expression RIGHTPAREN |
 			IDENT LEFTPAREN expression RIGHTPAREN |
 			IDENT LEFTBRACKET expression RIGHTBRACKET |
 			IDENT | NUM;
 
-unary-operator: NOT | MINUS; 
+unary-operator: NOT; 
 
 binary-operator: comparison-operator | arithmetic-operator | LLAND | LLOR | LLXOR;
 
