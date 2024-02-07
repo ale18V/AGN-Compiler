@@ -1,0 +1,65 @@
+function-parameters -> 
+return-type -> 
+type -> INT
+variable-sequence -> IDENT
+statement -> variable-declaration
+type -> INT
+variable-sequence -> IDENT
+statement -> variable-declaration
+type -> INT
+variable-sequence -> IDENT
+statement -> variable-declaration
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+binary-operator -> LLOR
+expression -> IDENT
+expression -> expression binary-operator expression
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+statements -> statement
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+statements -> statement
+if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
+statement -> if-statement
+expression -> IDENT
+statement -> print-statement
+expression -> IDENT
+binary-operator -> LLAND
+expression -> IDENT
+expression -> expression binary-operator expression
+expression -> IDENT
+binary-operator -> LLAND
+expression -> IDENT
+expression -> expression binary-operator expression
+statement -> print-statement
+statements -> statement
+expression -> IDENT
+statement -> print-statement
+statements -> statement
+if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
+statement -> if-statement
+expression -> IDENT
+binary-operator -> LLAND
+expression -> IDENT
+expression -> expression binary-operator expression
+statement -> print-statement
+statements -> statement
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
+statement -> function-declaration
+statements -> statement

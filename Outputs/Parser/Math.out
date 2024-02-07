@@ -1,0 +1,104 @@
+function-parameters -> 
+return-type -> 
+type -> INT
+variable-sequence -> IDENT
+statement -> variable-declaration
+type -> INT
+variable-sequence -> IDENT
+statement -> variable-declaration
+type -> INT
+variable-sequence -> IDENT
+statement -> variable-declaration
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+arithmetic-operator -> PLUS
+binary-operator -> arithmetic-operator
+expression -> IDENT
+expression -> expression binary-operator expression
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+statement -> print-statement
+expression -> IDENT
+arithmetic-operator -> MINUS
+binary-operator -> arithmetic-operator
+expression -> IDENT
+expression -> expression binary-operator expression
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+statement -> print-statement
+expression -> IDENT
+arithmetic-operator -> MULTIPLY
+binary-operator -> arithmetic-operator
+expression -> IDENT
+expression -> expression binary-operator expression
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+statement -> print-statement
+expression -> IDENT
+arithmetic-operator -> DIVIDE
+binary-operator -> arithmetic-operator
+expression -> IDENT
+expression -> expression binary-operator expression
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+statement -> print-statement
+expression -> IDENT
+arithmetic-operator -> MODULUS
+binary-operator -> arithmetic-operator
+expression -> IDENT
+expression -> expression binary-operator expression
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+statement -> print-statement
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+arithmetic-operator -> PLUS
+binary-operator -> arithmetic-operator
+expression -> NUM
+expression -> expression binary-operator expression
+expression -> LEFTPAREN expression RIGHTPAREN
+arithmetic-operator -> MULTIPLY
+binary-operator -> arithmetic-operator
+expression -> IDENT
+expression -> expression binary-operator expression
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+expression -> IDENT
+statement -> print-statement
+statements -> statement
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+statements -> statement statements
+function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
+statement -> function-declaration
+statements -> statement

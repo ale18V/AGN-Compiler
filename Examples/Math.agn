@@ -1,6 +1,6 @@
 // A simple program which shows mathematical operations.
 
-func main() {
+define main as() -> {
   int x;
   int y;
   int z;

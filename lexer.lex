@@ -5,32 +5,37 @@
 //ROW IS INCREMENTED WHEN A "\N" SYMBOL IS FOUND
 //COLUMN IS INCREMENTED EACH TIME THE LOOP IS ITERATED
 int nrow = 1, ncol = 1;
-
+#include "parser.tab.h"
 #define YY_USER_ACTION ncol += yyleng;
 
 //ALSO THERE IS A WAY TO FEED A FILE INTO THE LEXER USING "a.out < code.file"
 %}
 
-Func                method                          
-Return              return                        
+Define              define
+As                  as                          
+Return              return                         
 Int                 int                              
-Print               write                          
+Write				write                          
 Read                read                            
 While               while                          
-If                  if                                
+If                  if                              
 Else                else                            
 Break               break                          
-Continue            continue                    
+Continue            continue
+LogicalAnd          and
+LogicalOr           or
+LogicalXor          xor                    
 LeftParen           \(                          
 RightParen          \)                         
 LeftCurly           \{                          
 RightCurly          \}                         
 LeftBracket         \[                        
-RightBracket        \]                       
+RightBracket        \]
+Arrow               ->                       
 Comma               ,                                  
 Semicolon           ;                          
 Plus                \+                                   
-Subtract            -                           
+Minus				-                           
 Multiply            \*                           
 Divide              \/                             
 Modulus             %                            
@@ -40,62 +45,55 @@ LessEqual           <=
 Greater             >                            
 GreaterEqual        >=                      
 Equality            == 
-LogicalAnd          and
-LogicalOr           or
-LogicalXor          xor
 NotEqual            !=   
-Not					!
+Not		    !
+Num                 [0-9]+
 Ident               [a-zA-Z]+[a-zA-Z_0-9]*
-IncorrectIdent      [0-9]+{Ident}
-Num                 [0-9]+                
+IncorrectIdent      [_0-9]+{Ident}?
 Comment             \/\/.*\n
 WhiteSpace          [ \r\t]
 
 %%
-{Func}              {puts("Method declaration");}
-{LogicalOr}         {puts("Logical OR");}
-{LogicalAnd}        {puts("Logical AND");}
-{Return}            {puts("Return keyword"); }
-{Int}               {puts("Int keyword");}
-{Print}             {puts("Print keyword"); }
-{While}             {puts("While keyword");}
-{If}                {puts("If keyword");}
-{Else}              {puts("Else keyword");}
-{Break}             {puts("Break keyword"); }
-{Continue}          {puts("Continue keyword"); }
-{LeftParen}         {puts("Left parenthesis keyword"); }
-{RightParen}        {puts("Right parenthesis keyword");}
-{LeftCurly}         {puts("Left curly bracket keyword");}
-{RightCurly}        {puts("Right curly bracket keyword");}
-{LeftBracket}       {puts("Left bracket keyword");}
-{RightBracket}      {puts("Right bracket keyword");}
-{Comma}             {puts("Comma keyword");}             
-{Semicolon}         {puts("Semicolon");}
-{Plus}              {puts("Plus symbol");}
-{Subtract}			{puts("Subtract symbol");}
-{Multiply}			{puts("Multiply symbol");}
-{Divide}			{puts("Divide symbol");}
-{Modulus}			{puts("Modulus symbol");}
-{Less}				{puts("Less than symbol");}
-{LessEqual}			{puts("Less than or Equal symbol");}
-{Greater}			{puts("Greater than symbol");}
-{GreaterEqual}		{puts("Greater than or Equal symbol");}
-{Equality}			{puts("Equality symbol");}
-{Assign}			{puts("Equals sign symbol");}
-{NotEqual}			{puts("Not equal symbol");}
-{Not}				{puts("Logical NOT symbol");}
-{Ident}				{printf("IDENTIFIER: %s\n", yytext);}
-{IncorrectIdent}    {printf("Invalid identifier %s starts with a number: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
-{Num}				{printf("NUMBER: %s\n", yytext);}
+{Define}            {return DEFINE;}
+{As}                {return AS;}
+{LogicalOr}         {return LLOR;}
+{LogicalAnd}        {return LLAND;}
+{LogicalXor}		{return LLXOR; }
+{Return}            {return RETURN; }
+{Int}               {return INT;}
+{Write}             {return WRITE; }
+{While}             {return WHILE;}
+{If}                {return IF;}
+{Else}              {return ELSE;}
+{Break}             {return BREAK; }
+{Continue}          {return CONTINUE; }
+{Arrow}             {return ARROW;}
+{LeftParen}         {return LEFTPAREN; }
+{RightParen}        {return RIGHTPAREN;}
+{LeftCurly}         {return LEFTCURLY;}
+{RightCurly}        {return RIGHTCURLY;}
+{LeftBracket}       {return LEFTBRACKET;}
+{RightBracket}      {return RIGHTBRACKET;}
+{Comma}             {return COMMA;}             
+{Semicolon}         {return SEMICOLON;}
+{Plus}              {return PLUS;}
+{Minus}				{return MINUS;}
+{Multiply}			{return MULTIPLY;}
+{Divide}			{return DIVIDE;}
+{Modulus}			{return MODULUS;}
+{Less}				{return LT;}
+{LessEqual}			{return LTEQ;}
+{Greater}			{return GT;}
+{GreaterEqual}		{return GTEQ;}
+{Equality}			{return EQ;}
+{Assign}			{return ASSIGN;}
+{NotEqual}			{return NOTEQ;}
+{Not}				{return NOT;}
+{Num}				{return NUM;}
+{Ident}				{return IDENT;}
+{IncorrectIdent}    {printf("Invalid identifier %s: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
 {Comment}			{nrow++; ncol=1; }
 {WhiteSpace}		{}
 \n                  {nrow++; ncol=1;}
+.                   {printf("Unrecognized character %s at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1); }
 %%
-
-<<<<<<< HEAD
-%%
-=======
-int main() {
-    yylex();
-}
->>>>>>> efcd7c4b21ce61b3c087ca5364e422b7bbd11071

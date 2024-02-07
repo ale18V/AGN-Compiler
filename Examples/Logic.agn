@@ -1,6 +1,6 @@
 // Example program demonstrating if-else statements
 
-func main() {
+define main as() -> {
     int x;
     int y;
     int z;

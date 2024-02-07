@@ -1,6 +1,6 @@
 //example demonstrating the conditional not operator
 
-func main(){
+define main as() -> {
 	int x = 5;
 	int result = -1;
 

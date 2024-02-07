@@ -1,8 +1,16 @@
-all: build test
+all: parser clean test 
 
-build:
-	flex -o lexer.c lexer.lex
-	gcc -O2 -g lexer.c -o lexer.bin -lfl
+parser: lexer.yy.c parser.tab.c parser.tab.h
+	gcc -O2 -g -o parser.bin parser.tab.c lexer.yy.c -lfl -lm
 
-test: 
-	bash -c 'for file in Examples/*; do ./lexer.bin < $$file > Outputs/$$(basename -s .agn $$file).out; done'
+%.yy.c: %.lex
+	flex -o$@ $<
+
+%.tab.c %.tab.h: %.y
+	bison -t -v -d $<
+
+clean:
+	-rm -f *.tab.c *.tab.h *.yy.c *.output
+
+test:
+	-bash -c 'for file in Examples/* ; do ./parser.bin < $$file > Outputs/Parser/$$(basename -s .agn $$file).out; done'
