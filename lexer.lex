@@ -15,7 +15,7 @@ Define              define
 As                  as                          
 Return              return                         
 Int                 int                              
-Print               write                          
+Print				write                          
 Read                read                            
 While               while                          
 If                  if                              
@@ -61,7 +61,7 @@ WhiteSpace          [ \r\t]
 {LogicalXor}		{return LLXOR; }
 {Return}            {return RETURN; }
 {Int}               {return INT;}
-{Print}             {return PRINT; }
+{Write}             {return WRITE; }
 {While}             {return WHILE;}
 {If}                {return IF;}
 {Else}              {return ELSE;}
@@ -97,7 +97,3 @@ WhiteSpace          [ \r\t]
 \n                  {nrow++; ncol=1;}
 .                   {printf("Unrecognized character %s at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1); }
 %%
-
-int main() {
-    yylex();
-}
