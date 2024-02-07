@@ -13,4 +13,4 @@ clean:
 	-rm -f *.tab.c *.tab.h *.yy.c *.output
 
 test:
-	-bash -c 'for file in Examples/* ; do ./parser.bin < $$file > Outputs/Parser/$$(basename -s .agn $$file).out; done'
+	-bash -c 'for file in Examples/* ; do  echo $$file; ./parser.bin < $$file > Outputs/Parser/$$(basename -s .agn $$file).out; done'
