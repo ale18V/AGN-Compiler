@@ -15,7 +15,7 @@ Define              define
 As                  as                          
 Return              return                         
 Int                 int                              
-Print               write                          
+Write				write                          
 Read                read                            
 While               while                          
 If                  if                              
@@ -35,7 +35,7 @@ Arrow               ->
 Comma               ,                                  
 Semicolon           ;                          
 Plus                \+                                   
-Subtract            -                           
+Minus				-                           
 Multiply            \*                           
 Divide              \/                             
 Modulus             %                            
@@ -56,11 +56,12 @@ WhiteSpace          [ \r\t]
 %%
 {Define}            {return DEFINE;}
 {As}                {return AS;}
-{LogicalOr}         {return OR;}
-{LogicalAnd}        {return AND;}
+{LogicalOr}         {return LLOR;}
+{LogicalAnd}        {return LLAND;}
+{LogicalXor}		{return LLXOR; }
 {Return}            {return RETURN; }
 {Int}               {return INT;}
-{Print}             {return PRINT; }
+{Write}             {return WRITE; }
 {While}             {return WHILE;}
 {If}                {return IF;}
 {Else}              {return ELSE;}
@@ -72,11 +73,11 @@ WhiteSpace          [ \r\t]
 {LeftCurly}         {return LEFTCURLY;}
 {RightCurly}        {return RIGHTCURLY;}
 {LeftBracket}       {return LEFTBRACKET;}
-{RightBracket}      {return RIGHT;}
+{RightBracket}      {return RIGHTBRACKET;}
 {Comma}             {return COMMA;}             
 {Semicolon}         {return SEMICOLON;}
 {Plus}              {return PLUS;}
-{Subtract}			{return SUBTRACT;}
+{Minus}				{return MINUS;}
 {Multiply}			{return MULTIPLY;}
 {Divide}			{return DIVIDE;}
 {Modulus}			{return MODULUS;}
@@ -88,7 +89,7 @@ WhiteSpace          [ \r\t]
 {Assign}			{return ASSIGN;}
 {NotEqual}			{return NOTEQ;}
 {Not}				{return NOT;}
-{Num}				{    return NUM;}
+{Num}				{return NUM;}
 {Ident}				{return IDENT;}
 {IncorrectIdent}    {printf("Invalid identifier %s: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
 {Comment}			{nrow++; ncol=1; }
@@ -96,7 +97,3 @@ WhiteSpace          [ \r\t]
 \n                  {nrow++; ncol=1;}
 .                   {printf("Unrecognized character %s at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1); }
 %%
-
-int main() {
-    yylex();
-}

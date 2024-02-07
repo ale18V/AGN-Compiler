@@ -35,7 +35,7 @@ Authors: Nicolas Karalis, Garrett Greenup, Alessandro Bombarda.
 |as					   | As           |
 |return                | Return       |
 |int                   | Int          |
-|write                 | Print        |
+|write                 | Write        |
 |read                  | Read         |
 |while                 | While        |
 |if                    | If           |
@@ -55,7 +55,7 @@ Authors: Nicolas Karalis, Garrett Greenup, Alessandro Bombarda.
 |,                     | Comma        |
 |;                     | Semicolon    |
 |+                     | Plus         |
-|-                     | Subtract     |
+|-                     | Minus		  |
 |*                     | Multiply     |
 |/                     | Divide       |
 |%                     | Modulus      |

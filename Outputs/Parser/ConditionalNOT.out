@@ -1,0 +1,7 @@
+function-parameters -> 
+return-type -> 
+type -> INT
+expression -> NUM
+variable-declaration -> type IDENT ASSIGN expression SEMICOLON
+statement -> variable-declaration
+type -> INT
