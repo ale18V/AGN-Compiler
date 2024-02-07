@@ -15,7 +15,7 @@ Define              define
 As                  as                          
 Return              return                         
 Int                 int                              
-Print				write                          
+Write				write                          
 Read                read                            
 While               while                          
 If                  if                              
