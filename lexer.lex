@@ -73,7 +73,7 @@ WhiteSpace          [ \r\t]
 {LeftCurly}         {return LEFTCURLY;}
 {RightCurly}        {return RIGHTCURLY;}
 {LeftBracket}       {return LEFTBRACKET;}
-{RightBracket}      {return RIGHT;}
+{RightBracket}      {return RIGHTBRACKET;}
 {Comma}             {return COMMA;}             
 {Semicolon}         {return SEMICOLON;}
 {Plus}              {return PLUS;}
