@@ -58,14 +58,17 @@ type: INT {puts("type -> INT");};
 write-statement: WRITE LEFTPAREN expression RIGHTPAREN SEMICOLON
 
 read-statement: READ LEFTPAREN expression RIGHTPAREN SEMICOLON
-// --- FUNCTION GRAMMAR ---
 
+// --- FUNCTION GRAMMAR ---
 function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY {
 	puts("function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY");
 };
 
-function-parameters: type IDENT COMMA function-parameters {puts("function-parameters -> type IDENT COMMA function-parameters");}
+function-parameters: function-parameters-sequence {puts("function-parameters -> function-parameters-sequence");}
 		| %empty {puts("function-parameters -> ");};
+
+function-parameters-sequence: type IDENT COMMA function-parameters {puts("function-parameters -> type IDENT COMMA function-parameters");}
+		| type IDENT {puts("function-parameters -> type IDENT");}
 
 return-type: type {puts("return-type -> type");} 
 		| %empty {puts("return-type -> ");};
@@ -74,9 +77,12 @@ return-statement: RETURN expression SEMICOLON {puts("return-statement -> RETURN 
 		| RETURN SEMICOLON {puts("return-statement -> RETURN SEMICOLON");};
 
 // --- VARIABLES GRAMMAR ---
-variable-declaration: type IDENT SEMICOLON 
+variable-declaration: type variable-sequence SEMICOLON 
 		| type IDENT ASSIGN expression SEMICOLON {puts("variable-declaration -> type IDENT ASSIGN expression SEMICOLON");};
 
+variable-sequence: IDENT COMMA variable-sequence {puts("variable-sequence -> IDENT COMMA variable-sequence");}
+		| IDENT {puts("variable-sequence -> IDENT");};
+	
 variable-assignment: IDENT ASSIGN expression SEMICOLON {puts("variable-assignment -> IDENT ASSIGN expression SEMICOLON");}
 
 // --- IF ELSE GRAMMAR ---
