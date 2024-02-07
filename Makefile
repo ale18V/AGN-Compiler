@@ -1,7 +1,7 @@
 all: parser clean test 
 
 parser: lexer.yy.c parser.tab.c parser.tab.h
-	gcc -O2 -g -o parser parser.tab.c lexer.yy.c -lfl -lm
+	gcc -O2 -g -o parser.bin parser.tab.c lexer.yy.c -lfl -lm
 
 %.yy.c: %.lex
 	flex -o$@ $<
@@ -13,4 +13,4 @@ clean:
 	-rm -f *.tab.c *.tab.h *.yy.c *.output
 
 test:
-	-bash -c 'for file in Examples/* ; do ./parser < $$file > Outputs/Parser/$$(basename -s .agn $$file).out; done'
+	-bash -c 'for file in Examples/* ; do ./parser.bin < $$file > Outputs/Parser/$$(basename -s .agn $$file).out; done'
