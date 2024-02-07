@@ -96,10 +96,13 @@ while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY {puts("while-s
 expression: expression binary-operator expression {puts("expression -> expression binary-operator expression");}
 		| NOT expression {puts("expression -> NOT expression");}
 		| LEFTPAREN expression RIGHTPAREN {puts("expression -> LEFTPAREN expression RIGHTPAREN");}
-		| IDENT LEFTPAREN expression RIGHTPAREN  {puts("expression -> IDENT LEFTPAREN expression RIGHTPAREN");}
+		| IDENT LEFTPAREN expression-sequence RIGHTPAREN  {puts("expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN");}
 		| IDENT LEFTBRACKET expression RIGHTBRACKET {puts("expression -> IDENT LEFTBRACKET expression RIGHTBRACKET");}
 		| IDENT {puts("expression -> IDENT");}
 		| NUM {puts("expression -> NUM");};
+
+expression-sequence: expression COMMA expression-sequence {puts("expression-sequence -> expression COMMA expression-sequence");}
+		| expression {puts("expression-sequence -> expression");};
 
 unary-operator: NOT {puts("unary-operator -> NOT");}; 
 
