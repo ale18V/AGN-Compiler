@@ -10,7 +10,7 @@ parser: lexer.yy.c parser.tab.c parser.tab.h
 	bison -t -v -d $<
 
 clean:
-	-rm -f *.tab.c *.tab.h *.yy.c *.output print_lexer parser print_parser
+	-rm -f *.tab.c *.tab.h *.yy.c *.output
 
 test:
 	-bash -c 'for file in Examples/* ; do ./parser < $$file > Outputs/Parser/$$(basename -s .agn $$file).out; done'
