@@ -1,2 +1,4 @@
 **.swp
+*.yy.c
+*.tab.*
 parser.output
