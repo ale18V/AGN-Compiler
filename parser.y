@@ -97,7 +97,7 @@ return-statement: RETURN expression SEMICOLON	{puts("return-statement -> RETURN 
 // --- VARIABLES GRAMMAR ---
 variable-declaration: type variable-sequence SEMICOLON 
 					| type IDENT ASSIGN expression SEMICOLON							{puts("variable-declaration -> type IDENT ASSIGN expression SEMICOLON");};
-					| type IDENT LEFTBRACKET NUM RIGHTBRACKET ASSIGN expression SEMICOLON	{puts("variable-declaration -> type IDENT LEFTPAREN NUM RIGHTPAREN ASSIGN expression SEMICOLON");};
+					| type LEFTBRACKET NUM RIGHTBRACKET ASSIGN expression SEMICOLON	{puts("variable-declaration -> type LEFTBRACKET NUM RIGHTPAREN ASSIGN expression SEMICOLON");};
 
 
 
