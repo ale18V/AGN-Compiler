@@ -46,7 +46,7 @@ expression -> NUM
 expression -> NUM
 expression-sequence -> expression
 expression-sequence -> expression COMMA expression-sequence
-expression -> IDENT LEFTPAREN expression-sequenc-sequence  RIGHTPAREN
+expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
@@ -59,7 +59,7 @@ expression -> IDENT
 expression -> expression binary-operator expression
 expression-sequence -> expression
 expression-sequence -> expression COMMA expression-sequence
-expression -> IDENT LEFTPAREN expression-sequenc-sequence  RIGHTPAREN
+expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT

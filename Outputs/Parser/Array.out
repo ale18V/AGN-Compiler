@@ -1,3 +1,14 @@
 function-parameters -> 
 return-type -> 
 type -> INT
+variable-declaration -> type LEFTBRACKET NUM RIGHTPAREN ASSIGN expression SEMICOLON
+statement -> variable-declaration
+expression -> NUM
+expression -> NUM
+variable-assignment -> IDENT LEFTPAREN expression RIGHTPAREN ASSIGN expression SEMICOLON
+statement -> variable-assignment
+statements -> statement
+statements -> statement statements
+function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
+statement -> function-declaration
+statements -> statement

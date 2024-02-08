@@ -5,3 +5,32 @@ expression -> NUM
 variable-declaration -> type IDENT ASSIGN expression SEMICOLON
 statement -> variable-declaration
 type -> INT
+unary-operator -> MINUS
+expression -> NUM
+expression -> NOT expression
+variable-declaration -> type IDENT ASSIGN expression SEMICOLON
+statement -> variable-declaration
+unary-operator -> NOT
+expression -> IDENT
+comparison-operator -> LT
+binary-operator -> comparison-operator
+expression -> NUM
+expression -> expression binary-operator expression
+expression -> LEFTPAREN expression RIGHTPAREN
+expression -> NOT expression
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+statements -> statement
+expression -> NUM
+variable-assignment -> IDENT ASSIGN expression SEMICOLON
+statement -> variable-assignment
+statements -> statement
+if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
+statement -> if-statement
+statements -> statement
+statements -> statement statements
+statements -> statement statements
+function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
+statement -> function-declaration
+statements -> statement

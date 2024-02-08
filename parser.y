@@ -134,7 +134,7 @@ while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY {puts("while-s
 
 // --- MATHS GRAMMAR ---
 expression: expression binary-operator expression {puts("expression -> expression binary-operator expression");}
-		| NOT expression {puts("expression -> NOT expression");}
+		| unary-operator expression {puts("expression -> NOT expression");}
 		| LEFTPAREN expression RIGHTPAREN					{puts("expression -> LEFTPAREN expression RIGHTPAREN");}
 		| IDENT LEFTPAREN expression-sequence RIGHTPAREN	{puts("expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN");}
 		| IDENT LEFTBRACKET expression RIGHTBRACKET			{puts("expression -> IDENT LEFTBRACKET expression RIGHTBRACKET");}
@@ -152,8 +152,8 @@ expression-sequence: expression COMMA expression-sequence {puts("expression-sequ
 
 
 
-unary-operator: NOT {puts("unary-operator -> NOT");}; 
-
+unary-operator: NOT {puts("unary-operator -> NOT");}
+			|	MINUS {puts("unary-operator -> MINUS");}; 
 
 
 
