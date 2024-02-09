@@ -16,46 +16,35 @@ expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
-arithmetic-operator -> PLUS
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression PLUS expression
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
 statement -> print-statement
 expression -> IDENT
-arithmetic-operator -> MINUS
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression MINUS expression
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
 statement -> print-statement
 expression -> IDENT
-arithmetic-operator -> MULTIPLY
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression MULTIPLY expression
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
 statement -> print-statement
 expression -> IDENT
-arithmetic-operator -> DIVIDE
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
 statement -> print-statement
 expression -> IDENT
-arithmetic-operator -> MODULUS
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression MODULUS expression
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
@@ -67,15 +56,11 @@ expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
-arithmetic-operator -> PLUS
-binary-operator -> arithmetic-operator
 expression -> NUM
-expression -> expression binary-operator expression
+expression -> expression PLUS expression
 expression -> LEFTPAREN expression RIGHTPAREN
-arithmetic-operator -> MULTIPLY
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression MULTIPLY expression
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT

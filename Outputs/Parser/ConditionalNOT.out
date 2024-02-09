@@ -5,17 +5,13 @@ expression -> NUM
 variable-declaration -> type IDENT ASSIGN expression SEMICOLON
 statement -> variable-declaration
 type -> INT
-unary-operator -> MINUS
 expression -> NUM
-expression -> NOT expression
+expression -> MINUS expression
 variable-declaration -> type IDENT ASSIGN expression SEMICOLON
 statement -> variable-declaration
-unary-operator -> NOT
 expression -> IDENT
-comparison-operator -> LT
-binary-operator -> comparison-operator
 expression -> NUM
-expression -> expression binary-operator expression
+expression -> expression LT expression
 expression -> LEFTPAREN expression RIGHTPAREN
 expression -> NOT expression
 expression -> NUM

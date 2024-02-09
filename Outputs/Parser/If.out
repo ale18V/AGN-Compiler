@@ -16,10 +16,8 @@ expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
-comparison-operator -> GT
-binary-operator -> comparison-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression GT expression
 expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
@@ -39,10 +37,8 @@ expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
-comparison-operator -> LTEQ
-binary-operator -> comparison-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression LTEQ expression
 expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment

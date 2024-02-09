@@ -21,15 +21,17 @@ void yyerror(const char* s);
 %token INT ASSIGN
 %token LEFTPAREN RIGHTPAREN LEFTCURLY RIGHTCURLY LEFTBRACKET RIGHTBRACKET
 %token COMMA SEMICOLON 
-%token <int> NUM IDENT 
+%token NUM IDENT 
 
-%left LT LTEQ GT GTEQ EQ NOTEQ LLAND LLOR LLXOR 
+%left LLAND LLOR LLXOR 
+%left LT LTEQ GT GTEQ EQ NOTEQ 
+%left NOT
 %left MODULUS
 %left PLUS MINUS 
 %left MULTIPLY DIVIDE 
-%left NOT
+%left NEG
 
-%nterm <int> expression
+%nterm expression
 
 %start program
 
@@ -130,11 +132,23 @@ while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY {puts("while-s
 
 
 
-
-
 // --- MATHS GRAMMAR ---
-expression: expression binary-operator expression {puts("expression -> expression binary-operator expression");}
-		| unary-operator expression {puts("expression -> NOT expression");}
+expression: NOT expression %prec NOT				 		{puts("expression -> NOT expression");}
+		| MINUS expression %prec NEG						{puts("expression -> MINUS expression");}
+		| expression LLAND expression                  		{puts("expression -> expression LLAND expression"); }
+    	| expression LLOR expression                   		{puts("expression -> expression LLOR expression"); }
+    	| expression LLXOR expression                  		{puts("expression -> expression LLXOR expression"); }
+    	| expression LT expression                     		{puts("expression -> expression LT expression"); }
+    	| expression LTEQ expression                   		{puts("expression -> expression LTEQ expression"); }
+    	| expression GT expression                     		{puts("expression -> expression GT expression"); }
+    	| expression GTEQ expression                   		{puts("expression -> expression GTEQ expression"); }
+    	| expression EQ expression                     		{puts("expression -> expression EQ expression"); }
+    	| expression NOTEQ expression                  		{puts("expression -> expression NOTEQ expression"); }
+    	| expression MODULUS expression                		{puts("expression -> expression MODULUS expression"); }
+    	| expression PLUS expression                    	{puts("expression -> expression PLUS expression"); }
+    	| expression MINUS expression                   	{puts("expression -> expression MINUS expression"); }
+    	| expression MULTIPLY expression                	{puts("expression -> expression MULTIPLY expression"); }
+    	| expression DIVIDE expression
 		| LEFTPAREN expression RIGHTPAREN					{puts("expression -> LEFTPAREN expression RIGHTPAREN");}
 		| IDENT LEFTPAREN expression-sequence RIGHTPAREN	{puts("expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN");}
 		| IDENT LEFTBRACKET expression RIGHTBRACKET			{puts("expression -> IDENT LEFTBRACKET expression RIGHTBRACKET");}
@@ -142,49 +156,9 @@ expression: expression binary-operator expression {puts("expression -> expressio
 		| NUM												{puts("expression -> NUM");};
 
 
-
-
-
 expression-sequence: expression COMMA expression-sequence {puts("expression-sequence -> expression COMMA expression-sequence");}
 		| expression {puts("expression-sequence -> expression");};
 
-
-
-
-
-unary-operator: NOT {puts("unary-operator -> NOT");}
-			|	MINUS {puts("unary-operator -> MINUS");}; 
-
-
-
-
-binary-operator: comparison-operator {puts("binary-operator -> comparison-operator");}
-		| arithmetic-operator	{puts("binary-operator -> arithmetic-operator");}
-		| LLAND					{puts("binary-operator -> LLAND");}
-		| LLOR					{puts("binary-operator -> LLOR");}
-		| LLXOR					{puts("binary-operator -> LLXOR");};
-
-
-
-
-
-comparison-operator: LT {puts("comparison-operator -> LT");}
-		| LTEQ	{puts("comparison-operator -> LTEQ");}
-		| GT	{puts("comparison-operator -> GT");}
-		| GTEQ	{puts("comparison-operator -> GTEQ");}
-		| EQ	{puts("comparison-operator -> EQ");}
-		| NOTEQ {puts("comparison-operator -> NOTEQ");};
-
-
-
-
-
-arithmetic-operator: PLUS {puts("arithmetic-operator -> PLUS");}
-		| MINUS		{puts("arithmetic-operator -> MINUS");}
-		| MULTIPLY	{puts("arithmetic-operator -> MULTIPLY");}
-		| DIVIDE	{puts("arithmetic-operator -> DIVIDE");}
-		| MODULUS	{puts("arithmetic-operator -> MODULUS");};
-	
 %%
 
 
@@ -194,7 +168,7 @@ int main(int argc, char** argv) {
 }
 
 void yyerror(const char* s) {
-  fprintf(stderr, "Error encountered while parsing token at [%i,%i-%i,%i]: %s\n", yylloc.first_line, yylloc.first_column, yylloc.last_line, yylloc.last_column, s);
+  fprintf(stderr, "Error encountered while parsing token at [%i,%i %i,%i]: %s\n", yylloc.first_line, yylloc.first_column, yylloc.last_line, yylloc.last_column, s);
   exit(1);
 }
 

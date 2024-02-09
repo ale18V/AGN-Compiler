@@ -16,9 +16,8 @@ expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
-binary-operator -> LLOR
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression LLOR expression
 expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
@@ -32,13 +31,11 @@ statement -> if-statement
 expression -> IDENT
 statement -> print-statement
 expression -> IDENT
-binary-operator -> LLAND
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression LLAND expression
 expression -> IDENT
-binary-operator -> LLAND
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression LLAND expression
 statement -> print-statement
 statements -> statement
 expression -> IDENT
@@ -47,9 +44,8 @@ statements -> statement
 if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
 statement -> if-statement
 expression -> IDENT
-binary-operator -> LLAND
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression LLAND expression
 statement -> print-statement
 statements -> statement
 statements -> statement statements

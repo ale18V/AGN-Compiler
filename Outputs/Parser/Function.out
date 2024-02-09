@@ -7,10 +7,8 @@ function-parameters -> function-parameters-sequence
 type -> INT
 return-type -> type
 expression -> IDENT
-arithmetic-operator -> PLUS
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression PLUS expression
 return-statement -> RETURN expression SEMICOLON
 statement -> return-statement
 statements -> statement
@@ -25,10 +23,8 @@ function-parameters -> function-parameters-sequence
 type -> INT
 return-type -> type
 expression -> IDENT
-arithmetic-operator -> MULTIPLY
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression MULTIPLY expression
 return-statement -> RETURN expression SEMICOLON
 statement -> return-statement
 statements -> statement
@@ -53,10 +49,8 @@ expression -> IDENT
 statement -> print-statement
 expression -> IDENT
 expression -> IDENT
-arithmetic-operator -> PLUS
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression PLUS expression
 expression-sequence -> expression
 expression-sequence -> expression COMMA expression-sequence
 expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN
