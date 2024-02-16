@@ -7,6 +7,12 @@ extern int yylex();
 extern FILE* yyin;
 
 void yyerror(const char* s);
+using namespace std;
+
+struct CodeNode {
+	string code;
+	string name;
+}
 
 %}
 
@@ -14,6 +20,11 @@ void yyerror(const char* s);
 %define api.value.type union
 %define parse.error verbose
 %define parse.lac full
+
+%union {
+	char* op_val;
+	struct CodeNode* code_node;	
+}
 
 %token DEFINE ARROW AS RETURN 
 %token WRITE READ 
@@ -31,13 +42,12 @@ void yyerror(const char* s);
 %left MULTIPLY DIVIDE 
 %left NEG
 
-%nterm expression
+%nterm <code_node> program statements statement type write-statement read-statement function-declaration function-parameters function-parameters-sequence return-type return-statement 
+%nterm <code_node> variable-declaration variable-sequence variable-assignment if-statement while-statement expression expression-sequence
 
 %start program
 
 %%
-
-
 
 program: statements | %empty;
 
