@@ -43,6 +43,7 @@ Function *get_function() {
 // grab the most recent function, and linear search to
 // find the symbol you are looking for.
 // you may want to extend "find" to handle different types of "Integer" vs "Array"
+
 bool find(std::string &value) {
   Function *f = get_function();
   for(int i=0; i < f->declarations.size(); i++) {
@@ -56,6 +57,7 @@ bool find(std::string &value) {
 
 // when you see a function declaration inside the grammar, add
 // the function name to the symbol table
+
 void add_function_to_symbol_table(std::string &value) {
   Function f; 
   f.name = value; 
@@ -64,6 +66,7 @@ void add_function_to_symbol_table(std::string &value) {
 
 // when you see a symbol declaration inside the grammar, add
 // the symbol name as well as some type information to the symbol table
+
 void add_variable_to_symbol_table(std::string &value, Type t) {
   Symbol s;
   s.name = value;
@@ -74,6 +77,7 @@ void add_variable_to_symbol_table(std::string &value, Type t) {
 
 // a function to print out the symbol table to the screen
 // largely for debugging purposes.
+
 void print_symbol_table(void) {
   printf("symbol table:\n");
   printf("--------------------\n");
@@ -144,8 +148,15 @@ statement: function-declaration		{$$ = $1;}
 		| return-statement			{$$ = $1;}
 		| write-statement			{$$ = $1;}
 		| read-statement			{$$ = $1;}
-		| CONTINUE SEMICOLON		{$$ = $1;}
-		| BREAK SEMICOLON			{$$ = $1;}
+		| CONTINUE SEMICOLON		{
+			struct CodeNode* node = new CodeNode;
+			node->code = std::string(":= ") + std::string(symbol_table.back());
+			$$ = node;
+		}
+		| BREAK SEMICOLON			{
+		
+			////////////////
+		}
 		;
 
 type: INT {puts("type -> INT");};
@@ -248,8 +259,6 @@ IDENT COMMA variable-sequence {
 	
 
 
-
-
 variable-assignment: 
 
 IDENT ASSIGN expression SEMICOLON {
@@ -280,7 +289,13 @@ if-statement: IF expression LEFTCURLY statements RIGHTCURLY											{puts("if-
 
 
 // --- LOOPS GRAMMAR ---
-while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY {puts("while-statement -> WHILE expression LEFTCURLY statements RIGHTCURLY");}
+while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY {
+	nstruct CodeNode* node = new CodeNode;
+	node->code = std::string("[]= ") + std::string($1) + std::string($6) +  std::string("\n");
+
+	$$ = node;
+	
+}
 
 
 
