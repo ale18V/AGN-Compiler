@@ -7,15 +7,11 @@ expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
-comparison-operator -> LT
-binary-operator -> comparison-operator
 expression -> NUM
-expression -> expression binary-operator expression
+expression -> expression LT expression
 expression -> IDENT
-comparison-operator -> GTEQ
-binary-operator -> comparison-operator
 expression -> NUM
-expression -> expression binary-operator expression
+expression -> expression GTEQ expression
 statement -> BREAK SEMICOLON
 statements -> statement
 if-statement -> IF expression LEFTCURLY statements RIGHTCURLY
@@ -23,10 +19,8 @@ statement -> if-statement
 expression -> IDENT
 statement -> print-statement
 expression -> IDENT
-arithmetic-operator -> PLUS
-binary-operator -> arithmetic-operator
 expression -> NUM
-expression -> expression binary-operator expression
+expression -> expression PLUS expression
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 statements -> statement

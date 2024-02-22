@@ -6,7 +6,12 @@
 //COLUMN IS INCREMENTED EACH TIME THE LOOP IS ITERATED
 int nrow = 1, ncol = 1;
 #include "parser.tab.h"
-#define YY_USER_ACTION ncol += yyleng;
+#define YY_USER_ACTION {\
+            yylloc.first_line = yylloc.last_line = nrow; \
+            yylloc.first_column = ncol; \ 
+            ncol += yyleng; \
+            yylloc.last_column = ncol; \
+            }
 
 //ALSO THERE IS A WAY TO FEED A FILE INTO THE LEXER USING "a.out < code.file"
 %}

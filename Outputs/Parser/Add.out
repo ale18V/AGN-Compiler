@@ -12,10 +12,8 @@ expression -> NUM
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
-arithmetic-operator -> PLUS
-binary-operator -> arithmetic-operator
 expression -> IDENT
-expression -> expression binary-operator expression
+expression -> expression PLUS expression
 variable-assignment -> IDENT ASSIGN expression SEMICOLON
 statement -> variable-assignment
 expression -> IDENT
