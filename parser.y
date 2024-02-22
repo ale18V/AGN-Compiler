@@ -4,21 +4,19 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#define newcn(name) struct CodeNode* name = new CodeNode 
 
 extern int yylex();
 extern FILE* yyin;
+int idx = 0;
 
 void yyerror(const char* s);
 using namespace std;
 
+string sep = string(", ");
 struct CodeNode {
 	string code;
-	string name;
-}
-
-struct CodeNode {
-	std::string code;
-	std::string name;
+	string val;
 };
 
 %}
@@ -50,8 +48,9 @@ struct CodeNode {
 %left NEG
 
 %nterm <code_node> program statements statement type write-statement read-statement function-declaration function-parameters function-parameters-sequence return-type return-statement 
-%nterm <code_node> variable-declaration variable-sequence variable-assignment if-statement while-statement expression expression-sequence
+%nterm <code_node> variable-declaration variable-sequence variable-assignment if-statement while-statement expression func-call-params
 
+%type <op_val> NUM, IDENT
 %start program
 
 %%
@@ -110,12 +109,9 @@ function-parameters-sequence: type IDENT COMMA function-parameters	{
 
 // "  param $2 $4  "
 
-return-type: 
-
-type{
+return-type:  type{
 	puts("return-type -> type");
 } 
-			
 | %empty{
 	puts("return-type -> ");
 };
@@ -124,9 +120,7 @@ type{
 
 
 
-return-statement: 
-
-RETURN expression SEMICOLON	{
+return-statement: RETURN expression SEMICOLON	{
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string("ret ") + std::string($2) +  std::string("\n");
 
@@ -144,9 +138,7 @@ RETURN expression SEMICOLON	{
 
 
 // --- VARIABLES GRAMMAR ---
-variable-declaration: 
-
-type variable-sequence SEMICOLON {$$ = $2}
+variable-declaration: type variable-sequence SEMICOLON {$$ = $2}
 					
 | type IDENT ASSIGN expression SEMICOLON {
 	struct CodeNode* node = new CodeNode;
@@ -217,37 +209,182 @@ while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY {puts("while-s
 
 
 // --- MATHS GRAMMAR ---
-expression: NOT expression %prec NOT				 		{puts("expression -> NOT expression");}
-		| MINUS expression %prec NEG						{puts("expression -> MINUS expression");}
-		| expression LLAND expression                  		{puts("expression -> expression LLAND expression"); }
-    	| expression LLOR expression                   		{puts("expression -> expression LLOR expression"); }
-    	| expression LLXOR expression                  		{puts("expression -> expression LLXOR expression"); }
-    	| expression LT expression                     		{puts("expression -> expression LT expression"); }
-    	| expression LTEQ expression                   		{puts("expression -> expression LTEQ expression"); }
-    	| expression GT expression                     		{puts("expression -> expression GT expression"); }
-    	| expression GTEQ expression                   		{puts("expression -> expression GTEQ expression"); }
-    	| expression EQ expression                     		{puts("expression -> expression EQ expression"); }
-    	| expression NOTEQ expression                  		{puts("expression -> expression NOTEQ expression"); }
-    	| expression MODULUS expression                		{puts("expression -> expression MODULUS expression"); }
-    	| expression PLUS expression                    	{
-		
-		$$ = "+ $3 $1 $2"
-		
-		
-		
+expression: NOT expression %prec NOT				 		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $2->code;
+			node->code += string("! ") + val + sep + $2->val + string("\n");
+			node->val = val;
+			$$ = node;
 		}
-    	| expression MINUS expression                   	{puts("expression -> expression MINUS expression"); }
-    	| expression MULTIPLY expression                	{puts("expression -> expression MULTIPLY expression"); }
-    	| expression DIVIDE expression
-		| LEFTPAREN expression RIGHTPAREN					{puts("expression -> LEFTPAREN expression RIGHTPAREN");}
-		| IDENT LEFTPAREN expression-sequence RIGHTPAREN	{puts("expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN");}
-		| IDENT LEFTBRACKET expression RIGHTBRACKET			{puts("expression -> IDENT LEFTBRACKET expression RIGHTBRACKET");}
-		| IDENT												{puts("expression -> IDENT");}
-		| NUM												{puts("expression -> NUM");};
+		| MINUS expression %prec NEG						{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $2->code;
+			node->code += string("* ") + val + sep + $2->val + sep + "-1" + string("\n"); // Multiply by -1 to get negative. Ugly
+			node->val = val;
+			$$ = node;
+		}
+		| expression LLAND expression                  		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("&& ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression LLOR expression                   		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("|| ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression LLXOR expression                  		{
+			newcn(node);
+			// TODO
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("&& ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression LT expression                     		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("< ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression LTEQ expression                   		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("<= ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression GT expression                     		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("> ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression GTEQ expression                   		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string(">= ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression EQ expression                     		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("== ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression NOTEQ expression                  		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("!= ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression MODULUS expression                		{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("% ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression PLUS expression                    	{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("+ ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression MINUS expression                   	{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("- ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression MULTIPLY expression                	{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("* ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+    	| expression DIVIDE expression						{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $1->code + $3->code;
+			node->code += string("/ ") + val + sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+		| LEFTPAREN expression RIGHTPAREN					{
+			newcn(node);
+			node->code = $2->code;
+			node->val = $2->val;
+			$$ = node;
+		}
+		| IDENT LEFTPAREN func-call-params RIGHTPAREN	{puts("expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN");}
+		| IDENT LEFTPAREN RIGHTPAREN {
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = string("call ") + $1->val + sep + val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+		| IDENT LEFTBRACKET expression RIGHTBRACKET			{
+			newcn(node);
+			string val = string("_tmp_") + to_string(++index);
+			node->code = $3->code;
+			node->code += string("=[] ") + val +  sep + $1->val + sep + $3->val + string("\n");
+			node->val = val;
+			$$ = node;
+		}
+		| IDENT												{
+			struct CodeNode* node = new CodeNode; 
+			node->val = $1;
+			$$ = node;
+		}
+		| NUM												{
+			struct CodeNode* node = new CodeNode; 
+			node->val = $1;
+			$$ = node;
+		};
 
 
-expression-sequence: expression COMMA expression-sequence {puts("expression-sequence -> expression COMMA expression-sequence");}
-		| expression {puts("expression-sequence -> expression");};
+func-call-params: expression COMMA func-call-params {
+			newcn(node);
+			node->code = $1->code;
+			node->code += string("param ") + $1->val + string("\n");
+			node->code += $3->code;
+			$$ = node;
+		}
+		| expression {
+			newcn(node);
+			nocde->code = $1->code;
+			node->code += string("param ") + $1->val + string("\n");
+			$$ = node;
+		};
 
 %%
 
