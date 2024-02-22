@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <iostream>
+#include <vector>
 
 extern int yylex();
 extern FILE* yyin;
@@ -13,6 +15,11 @@ struct CodeNode {
 	string code;
 	string name;
 }
+
+struct CodeNode {
+	std::string code;
+	std::string name;
+};
 
 %}
 
@@ -54,16 +61,16 @@ program: statements | %empty;
 statements: statement statements {puts("statements -> statement statements");}
 		|	statement {puts("statements -> statement");};
 
-statement: function-declaration		{puts("statement -> function-declaration");}
-		| variable-declaration		{puts("statement -> variable-declaration");}
-		| variable-assignment		{puts("statement -> variable-assignment");}
-		| if-statement				{puts("statement -> if-statement");}
-		| while-statement			{puts("statement -> while-statement");}
-		| return-statement			{puts("statement -> return-statement");}
-		| write-statement			{puts("statement -> print-statement");}
-		| read-statement			{puts("statement -> write-statement");}
-		| CONTINUE SEMICOLON		{puts("statement -> CONTINUE SEMICOLON");}
-		| BREAK SEMICOLON			{puts("statement -> BREAK SEMICOLON");}
+statement: function-declaration		{$$ = $1;}
+		| variable-declaration		{$$ = $1;}
+		| variable-assignment		{$$ = $1;}
+		| if-statement				{$$ = $1;}
+		| while-statement			{$$ = $1;}
+		| return-statement			{$$ = $1;}
+		| write-statement			{$$ = $1;}
+		| read-statement			{$$ = $1;}
+		| CONTINUE SEMICOLON		{$$ = $1;}
+		| BREAK SEMICOLON			{$$ = $1;}
 		;
 
 type: INT {puts("type -> INT");};
@@ -85,45 +92,112 @@ function-parameters:  function-parameters-sequence	{puts("function-parameters ->
 
 
 
-function-parameters-sequence: type IDENT COMMA function-parameters	{puts("function-parameters -> type IDENT COMMA function-parameters");}
-							| type IDENT							{puts("function-parameters -> type IDENT");}
+function-parameters-sequence: type IDENT COMMA function-parameters	{
+
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string("param ") + std::string($2) +  std::string("\n") +  std::string($4) +  std::string("\n"); //do we need the newline? if so, then every command should have a newline
+
+	$$=node;
+}
+| type IDENT {
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string("param ") + std::string($2) +  std::string("\n");
+
+	$$=node;
+}
+
+
+
+// "  param $2 $4  "
+
+return-type: 
+
+type{
+	puts("return-type -> type");
+} 
+			
+| %empty{
+	puts("return-type -> ");
+};
 
 
 
 
 
-return-type: type		{puts("return-type -> type");} 
-			| %empty	{puts("return-type -> ");};
+return-statement: 
 
+RETURN expression SEMICOLON	{
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string("ret ") + std::string($2) +  std::string("\n");
 
+	$$=node;
+}
+| RETURN SEMICOLON {
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string("ret") +  std::string("\n");
 
-
-
-return-statement: RETURN expression SEMICOLON	{puts("return-statement -> RETURN expression SEMICOLON");}
-				| RETURN SEMICOLON				{puts("return-statement -> RETURN SEMICOLON");};
+	$$=node;
+};
 
 
 
 
 
 // --- VARIABLES GRAMMAR ---
-variable-declaration: type variable-sequence SEMICOLON 
-					| type IDENT ASSIGN expression SEMICOLON							{puts("variable-declaration -> type IDENT ASSIGN expression SEMICOLON");};
-					| type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{puts("variable-declaration -> type LEFTBRACKET NUM RIGHTPAREN ASSIGN expression SEMICOLON");};
+variable-declaration: 
+
+type variable-sequence SEMICOLON {$$ = $2}
+					
+| type IDENT ASSIGN expression SEMICOLON {
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string(". ") + std::string($2) + std::string("\n");
+	node->code += std::string("= ") + std::string($2) + std::string($4) +  std::string("\n");
+
+	$$=node;
+};
+
+| type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string(".[] ") + std::string($5) + std::string(", ") + std::string($3) +  std::string("\n");
+
+	$$=node;
+};
 
 
 
 
 
-variable-sequence:IDENT COMMA variable-sequence {puts("variable-sequence -> IDENT COMMA variable-sequence");}
-				| IDENT							{puts("variable-sequence -> IDENT");};
+variable-sequence:
+
+IDENT COMMA variable-sequence {
+	
+	//assign new node
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string($1) + std::string("\n") + std::string($3) +  std::string("\n");
+	$$ = node;
+}
+|IDENT {$$ = $1;}
 	
 
 
 
 
-variable-assignment: IDENT ASSIGN expression SEMICOLON									{puts("variable-assignment -> IDENT ASSIGN expression SEMICOLON");}
-					|IDENT LEFTBRACKET expression RIGHTBRACKET ASSIGN expression SEMICOLON	{puts("variable-assignment -> IDENT LEFTPAREN expression RIGHTPAREN ASSIGN expression SEMICOLON");}
+variable-assignment: 
+
+IDENT ASSIGN expression SEMICOLON {
+	//assign new node
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string("= ") + std::string($1) + std::string($3) +  std::string("\n");
+
+	$$ = node;
+}
+|IDENT LEFTBRACKET expression RIGHTBRACKET ASSIGN expression SEMICOLON	{
+	//assign new node
+	struct CodeNode* node = new CodeNode;
+	node->code += std::string("[]= ") + std::string($1) + std::string($6) +  std::string("\n");
+
+	$$ = node;
+}
 
 
 
@@ -155,7 +229,13 @@ expression: NOT expression %prec NOT				 		{puts("expression -> NOT expression")
     	| expression EQ expression                     		{puts("expression -> expression EQ expression"); }
     	| expression NOTEQ expression                  		{puts("expression -> expression NOTEQ expression"); }
     	| expression MODULUS expression                		{puts("expression -> expression MODULUS expression"); }
-    	| expression PLUS expression                    	{puts("expression -> expression PLUS expression"); }
+    	| expression PLUS expression                    	{
+		
+		$$ = "+ $3 $1 $2"
+		
+		
+		
+		}
     	| expression MINUS expression                   	{puts("expression -> expression MINUS expression"); }
     	| expression MULTIPLY expression                	{puts("expression -> expression MULTIPLY expression"); }
     	| expression DIVIDE expression
