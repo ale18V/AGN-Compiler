@@ -326,13 +326,16 @@ if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 		newcn(node);
 		string ifLabelName = string("start_if_") + to_string(++startLabelIdx); 
 		string elseLabelName = string("start_else_") + to_string(++endLabelIdx);
+		string endElseLabelName = string("end_else_") + to_string(++endLabelIdx);
 		node->code = $2->code;
 		node->code += string("?:= ") + ifLabelName + sep + $3->val + string("\n"); 
 		node->code += string(":= ") + elseLabelName + string("\n");
 		node->code += string(": ") + ifLabelName + string("\n");
 		node->code += $4->code;
+		node->code += string(":= ") + endElseLabelName + string("\n");
 		node->code += string(": ") + elseLabelName + string("\n");
 		node->code += $8->code;
+		node->code += string(": ") + endElseLabelName + string("\n");
 		$$ = node;
 	}
 
