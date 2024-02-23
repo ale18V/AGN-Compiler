@@ -8,7 +8,7 @@
 #include <vector> 
 using namespace std;
 
-void yyerror(const char* s);
+void yyerror(const string &error);
 int yylex();
 extern FILE* yyin;
 
@@ -547,7 +547,7 @@ expression: NOT expression %prec NOT				 		{
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
 			std::string func_name = $1->val;
-			if(!find_function(func_name)) yyerror((string("Undeclared function ") + string(func_name)).c_str());
+			if(!find_function(func_name)) yyerror("Undeclared function " + func_name);
 		
 		}
 		| IDENT LEFTPAREN RIGHTPAREN {
@@ -601,8 +601,8 @@ int main(int argc, char** argv) {
 	return yyparse();
 }
 
-void yyerror(const char* s) {
-  fprintf(stderr, "Error encountered while parsing token at [%i,%i %i,%i]: %s\n", yylloc.first_line, yylloc.first_column, yylloc.last_line, yylloc.last_column, s);
+void yyerror(const string &error) {
+  fprintf(stderr, "Error encountered while parsing token at [%i,%i %i,%i]: %s\n", yylloc.first_line, yylloc.first_column, yylloc.last_line, yylloc.last_column, error.c_str());
   print_symbol_table();
   fflush(stdout);
   exit(1);
