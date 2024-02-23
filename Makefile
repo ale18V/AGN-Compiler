@@ -1,7 +1,7 @@
-all: parser clean test 
+all: parser clean generate 
 
 parser: lexer.yy.c parser.tab.c parser.tab.h
-	g++ -std=c++0x -O2 -g -o parser.bin parser.tab.c lexer.yy.c -lfl -lm
+	g++ -std=c++0x -O2 -g -o parser.bin parser.tab.c lexer.yy.c -lm
 
 %.yy.c: %.lex
 	flex -o$@ $<
@@ -12,5 +12,8 @@ parser: lexer.yy.c parser.tab.c parser.tab.h
 clean:
 	-rm -f *.tab.c *.tab.h *.yy.c *.output
 
-test:
-	-bash -c 'for file in Examples/* ; do  echo $$file; ./parser.bin < $$file > Outputs/Parser/$$(basename -s .agn $$file).out; done'
+generate:
+	-bash -c 'for file in Examples/* ; do  echo $$file; ./parser.bin < $$file > Outputs/Intermediate/$$(basename -s .agn $$file).mil; done'
+
+run:	
+	-bash -c 'for file in Outputs/Intermediate/* ; do  echo $$file; ./mil_run  $$file ; done'

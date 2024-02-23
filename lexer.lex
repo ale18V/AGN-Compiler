@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string>
 #include "parser.tab.h"
+#include "code_node.h"
 
 //THIS IS WHERE WE IMPLEMENT THE ROW AND COLUMN COUNTER
 //ROW IS INCREMENTED WHEN A "\N" SYMBOL IS FOUND
@@ -17,13 +18,9 @@ int nrow = 1, ncol = 1;
 
 using namespace std;
 
-struct CodeNode {
-	string code;
-	string val;
-};
-
-//ALSO THERE IS A WAY TO FEED A FILE INTO THE LEXER USING "a.out < code.file"
 %}
+
+%option noyywrap
 
 Define              define
 As                  as                          
@@ -104,14 +101,14 @@ WhiteSpace          [ \r\t]
 {NotEqual}			{return NOTEQ;}
 {Not}				{return NOT;}
 {Num}				{
-    struct CodeNode* node = new CodeNode;
-    node->val = string(yytext, yyleng);  
+    newcn(node);
+    node->val = string(yytext, yyleng);
     yylval = node;
     return NUM;
 }
 {Ident}				{
-    struct CodeNode* node = new CodeNode;
-    node->val = string(yytext, yyleng);  
+    newcn(node);
+    node->val = string(yytext, yyleng);
     yylval = node;
     return IDENT;
 }
