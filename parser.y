@@ -8,10 +8,7 @@
 extern int yylex();
 extern FILE* yyin;
 int idx = 0;
-int func_counter = 0;
 int startLabelIdx = 0, endLabelIdx = 0;
-int while_counter = 0;
-
 
 void yyerror(const char *s);
 enum Type { Integer, Array };
@@ -387,8 +384,8 @@ if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 while-statement: WHILE 
 
 {
-	string startLabelName = string("label_") + to_string(++startLabelIdx); 
-	string endLabelName = string("label_") + to_string(++endLabelIdx);
+	string startLabelName = string("start_while_") + to_string(++startLabelIdx); 
+	string endLabelName = string("end_while_") + to_string(++endLabelIdx);
 	
 	labelStack.push({startLabelName, endLabelName});
 }
@@ -396,17 +393,14 @@ while-statement: WHILE
 expression LEFTCURLY statements RIGHTCURLY {
 	
 		newcn(node);
-		auto stacktop = labelStack.top();
-		string expressionLabel = string("_WHILE_EXP") + to_string(++while_counter);
-		node->code = $3->code;
-		node->code += string("?:= ") + stacktop.first + sep + $3->val + string("\n"); 
-		node->code += string(":= ") + stacktop.second + string("\n");
-		node->code += string(": ") + stacktop.first + string("\n");
-
+		auto [startLabelName, endLabelName] = labelStack.top();
+		node->code = string(": ") + startLabelName + string("\n");
+		node->code += $3->code;
+		node->code += string("! ") + $3->val + sep + $3->val + string("\n"); // Negate the condition
+		node->code += string("?:= ") + endLabelName + sep + $3->val + string("\n"); // So you can jump to the end if it's !false = true
 		node->code += $5->code;
-
-		node->code += string(":= ") + expressionLabel + string("\n");
-		node->code += string(": ") + stacktop.second + string("\n");
+		node->code += string(":= ") + startLabelName  + string("\n");
+		node->code += string(": ") + endLabelName + string("\n");
 		$$ = node;
 		labelStack.pop();
 	
