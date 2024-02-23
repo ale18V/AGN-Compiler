@@ -5,20 +5,14 @@
 #include <iostream>
 #include <string>
 #include <stack>
-#include <vector>
-#define newcn(name) struct CodeNode* name = new CodeNode 
+#include <vector> 
 using namespace std;
 
 void yyerror(const char* s);
-extern int yylex();
+int yylex();
 extern FILE* yyin;
 
 enum Type { Integer, Array };
-
-struct CodeNode {
-	string code;
-	string val;
-};
 
 struct Symbol {
   std::string name;
@@ -91,8 +85,11 @@ void print_symbol_table(void) {
 
 %}
 
+%code requires {
+	#include "code_node.h"
+}
 %locations
-%define api.value.type { CodeNode* }
+%define api.value.type { struct CodeNode* }
 %define parse.error verbose
 %define parse.lac full
 
@@ -566,14 +563,8 @@ expression: NOT expression %prec NOT				 		{
 			node->val = val;
 			$$ = node;
 		}
-		| IDENT												{
-			//FIND THE VARIABLE IN SYMBOL TABLE
-			std::string var_name = $1->val;
-			if(!find(var_name)) yyerror("Undeclared variable.\n");
-
-			$$ = $1;
-		}
-		| NUM {$$ = $1;};
+		| IDENT { $$ = $1; }
+		| NUM { $$ = $1;};
 
 
 func-call-params: expression COMMA func-call-params {
