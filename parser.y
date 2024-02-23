@@ -18,7 +18,7 @@ int startLabelIdx = 0, endLabelIdx = 0;
 void yyerror(const char *s);
 enum Type { Integer, Array };
 
-stack<pair<string, string>> labelStack;
+stack<pair<string, string> > labelStack;
 
 struct Symbol {
   std::string name;
@@ -205,7 +205,7 @@ function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN A
 	
 	struct CodeNode* node = new CodeNode;
 	struct CodeNode* statements = $10;
-	node->code = std::string("func ") + std::string($2) + std::string("\n");
+	node->code = std::string("func ") + std::string($2->val) + std::string("\n");
 	node->code += statements->code;
 	node->code+= std::string("endfunc\n\n");
 	$$ = node;
@@ -244,7 +244,7 @@ return-type:  type{
 
 return-statement: RETURN expression SEMICOLON	{
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string("ret ") + std::string($2) +  std::string("\n");
+	node->code = std::string("ret ") + std::string($2->code) +  std::string("\n");
 
 	$$=node;
 }
@@ -260,16 +260,16 @@ return-statement: RETURN expression SEMICOLON	{
 
 
 // --- VARIABLES GRAMMAR ---
-variable-declaration: type variable-sequence SEMICOLON {$$ = $2}
+variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 					
 | type IDENT ASSIGN expression SEMICOLON {
 	
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table(std::string($2->val)+std::string(var_counter), Integer); 
+	add_variable_to_symbol_table(std::string($2->val), Integer); 
 
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string(". ") + std::string($2) + std::string("\n");
-	node->code += std::string("= ") + std::string($2) + std::string($4) +  std::string("\n");
+	node->code = std::string(". ") + std::string($2->val) + std::string("\n");
+	node->code += std::string("= ") + std::string($2->val) + std::string($4->code) +  std::string("\n");
 
 	$$=node;
 };
@@ -277,7 +277,7 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2}
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
 
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table(std::string($5->val), Integer); 
+	add_variable_to_symbol_table($5->val, Integer); 
 
 
 	struct CodeNode* node = new CodeNode;
