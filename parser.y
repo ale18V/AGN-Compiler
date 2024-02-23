@@ -171,23 +171,60 @@ statement: function-declaration		{$$ = $1;}
 type: INT {puts("type -> INT");};
 
 // --- INPUT / OUTPUT ---
-write-statement: WRITE LEFTPAREN expression RIGHTPAREN SEMICOLON
+write-statement: WRITE LEFTPAREN expression RIGHTPAREN SEMICOLON {
 
-read-statement: READ LEFTPAREN expression RIGHTPAREN SEMICOLON
+	struct CodeNode* node = new CodeNode;
+	struct CodeNode* expression = $3;
+	node->code std::string(". > ")
+	node->code += expression->code;
+	$$ = node;
+
+}
+
+read-statement: READ LEFTPAREN expression RIGHTPAREN SEMICOLON{
+
+	struct CodeNode* node = new CodeNode;
+	struct CodeNode* expression = $3;
+	node->code std::string(". < ")
+	node->code += expression->code;
+	$$ = node;
+
+}
 
 // --- FUNCTION GRAMMAR ---
 function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY {
-	puts("function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY");
+	
+	struct CodeNode* node = new CodeNode;
+	struct CodeNode* statements = $10
+	node->code = std::string("func ") + std::string($2) + std::string("\n");
+	node->code += statements->code;
+	node->code+= std::string("endfunc\n\n");
+	$$ = node;
+
 };
 
-function-parameters:  function-parameters-sequence	{puts("function-parameters -> function-parameters-sequence");}
-					| %empty						{puts("function-parameters -> ");};
+function-parameters:  function-parameters-sequence	{
+	$$ = $1;
+}
+					| %empty						{};
 
 
 
 
 
 function-parameters-sequence: type IDENT COMMA function-parameters	{
+
+
+	struct CodeNode* node = new CodeNode;
+	node->code = std::string("param ") + std::string($2) + std::string("\n") + std::string($4);
+	$$ = node;
+}
+ | type IDENT	{
+  struct CodeNode* node = new CodeNode;
+	node->code = std::string("param ") + std::string($2) + std::string("\n");
+  $$ = node;
+  }
+
 
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string("param ") + std::string($2) +  std::string("\n") +  std::string($4) +  std::string("\n"); //do we need the newline? if so, then every command should have a newline
