@@ -315,19 +315,20 @@ IDENT COMMA variable-sequence {
 variable-assignment: 
 
 IDENT ASSIGN expression SEMICOLON {
-
-	
-
-	//assign new node
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string("= ") + std::string($1) + std::string($3) +  std::string("\n");
+	node->code = $3->code;
+	node->code += string("= ") + $1->val + sep + $3->val + string("\n");
 
 	$$ = node;
 }
 |IDENT LEFTBRACKET expression RIGHTBRACKET ASSIGN expression SEMICOLON	{
 	//assign new node
 	struct CodeNode* node = new CodeNode;
-	node->code += std::string("[]= ") + std::string($1) + std::string($6) +  std::string("\n");
+	auto dst = $1->val;
+	auto idx = $3->val;
+	auto src = $6->val;
+	node->code = $3->code + $6->code;
+	node->code += std::string("[]= ") + dst + sep + idx + sep + src + string("\n");
 
 	$$ = node;
 }
