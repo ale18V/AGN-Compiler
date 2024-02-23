@@ -20,6 +20,8 @@ using namespace std;
 
 %}
 
+%option noyywrap
+
 Define              define
 As                  as                          
 Return              return                         

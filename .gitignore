@@ -2,4 +2,5 @@
 *.yy.c
 *.tab.*
 *.bin
+mil*
 parser.output
