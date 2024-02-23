@@ -252,9 +252,9 @@ variable-declaration: type variable-sequence SEMICOLON { $$ = $2; }
 	add_variable_to_symbol_table($2->val, Integer); 
 
 	struct CodeNode* node = new CodeNode;
-	node->code = $4->code;
-	node->code += std::string(". ") + $2->val + std::string("\n");
-	node->code += std::string("= ") + $2->val + string("\n");
+	
+	node->code = string(". ") + $2->val + string("\n");
+	node->code += string("= ") + $2->val + sep + $4->val + string("\n");
 	
 	$$=node;
 };
