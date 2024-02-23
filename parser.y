@@ -127,18 +127,27 @@ struct CodeNode {
 %left MULTIPLY DIVIDE 
 %left NEG
 
-%nterm <code_node> program statements statement type write-statement read-statement function-declaration function-parameters function-parameters-sequence return-type return-statement 
-%nterm <code_node> variable-declaration variable-sequence variable-assignment if-statement while-statement expression func-call-params
+%type <code_node> program statements statement type write-statement read-statement function-declaration function-parameters function-parameters-sequence return-type return-statement 
+%type <code_node> variable-declaration variable-sequence variable-assignment if-statement while-statement expression func-call-params
 
 %type <op_val> NUM, IDENT
 %start program
 
 %%
 
-program: statements | %empty;
+program: statements {
+			cout << $1->code;
+		}
+		| %empty {};
 
-statements: statement statements {puts("statements -> statement statements");}
-		|	statement {puts("statements -> statement");};
+statements: statement statements {
+			newcn(node);
+			node->code = $1->code + $2->code;
+			$$ = node;
+		}
+		|	statement {
+			$$ = $1;
+		};
 
 statement: function-declaration		{$$ = $1;}
 		| variable-declaration		{$$ = $1;}
