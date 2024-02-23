@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
+#include <string>
 #include <stack>
 #include <vector>
 #define newcn(name) struct CodeNode* name = new CodeNode 
@@ -270,18 +271,18 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string(". ") + std::string($2->val) + std::string("\n");
 	node->code += std::string("= ") + std::string($2->val) + std::string($4->code) +  std::string("\n");
-
+	
 	$$=node;
 };
 
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
 
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table($5->val, Integer); 
+	add_variable_to_symbol_table( ($5->val)&, Integer); 
 
 
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string(".[] ") + std::string($5) + std::string(", ") + std::string($3) +  std::string("\n");
+	node->code = std::string(".[] ") + std::string($5->val) + std::string(", ") + std::string($3->val) +  std::string("\n");
 
 	$$=node;
 };
@@ -299,13 +300,13 @@ IDENT COMMA variable-sequence {
 
 	//assign new node
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string($1) + std::string("\n") + std::string($3) +  std::string("\n");
+	node->code = std::string($1->val) + std::string("\n") + std::string($3->code) +  std::string("\n");
 	$$ = node;
 }
 |IDENT {
 
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table(std::string($1->val), Integer); 
+	add_variable_to_symbol_table( ($1->val)& , Integer); 
 
 
 	$$ = $1;
@@ -326,9 +327,9 @@ IDENT ASSIGN expression SEMICOLON {
 |IDENT LEFTBRACKET expression RIGHTBRACKET ASSIGN expression SEMICOLON	{
 	//assign new node
 	struct CodeNode* node = new CodeNode;
-	auto dst = $1->val;
-	auto index = $3->val;
-	auto src = $6->val;
+	string dst = $1->val;
+	string index = $3->val;
+	string src = $6->val;
 	node->code = $3->code + $6->code;
 	node->code += std::string("[]= ") + dst + sep + index + sep + src + string("\n");
 
@@ -342,6 +343,7 @@ IDENT ASSIGN expression SEMICOLON {
 // --- IF ELSE GRAMMAR ---
 if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 		newcn(node);
+
 		string startLabelName = string("start_if_") + to_string(++startLabelIdx); 
 		string endLabelName = string("end_if_") + to_string(++endLabelIdx);
 		node->code = $2->code;
