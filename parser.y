@@ -22,6 +22,11 @@ enum Type { Integer, Array };
 
 stack<pair<string, string> > labelStack;
 
+struct CodeNode {
+	string code;
+	string val;
+};
+
 struct Symbol {
   std::string name;
   Type type;
@@ -113,10 +118,7 @@ void print_symbol_table(void) {
 }
 
 string sep = string(", ");
-struct CodeNode {
-	string code;
-	string val;
-};
+
 
 %}
 
@@ -267,7 +269,7 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 | type IDENT ASSIGN expression SEMICOLON {
 	
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table(std::string($2->val), Integer); 
+	add_variable_to_symbol_table($2->val, Integer); 
 
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string(". ") + std::string($2->val) + std::string("\n");
@@ -297,7 +299,7 @@ variable-sequence:
 IDENT COMMA variable-sequence {
 	
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table(std::string($1->val), Integer); 
+	add_variable_to_symbol_table($1->val, Integer); 
 
 	//assign new node
 	struct CodeNode* node = new CodeNode;
@@ -307,7 +309,7 @@ IDENT COMMA variable-sequence {
 |IDENT {
 
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table( &($1->val) , Integer); 
+	add_variable_to_symbol_table( $1->val , Integer); 
 
 
 	$$ = $1;

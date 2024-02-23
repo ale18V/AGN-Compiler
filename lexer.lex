@@ -1,17 +1,26 @@
 %{
 #include <stdio.h>
 #include <string.h>
+#include "parser.tab.h"
+
 //THIS IS WHERE WE IMPLEMENT THE ROW AND COLUMN COUNTER
 //ROW IS INCREMENTED WHEN A "\N" SYMBOL IS FOUND
 //COLUMN IS INCREMENTED EACH TIME THE LOOP IS ITERATED
 int nrow = 1, ncol = 1;
-#include "parser.tab.h"
+
 #define YY_USER_ACTION {\
-            yylloc.first_line = yylloc.last_line = nrow; \
-            yylloc.first_column = ncol; \ 
-            ncol += yyleng; \
-            yylloc.last_column = ncol; \
-            }
+    yylloc.first_line = yylloc.last_line = nrow; \
+    yylloc.first_column = ncol; \
+    ncol += yyleng; \
+    yylloc.last_column = ncol; \
+}
+
+using namespace std;
+
+struct CodeNode {
+	string code;
+	string val;
+};
 
 //ALSO THERE IS A WAY TO FEED A FILE INTO THE LEXER USING "a.out < code.file"
 %}
@@ -95,13 +104,13 @@ WhiteSpace          [ \r\t]
 {NotEqual}			{return NOTEQ;}
 {Not}				{return NOT;}
 {Num}				{
-    struct CodeNode node = new CodeNode;
+    struct CodeNode* node = new CodeNode;
     node->val = string(yytext, yyleng);  
     yylval = node;
     return NUM;
 }
 {Ident}				{
-    struct CodeNode node = new CodeNode;
+    struct CodeNode* node = new CodeNode;
     node->val = string(yytext, yyleng);  
     yylval = node;
     return IDENT;
