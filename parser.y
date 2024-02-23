@@ -74,12 +74,16 @@ void add_function_to_symbol_table(std::string const &value) {
   symbol_table.push_back(f);
 }
 
-void add_variable_to_symbol_table(std::string const &value, Type t) {
-  Symbol s;
-  s.name = value;
-  s.type = t;
-  Function *f = get_function();
-  f->declarations.push_back(s);
+void add_variable_to_symbol_table(std::string const &name, Type t) {
+	if(symbol_table.size() == 0){
+		add_function_to_symbol_table("GLOBAL");
+	}
+	
+  	Symbol s;
+  	s.name = name;
+  	s.type = t;
+  	Function *f = get_function();
+  	f->declarations.push_back(s);
 }
 
 void print_symbol_table(void) {
@@ -158,25 +162,25 @@ statement: function-declaration		{$$ = $1;}
 		}
 		;
 
-type: INT {puts("type -> INT");};
+type: INT {};
 
 // --- INPUT / OUTPUT ---
 write-statement: WRITE LEFTPAREN expression RIGHTPAREN SEMICOLON {
 
 	struct CodeNode* node = new CodeNode;
 	struct CodeNode* expression = $3;
-	node->code = std::string(". > ");
-	node->code += expression->code;
+	node->code = expression->code;
+	node->code += std::string(".> ") + expression->val + string("\n");
+	
 	$$ = node;
-
 }
 
 read-statement: READ LEFTPAREN expression RIGHTPAREN SEMICOLON{
 
 	struct CodeNode* node = new CodeNode;
 	struct CodeNode* expression = $3;
-	node->code = std::string(". < ");
 	node->code += expression->code;
+	node->code = string(".< ") + expression->val + string("\n");
 	$$ = node;
 
 }
@@ -242,21 +246,15 @@ return-statement: RETURN expression SEMICOLON	{
 
 
 // --- VARIABLES GRAMMAR ---
-variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
+variable-declaration: type variable-sequence SEMICOLON { $$ = $2; }
 					
 | type IDENT ASSIGN expression SEMICOLON {
-	
-	////ADD VARIABLE TO SYMBOL TABLE
-	if(symbol_table.size() == 0){
-		struct CodeNode* globalScope = new CodeNode;
-		globalScope->val = "GLOBAL";
-		add_function_to_symbol_table(globalScope->val);
-	}
 	add_variable_to_symbol_table($2->val, Integer); 
 
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string(". ") + std::string($2->val) + std::string("\n");
-	node->code += std::string("= ") + std::string($2->val) + std::string($4->code) +  std::string("\n");
+	node->code = $4->code;
+	node->code += std::string(". ") + $2->val + std::string("\n");
+	node->code += std::string("= ") + $2->val + string("\n");
 	
 	$$=node;
 };
@@ -264,17 +262,10 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
 
 	////ADD VARIABLE TO SYMBOL TABLE
-	if(symbol_table.size() == 0){
-                struct CodeNode* globalScope = new CodeNode;
-                globalScope->val = "GLOBAL";
-                add_function_to_symbol_table(globalScope->val);
-        }
-	add_variable_to_symbol_table( $5->val , Integer); 
-
+	
 
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string(".[] ") + std::string($5->val) + std::string(", ") + std::string($3->val) +  std::string("\n");
-
 	$$=node;
 };
 
@@ -285,33 +276,18 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 variable-sequence:
 
 IDENT COMMA variable-sequence {
-	
-	////ADD VARIABLE TO SYMBOL TABLE
-	if(symbol_table.size() == 0){
-                struct CodeNode* globalScope = new CodeNode;
-                globalScope->val = "GLOBAL";
-                add_function_to_symbol_table(globalScope->val);
-        }
 	add_variable_to_symbol_table($1->val, Integer); 
 
-	//assign new node
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string($1->val) + std::string("\n") + std::string($3->code) +  std::string("\n");
+	node->code = string(". ") + $1->val + string("\n");
+	node->code += $3->code;
 	$$ = node;
 }
 |IDENT {
-
-	////ADD VARIABLE TO SYMBOL TABLE
-	if(symbol_table.size() == 0){
-                struct CodeNode* globalScope = new CodeNode;
-                globalScope->val = "GLOBAL";
-                add_function_to_symbol_table(globalScope->val);
-        }
 	add_variable_to_symbol_table( $1->val , Integer); 
-
-
-	$$ = $1;
-	
+	struct CodeNode* node = new CodeNode;
+	node->code = string(". ") + $1->val + string("\n");
+	$$ = node;
 }
 	
 
@@ -411,7 +387,8 @@ expression LEFTCURLY statements RIGHTCURLY {
 expression: NOT expression %prec NOT				 		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $2->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $2->code;
 			node->code += string("! ") + val + sep + $2->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -419,7 +396,8 @@ expression: NOT expression %prec NOT				 		{
 		| MINUS expression %prec NEG						{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $2->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $2->code;
 			node->code += string("* ") + val + sep + $2->val + sep + "-1" + string("\n"); // Multiply by -1 to get negative. Ugly
 			node->val = val;
 			$$ = node;
@@ -427,7 +405,8 @@ expression: NOT expression %prec NOT				 		{
 		| expression LLAND expression                  		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("&& ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -435,7 +414,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression LLOR expression                   		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("|| ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -444,7 +424,8 @@ expression: NOT expression %prec NOT				 		{
 			newcn(node);
 			// TODO
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("&& ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -452,7 +433,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression LT expression                     		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("< ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -460,7 +442,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression LTEQ expression                   		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("<= ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -468,7 +451,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression GT expression                     		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("> ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -476,7 +460,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression GTEQ expression                   		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string(">= ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -484,7 +469,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression EQ expression                     		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("== ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -492,7 +478,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression NOTEQ expression                  		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("!= ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -500,7 +487,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression MODULUS expression                		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("% ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -508,7 +496,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression PLUS expression                    	{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("+ ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -516,7 +505,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression MINUS expression                   	{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("- ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -524,7 +514,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression MULTIPLY expression                	{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("* ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -532,7 +523,8 @@ expression: NOT expression %prec NOT				 		{
     	| expression DIVIDE expression						{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = $1->code + $3->code;
+			node->code = string(". ") + val + string("\n");
+			node->code += $1->code + $3->code;
 			node->code += string("/ ") + val + sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
@@ -558,7 +550,8 @@ expression: NOT expression %prec NOT				 		{
 
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
-			node->code = string("call ") + $1->val + sep + val + string("\n");
+			node->code = string(". ") + val + string("\n");
+			node->code += string("call ") + $1->val + sep + val + string("\n");
 			node->val = val;
 			$$ = node;
 		}
@@ -570,6 +563,7 @@ expression: NOT expression %prec NOT				 		{
 
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
+			node->code = string(". ") + val + string("\n");
 			node->code = $3->code;
 			node->code += string("=[] ") + val +  sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
