@@ -204,49 +204,29 @@ function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN A
 };
 
 function-parameters:  function-parameters-sequence	{
-	$$ = $1;
-}
-					| %empty						{};
+			$$ = $1;
+		}
+		| %empty						{};
 
 
 
 
 
 function-parameters-sequence: type IDENT COMMA function-parameters	{
+			struct CodeNode* node = new CodeNode;
+			$$ = node;
+		}
+ 		| type IDENT	{
+			struct CodeNode* node = new CodeNode;
+  			$$ = node;
+  		};
 
-
-	struct CodeNode* node = new CodeNode;
-	node->code = std::string("param ") + std::string($2) + std::string("\n") + std::string($4);
-	$$ = node;
-}
- | type IDENT	{
-  struct CodeNode* node = new CodeNode;
-	node->code = std::string("param ") + std::string($2) + std::string("\n");
-  $$ = node;
-  }
-
-
-	struct CodeNode* node = new CodeNode;
-	node->code = std::string("param ") + std::string($2) +  std::string("\n") +  std::string($4) +  std::string("\n"); //do we need the newline? if so, then every command should have a newline
-
-	$$=node;
-}
-| type IDENT {
-	struct CodeNode* node = new CodeNode;
-	node->code = std::string("param ") + std::string($2) +  std::string("\n");
-
-	$$=node;
-}
-
-
-
-// "  param $2 $4  "
 
 return-type:  type{
-	puts("return-type -> type");
+	$$ = new CodeNode;
 } 
 | %empty{
-	puts("return-type -> ");
+	$$ = new CodeNode;
 };
 
 
