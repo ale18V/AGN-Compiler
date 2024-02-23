@@ -309,36 +309,30 @@ IDENT ASSIGN expression SEMICOLON {
 
 
 // --- IF ELSE GRAMMAR ---
-if-statement: IF {
-	string startLabelName = string("label_") + to_string(startLabelIdx); 
-	string endLabelName = string("label_") + to_string(endLabelIdx);
-	labelStack.push({startLabelName, endLabelName});
-	} expression LEFTCURLY statements RIGHTCURLY {
+if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 		newcn(node);
-		auto stacktop = labelStack.top();
-		node->code = $3->code;
-		node->code += string("?:= ") + stacktop.first + sep + $3->val + string("\n"); 
-		node->code += string(":= ") + stacktop.second + string("\n");
-		node->code += string(": ") + stacktop.first + string("\n");
-		node->code += $5->code;
-		node->code += string(": ") + stacktop.second + string("\n");
+		string startLabelName = string("start_if_") + to_string(++startLabelIdx); 
+		string endLabelName = string("end_if_") + to_string(++endLabelIdx);
+		node->code = $2->code;
+		node->code += string("?:= ") + startLabelName + sep + $3->val + string("\n"); 
+		node->code += string(":= ") + endLabelName + string("\n");
+		node->code += string(": ") + startLabelName + string("\n");
+		node->code += $4->code;
+		node->code += string(": ") + endLabelName + string("\n");
 		$$ = node;
-		labelStack.pop();
 	}
-| IF {
-	string startLabelName = string("label_") + to_string(startLabelIdx); 
-	string endLabelName = string("label_") + to_string(endLabelIdx);
-	labelStack.push({startLabelName, endLabelName});
-	} expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY	
+|  	IF  expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY	
 	{
 		newcn(node);
-		auto stacktop = labelStack.top();
-		node->code = $3->code;
-		node->code += string("?:= ") + stacktop.first + sep + $3->val + string("\n"); 
-		node->code += string(":= ") + stacktop.second + string("\n");
-		node->code += string(": ") + stacktop.first + string("\n");
-		node->code += $5->code;
-		node->code += string(": ") + stacktop.second + string("\n");
+		string ifLabelName = string("start_if_") + to_string(++startLabelIdx); 
+		string elseLabelName = string("start_else_") + to_string(++endLabelIdx);
+		node->code = $2->code;
+		node->code += string("?:= ") + ifLabelName + sep + $3->val + string("\n"); 
+		node->code += string(":= ") + elseLabelName + string("\n");
+		node->code += string(": ") + ifLabelName + string("\n");
+		node->code += $4->code;
+		node->code += string(": ") + elseLabelName + string("\n");
+		node->code += $8->code;
 		$$ = node;
 	}
 
