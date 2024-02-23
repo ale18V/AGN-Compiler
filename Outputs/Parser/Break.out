@@ -1,36 +1,18 @@
-function-parameters -> 
-return-type -> 
 type -> INT
-variable-sequence -> IDENT
-statement -> variable-declaration
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> IDENT
-expression -> NUM
-expression -> expression LT expression
-expression -> IDENT
-expression -> NUM
-expression -> expression GTEQ expression
-statement -> BREAK SEMICOLON
-statements -> statement
-if-statement -> IF expression LEFTCURLY statements RIGHTCURLY
-statement -> if-statement
-expression -> IDENT
-statement -> print-statement
-expression -> IDENT
-expression -> NUM
-expression -> expression PLUS expression
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-statements -> statement statements
-statements -> statement statements
-while-statement -> WHILE expression LEFTCURLY statements RIGHTCURLY
-statement -> while-statement
-statements -> statement
-statements -> statement statements
-statements -> statement statements
-function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
-statement -> function-declaration
-statements -> statement
+func main
+= x, 0
+: start_while_1
+< _tmp_1, x, 10
+! _tmp_1, _tmp_1
+?:= end_while_1, _tmp_1
+>= _tmp_2, x, 5
+?:= start_if_2, _tmp_2
+:= end_if_2
+: start_if_2
+:= end_while_1: end_if_2
+. > + _tmp_3, x, 1
+= x, _tmp_3
+:= start_while_1
+: end_while_1
+endfunc
+

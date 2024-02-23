@@ -1,67 +1,28 @@
-function-parameters -> 
-return-type -> 
 type -> INT
-variable-sequence -> IDENT
-statement -> variable-declaration
 type -> INT
-variable-sequence -> IDENT
-statement -> variable-declaration
 type -> INT
-variable-sequence -> IDENT
-statement -> variable-declaration
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> IDENT
-expression -> IDENT
-expression -> expression GT expression
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
-statement -> if-statement
-expression -> IDENT
-statement -> print-statement
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> IDENT
-expression -> IDENT
-expression -> expression LTEQ expression
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
-statement -> if-statement
-expression -> IDENT
-statement -> print-statement
-statements -> statement
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
-statement -> function-declaration
-statements -> statement
+func main
+= x, 10
+= y, 5
+> _tmp_1, x, y
+?:= start_if_1, _tmp_1
+:= start_else_1
+: start_if_1
+= z, 0
+:= end_else_2
+: start_else_1
+= z, 1
+: end_else_2
+. > = x, 10
+= y, 5
+<= _tmp_2, x, y
+?:= start_if_2, _tmp_2
+:= start_else_3
+: start_if_2
+= z, 0
+:= end_else_4
+: start_else_3
+= z, 1
+: end_else_4
+. > endfunc
+

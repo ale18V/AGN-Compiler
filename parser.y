@@ -85,7 +85,7 @@ bool find(std::string &value) {
 // when you see a function declaration inside the grammar, add
 // the function name to the symbol table
 
-void add_function_to_symbol_table(std::string &value) {
+void add_function_to_symbol_table(std::string const &value) {
   Function f; 
   f.name = value; 
   symbol_table.push_back(f);
@@ -269,6 +269,11 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 | type IDENT ASSIGN expression SEMICOLON {
 	
 	////ADD VARIABLE TO SYMBOL TABLE
+	if(symbol_table.size() == 0){
+		struct CodeNode* globalScope = new CodeNode;
+		globalScope->val = "GLOBAL";
+		add_function_to_symbol_table(globalScope->val);
+	}
 	add_variable_to_symbol_table($2->val, Integer); 
 
 	struct CodeNode* node = new CodeNode;
@@ -281,6 +286,11 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
 
 	////ADD VARIABLE TO SYMBOL TABLE
+	if(symbol_table.size() == 0){
+                struct CodeNode* globalScope = new CodeNode;
+                globalScope->val = "GLOBAL";
+                add_function_to_symbol_table(globalScope->val);
+        }
 	add_variable_to_symbol_table( $5->val , Integer); 
 
 
@@ -299,6 +309,11 @@ variable-sequence:
 IDENT COMMA variable-sequence {
 	
 	////ADD VARIABLE TO SYMBOL TABLE
+	if(symbol_table.size() == 0){
+                struct CodeNode* globalScope = new CodeNode;
+                globalScope->val = "GLOBAL";
+                add_function_to_symbol_table(globalScope->val);
+        }
 	add_variable_to_symbol_table($1->val, Integer); 
 
 	//assign new node
@@ -309,6 +324,11 @@ IDENT COMMA variable-sequence {
 |IDENT {
 
 	////ADD VARIABLE TO SYMBOL TABLE
+	if(symbol_table.size() == 0){
+                struct CodeNode* globalScope = new CodeNode;
+                globalScope->val = "GLOBAL";
+                add_function_to_symbol_table(globalScope->val);
+        }
 	add_variable_to_symbol_table( $1->val , Integer); 
 
 

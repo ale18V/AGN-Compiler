@@ -1,32 +1,20 @@
-function-parameters -> 
-return-type -> 
 type -> INT
-expression -> NUM
-variable-declaration -> type IDENT ASSIGN expression SEMICOLON
-statement -> variable-declaration
 type -> INT
-expression -> NUM
-expression -> MINUS expression
-variable-declaration -> type IDENT ASSIGN expression SEMICOLON
-statement -> variable-declaration
-expression -> IDENT
-expression -> NUM
-expression -> expression LT expression
-expression -> LEFTPAREN expression RIGHTPAREN
-expression -> NOT expression
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY
-statement -> if-statement
-statements -> statement
-statements -> statement statements
-statements -> statement statements
-function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
-statement -> function-declaration
-statements -> statement
+func main
+. x
+= x
+. result
+= result* _tmp_1, 1, -1
+
+< _tmp_2, x, 7
+! _tmp_3, _tmp_2
+?:= start_if_1, _tmp_3
+:= start_else_1
+: start_if_1
+= result, 0
+:= end_else_2
+: start_else_1
+= result, 1
+: end_else_2
+endfunc
+

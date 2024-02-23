@@ -1,48 +1,23 @@
-function-parameters -> 
-return-type -> 
 type -> INT
-variable-sequence -> IDENT
-statement -> variable-declaration
 type -> INT
-variable-sequence -> IDENT
-statement -> variable-declaration
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> IDENT
-expression -> NUM
-expression -> expression LT expression
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> IDENT
-expression -> NUM
-expression -> expression LT expression
-expression -> IDENT
-statement -> print-statement
-expression -> IDENT
-expression -> NUM
-expression -> expression PLUS expression
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-statements -> statement statements
-while-statement -> WHILE expression LEFTCURLY statements RIGHTCURLY
-statement -> while-statement
-expression -> IDENT
-expression -> NUM
-expression -> expression PLUS expression
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-statements -> statement
-statements -> statement statements
-statements -> statement statements
-while-statement -> WHILE expression LEFTCURLY statements RIGHTCURLY
-statement -> while-statement
-statements -> statement
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
-statement -> function-declaration
-statements -> statement
+func main
+= x, 0
+: start_while_1
+< _tmp_1, x, 2
+! _tmp_1, _tmp_1
+?:= end_while_1, _tmp_1
+= y, 0
+: start_while_2
+< _tmp_2, y, 3
+! _tmp_2, _tmp_2
+?:= end_while_2, _tmp_2
+. > + _tmp_3, y, 1
+= y, _tmp_3
+:= start_while_2
+: end_while_2
++ _tmp_4, x, 1
+= x, _tmp_4
+:= start_while_1
+: end_while_1
+endfunc
+

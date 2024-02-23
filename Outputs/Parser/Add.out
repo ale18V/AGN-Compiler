@@ -1,28 +1,12 @@
-function-parameters -> 
-return-type -> 
 type -> INT
-variable-sequence -> IDENT
-variable-sequence -> IDENT COMMA variable-sequence
-variable-sequence -> IDENT COMMA variable-sequence
-statement -> variable-declaration
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> NUM
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> IDENT
-expression -> IDENT
-expression -> expression PLUS expression
-variable-assignment -> IDENT ASSIGN expression SEMICOLON
-statement -> variable-assignment
-expression -> IDENT
-statement -> print-statement
-statements -> statement
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-statements -> statement statements
-function-declaration -> DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY
-statement -> function-declaration
-statements -> statement
+func main
+x
+y
+
+
+= x, 10
+= y, 5
++ _tmp_1, x, y
+= z, _tmp_1
+. > endfunc
+
