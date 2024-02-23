@@ -2,16 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 #define newcn(name) struct CodeNode* name = new CodeNode 
 
 extern int yylex();
 extern FILE* yyin;
 int idx = 0;
+int startLabelIdx = 0, endLabelIdx = 0;
 
 void yyerror(const char *s);
 enum Type { Integer, Array };
+
+stack<pair<string, string>> labelStack;
 
 struct Symbol {
   std::string name;
@@ -307,8 +309,38 @@ IDENT ASSIGN expression SEMICOLON {
 
 
 // --- IF ELSE GRAMMAR ---
-if-statement: IF expression LEFTCURLY statements RIGHTCURLY											{puts("if-statement -> IF expression LEFTCURLY statements RIGHTCURLY");}
-			| IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY	{puts("if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY");}
+if-statement: IF {
+	string startLabelName = string("label_") + to_string(startLabelIdx); 
+	string endLabelName = string("label_") + to_string(endLabelIdx);
+	labelStack.push({startLabelName, endLabelName});
+	} expression LEFTCURLY statements RIGHTCURLY {
+		newcn(node);
+		auto stacktop = labelStack.top();
+		node->code = $3->code;
+		node->code += string("?:= ") + stacktop.first + sep + $3->val + string("\n"); 
+		node->code += string(":= ") + stacktop.second + string("\n");
+		node->code += string(": ") + stacktop.first + string("\n");
+		node->code += $5->code;
+		node->code += string(": ") + stacktop.second + string("\n");
+		$$ = node;
+		labelStack.pop();
+	}
+| IF {
+	string startLabelName = string("label_") + to_string(startLabelIdx); 
+	string endLabelName = string("label_") + to_string(endLabelIdx);
+	labelStack.push({startLabelName, endLabelName});
+	} expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY	
+	{
+		newcn(node);
+		auto stacktop = labelStack.top();
+		node->code = $3->code;
+		node->code += string("?:= ") + stacktop.first + sep + $3->val + string("\n"); 
+		node->code += string(":= ") + stacktop.second + string("\n");
+		node->code += string(": ") + stacktop.first + string("\n");
+		node->code += $5->code;
+		node->code += string(": ") + stacktop.second + string("\n");
+		$$ = node;
+	}
 
 
 
