@@ -94,8 +94,18 @@ WhiteSpace          [ \r\t]
 {Assign}			{return ASSIGN;}
 {NotEqual}			{return NOTEQ;}
 {Not}				{return NOT;}
-{Num}				{return NUM;}
-{Ident}				{return IDENT;}
+{Num}				{
+    struct CodeNode node = new CodeNode;
+    node->val = string(yytext, yyleng);  
+    yylval = node;
+    return NUM;
+}
+{Ident}				{
+    struct CodeNode node = new CodeNode;
+    node->val = string(yytext, yyleng);  
+    yylval = node;
+    return IDENT;
+}
 {IncorrectIdent}    {printf("Invalid identifier %s: at line %d, column %d.\n", yytext, nrow, ncol-yyleng); exit(-1);}
 {Comment}			{nrow++; ncol=1; }
 {WhiteSpace}		{}
