@@ -279,7 +279,7 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
 
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table( ($5->val)&, Integer); 
+	add_variable_to_symbol_table( &($5->val) , Integer); 
 
 
 	struct CodeNode* node = new CodeNode;
@@ -579,7 +579,7 @@ expression: NOT expression %prec NOT				 		{
 
 			$$ = $1;
 		}
-		| NUM {$$ = $1};
+		| NUM {$$ = $1;};
 
 
 func-call-params: expression COMMA func-call-params {
