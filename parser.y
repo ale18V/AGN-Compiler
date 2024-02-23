@@ -7,20 +7,13 @@
 #include <stack>
 #include <vector>
 #define newcn(name) struct CodeNode* name = new CodeNode 
-
 using namespace std;
 
 void yyerror(const char* s);
-
-int yylex();
+extern int yylex();
 extern FILE* yyin;
-int idx = 0;
-int startLabelIdx = 0, endLabelIdx = 0;
 
-void yyerror(const char *s);
 enum Type { Integer, Array };
-
-stack<pair<string, string> > labelStack;
 
 struct CodeNode {
 	string code;
@@ -37,11 +30,15 @@ struct Function {
   std::vector<Symbol> declarations;
 };
 
-std::vector <Function> symbol_table;
+// Code variables
+int idx = 0;
+int startLabelIdx = 0, endLabelIdx = 0;
+string sep = string(", ");
+stack<pair<string, string>> labelStack;
+vector <Function> symbol_table;
 
-// remember that Bison is a bottom up parser: that it parses leaf nodes first before
-// parsing the parent nodes. So control flow begins at the leaf grammar nodes
-// and propagates up to the parents.
+
+// Symbol table functions
 Function *get_function() {
   int last = symbol_table.size()-1;
   if (last < 0) {
@@ -52,22 +49,6 @@ Function *get_function() {
   }
   return &symbol_table[last];
 }
-
-// find a particular variable using the symbol table.
-// grab the most recent function, and linear search to
-// find the symbol you are looking for.
-// you may want to extend "find" to handle different types of "Integer" vs "Array"
-
-
-
-
-
-
-// ADD ERROR FOR FINDING MULTIPLE
-
-
-
-
 
 bool find(std::string &value) {
 	bool find = false;
@@ -82,17 +63,11 @@ bool find(std::string &value) {
   return find;
 }
 
-// when you see a function declaration inside the grammar, add
-// the function name to the symbol table
-
 void add_function_to_symbol_table(std::string const &value) {
   Function f; 
   f.name = value; 
   symbol_table.push_back(f);
 }
-
-// when you see a symbol declaration inside the grammar, add
-// the symbol name as well as some type information to the symbol table
 
 void add_variable_to_symbol_table(std::string const &value, Type t) {
   Symbol s;
@@ -101,9 +76,6 @@ void add_variable_to_symbol_table(std::string const &value, Type t) {
   Function *f = get_function();
   f->declarations.push_back(s);
 }
-
-// a function to print out the symbol table to the screen
-// largely for debugging purposes.
 
 void print_symbol_table(void) {
   printf("symbol table:\n");
@@ -116,9 +88,6 @@ void print_symbol_table(void) {
   }
   printf("--------------------\n");
 }
-
-string sep = string(", ");
-
 
 %}
 
