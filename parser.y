@@ -4,11 +4,16 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#include <stack>
 #define newcn(name) struct CodeNode* name = new CodeNode 
 
 extern int yylex();
 extern FILE* yyin;
 int idx = 0;
+int func_counter = 0;
+int startLabelIdx = 0, endLabelIdx = 0;
+int while_counter = 0;
+
 
 void yyerror(const char *s);
 enum Type { Integer, Array };
@@ -44,15 +49,28 @@ Function *get_function() {
 // find the symbol you are looking for.
 // you may want to extend "find" to handle different types of "Integer" vs "Array"
 
+
+
+
+
+
+// ADD ERROR FOR FINDING MULTIPLE
+
+
+
+
+
 bool find(std::string &value) {
+	bool find = false;
   Function *f = get_function();
   for(int i=0; i < f->declarations.size(); i++) {
     Symbol *s = &f->declarations[i];
     if (s->name == value) {
-      return true;
+      if(find) yyerror("Multiple declarations of same variable.\n");
+	  find = true;
     }
   }
-  return false;
+  return find;
 }
 
 // when you see a function declaration inside the grammar, add
@@ -159,12 +177,13 @@ statement: function-declaration		{$$ = $1;}
 		| read-statement			{$$ = $1;}
 		| CONTINUE SEMICOLON		{
 			struct CodeNode* node = new CodeNode;
-			node->code = std::string(":= ") + std::string(symbol_table.back());
+			node->code = std::string(":= ") + std::string(labelStack.top().first);
 			$$ = node;
 		}
 		| BREAK SEMICOLON			{
-		
-			////////////////
+			struct CodeNode* node = new CodeNode;
+			node->code = std::string(":= ") + std::string(labelStack.top().second);
+			$$ = node;
 		}
 		;
 
@@ -254,6 +273,10 @@ return-statement: RETURN expression SEMICOLON	{
 variable-declaration: type variable-sequence SEMICOLON {$$ = $2}
 					
 | type IDENT ASSIGN expression SEMICOLON {
+	
+	////ADD VARIABLE TO SYMBOL TABLE
+	add_variable_to_symbol_table(std::string($2->val)+std::string(var_counter), Integer); 
+
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string(". ") + std::string($2) + std::string("\n");
 	node->code += std::string("= ") + std::string($2) + std::string($4) +  std::string("\n");
@@ -262,6 +285,11 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2}
 };
 
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
+
+	////ADD VARIABLE TO SYMBOL TABLE
+	add_variable_to_symbol_table(std::string($5->val), Integer); 
+
+
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string(".[] ") + std::string($5) + std::string(", ") + std::string($3) +  std::string("\n");
 
@@ -276,18 +304,32 @@ variable-sequence:
 
 IDENT COMMA variable-sequence {
 	
+	////ADD VARIABLE TO SYMBOL TABLE
+	add_variable_to_symbol_table(std::string($1->val), Integer); 
+
 	//assign new node
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string($1) + std::string("\n") + std::string($3) +  std::string("\n");
 	$$ = node;
 }
-|IDENT {$$ = $1;}
+|IDENT {
+
+	////ADD VARIABLE TO SYMBOL TABLE
+	add_variable_to_symbol_table(std::string($1->val), Integer); 
+
+
+	$$ = $1;
+	
+}
 	
 
 
 variable-assignment: 
 
 IDENT ASSIGN expression SEMICOLON {
+
+	
+
 	//assign new node
 	struct CodeNode* node = new CodeNode;
 	node->code = std::string("= ") + std::string($1) + std::string($3) +  std::string("\n");
@@ -315,14 +357,33 @@ if-statement: IF expression LEFTCURLY statements RIGHTCURLY											{puts("if-
 
 
 // --- LOOPS GRAMMAR ---
-while-statement: WHILE expression LEFTCURLY statements RIGHTCURLY {
-	nstruct CodeNode* node = new CodeNode;
-	node->code = std::string("[]= ") + std::string($1) + std::string($6) +  std::string("\n");
+while-statement: WHILE 
 
-	$$ = node;
+{
+	string startLabelName = string("label_") + to_string(++startLabelIdx); 
+	string endLabelName = string("label_") + to_string(++endLabelIdx);
 	
+	labelStack.push({startLabelName, endLabelName});
 }
 
+expression LEFTCURLY statements RIGHTCURLY {
+	
+		newcn(node);
+		auto stacktop = labelStack.top();
+		string expressionLabel = string("_WHILE_EXP") + to_string(++while_counter);
+		node->code = $3->code;
+		node->code += string("?:= ") + stacktop.first + sep + $3->val + string("\n"); 
+		node->code += string(":= ") + stacktop.second + string("\n");
+		node->code += string(": ") + stacktop.first + string("\n");
+
+		node->code += $5->code;
+
+		node->code += string(":= ") + expressionLabel + string("\n");
+		node->code += string(": ") + stacktop.second + string("\n");
+		$$ = node;
+		labelStack.pop();
+	
+}
 
 
 // --- MATHS GRAMMAR ---
@@ -461,8 +522,19 @@ expression: NOT expression %prec NOT				 		{
 			node->val = $2->val;
 			$$ = node;
 		}
-		| IDENT LEFTPAREN func-call-params RIGHTPAREN	{puts("expression -> IDENT LEFTPAREN expression-sequence  RIGHTPAREN");}
+		| IDENT LEFTPAREN func-call-params RIGHTPAREN	{
+
+			//FIND THE FUNCTION IN SYMBOL TABLE
+			std::string func_name = $1;
+			if(!find(func_name)) yyerror("Undeclared function.\n");
+		
+		}
 		| IDENT LEFTPAREN RIGHTPAREN {
+
+			//FIND THE FUNCTION IN SYMBOL TABLE
+			std::string func_name = $1;
+			if(!find(func_name)) yyerror("Undeclared function.\n");
+
 			newcn(node);
 			string val = string("_tmp_") + to_string(++index);
 			node->code = string("call ") + $1->val + sep + val + string("\n");
@@ -470,6 +542,11 @@ expression: NOT expression %prec NOT				 		{
 			$$ = node;
 		}
 		| IDENT LEFTBRACKET expression RIGHTBRACKET			{
+
+			//FIND THE VARIABLE IN SYMBOL TABLE
+			std::string var_name = $1;
+			if(!find(var_name)) yyerror("Undeclared variable.\n");
+
 			newcn(node);
 			string val = string("_tmp_") + to_string(++index);
 			node->code = $3->code;
@@ -478,6 +555,11 @@ expression: NOT expression %prec NOT				 		{
 			$$ = node;
 		}
 		| IDENT												{
+
+			//FIND THE VARIABLE IN SYMBOL TABLE
+			std::string var_name = $1;
+			if(!find(var_name)) yyerror("Undeclared variable.\n");
+
 			struct CodeNode* node = new CodeNode; 
 			node->val = $1;
 			$$ = node;
