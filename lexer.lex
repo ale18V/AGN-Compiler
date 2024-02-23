@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include "parser.tab.h"
 
 //THIS IS WHERE WE IMPLEMENT THE ROW AND COLUMN COUNTER
