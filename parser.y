@@ -117,14 +117,9 @@ struct CodeNode {
 %}
 
 %locations
-%define api.value.type union
+%define api.value.type { CodeNode* }
 %define parse.error verbose
 %define parse.lac full
-
-%union {
-	char* op_val;
-	struct CodeNode* code_node;	
-}
 
 %token DEFINE ARROW AS RETURN 
 %token WRITE READ 
@@ -142,10 +137,6 @@ struct CodeNode {
 %left MULTIPLY DIVIDE 
 %left NEG
 
-%type <code_node> program statements statement type write-statement read-statement function-declaration function-parameters function-parameters-sequence return-type return-statement 
-%type <code_node> variable-declaration variable-sequence variable-assignment if-statement while-statement expression func-call-params
-
-%type <op_val> NUM, IDENT
 %start program
 
 %%
@@ -351,7 +342,7 @@ if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 		string startLabelName = string("start_if_") + to_string(++startLabelIdx); 
 		string endLabelName = string("end_if_") + to_string(++endLabelIdx);
 		node->code = $2->code;
-		node->code += string("?:= ") + startLabelName + sep + $3->val + string("\n"); 
+		node->code += string("?:= ") + startLabelName + sep + $2->val + string("\n"); 
 		node->code += string(":= ") + endLabelName + string("\n");
 		node->code += string(": ") + startLabelName + string("\n");
 		node->code += $4->code;
@@ -365,7 +356,7 @@ if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 		string elseLabelName = string("start_else_") + to_string(++endLabelIdx);
 		string endElseLabelName = string("end_else_") + to_string(++endLabelIdx);
 		node->code = $2->code;
-		node->code += string("?:= ") + ifLabelName + sep + $3->val + string("\n"); 
+		node->code += string("?:= ") + ifLabelName + sep + $2->val + string("\n"); 
 		node->code += string(":= ") + elseLabelName + string("\n");
 		node->code += string(": ") + ifLabelName + string("\n");
 		node->code += $4->code;
@@ -576,20 +567,13 @@ expression: NOT expression %prec NOT				 		{
 			$$ = node;
 		}
 		| IDENT												{
-
 			//FIND THE VARIABLE IN SYMBOL TABLE
-			std::string var_name = $1;
+			std::string var_name = $1->val;
 			if(!find(var_name)) yyerror("Undeclared variable.\n");
 
-			struct CodeNode* node = new CodeNode; 
-			node->val = $1;
-			$$ = node;
+			$$ = $1;
 		}
-		| NUM												{
-			struct CodeNode* node = new CodeNode; 
-			node->val = $1;
-			$$ = node;
-		};
+		| NUM {$$ = $1};
 
 
 func-call-params: expression COMMA func-call-params {
@@ -601,7 +585,7 @@ func-call-params: expression COMMA func-call-params {
 		}
 		| expression {
 			newcn(node);
-			nocde->code = $1->code;
+			node->code = $1->code;
 			node->code += string("param ") + $1->val + string("\n");
 			$$ = node;
 		};
