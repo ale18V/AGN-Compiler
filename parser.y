@@ -89,7 +89,7 @@ void add_function_to_symbol_table(std::string &value) {
 // when you see a symbol declaration inside the grammar, add
 // the symbol name as well as some type information to the symbol table
 
-void add_variable_to_symbol_table(std::string &value, Type t) {
+void add_variable_to_symbol_table(std::string const &value, Type t) {
   Symbol s;
   s.name = value;
   s.type = t;
@@ -279,7 +279,7 @@ variable-declaration: type variable-sequence SEMICOLON {$$ = $2;}
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
 
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table( &($5->val) , Integer); 
+	add_variable_to_symbol_table( $5->val , Integer); 
 
 
 	struct CodeNode* node = new CodeNode;
@@ -307,7 +307,7 @@ IDENT COMMA variable-sequence {
 |IDENT {
 
 	////ADD VARIABLE TO SYMBOL TABLE
-	add_variable_to_symbol_table( ($1->val)& , Integer); 
+	add_variable_to_symbol_table( &($1->val) , Integer); 
 
 
 	$$ = $1;
@@ -390,7 +390,10 @@ while-statement: WHILE
 expression LEFTCURLY statements RIGHTCURLY {
 	
 		newcn(node);
-		auto [startLabelName, endLabelName] = labelStack.top();
+		string startLabelName = labelStack.top().first;
+		string endLabelName = labelStack.top().second;
+
+
 		node->code = string(": ") + startLabelName + string("\n");
 		node->code += $3->code;
 		node->code += string("! ") + $3->val + sep + $3->val + string("\n"); // Negate the condition
@@ -543,14 +546,14 @@ expression: NOT expression %prec NOT				 		{
 		| IDENT LEFTPAREN func-call-params RIGHTPAREN	{
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
-			std::string func_name = $1;
+			std::string func_name = $1->val;
 			if(!find(func_name)) yyerror("Undeclared function.\n");
 		
 		}
 		| IDENT LEFTPAREN RIGHTPAREN {
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
-			std::string func_name = $1;
+			std::string func_name = $1->val;
 			if(!find(func_name)) yyerror("Undeclared function.\n");
 
 			newcn(node);
@@ -562,7 +565,7 @@ expression: NOT expression %prec NOT				 		{
 		| IDENT LEFTBRACKET expression RIGHTBRACKET			{
 
 			//FIND THE VARIABLE IN SYMBOL TABLE
-			std::string var_name = $1;
+			std::string var_name = $1->val;
 			if(!find(var_name)) yyerror("Undeclared variable.\n");
 
 			newcn(node);
