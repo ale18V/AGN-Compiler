@@ -2,9 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <iostream>
-#include <vector>
-#include <stack>
+#include <bits/stdc++.h>
 #define newcn(name) struct CodeNode* name = new CodeNode 
 
 extern int yylex();
@@ -17,6 +15,8 @@ int while_counter = 0;
 
 void yyerror(const char *s);
 enum Type { Integer, Array };
+
+stack<pair<string, string>> labelStack;
 
 struct Symbol {
   std::string name;
@@ -349,8 +349,35 @@ IDENT ASSIGN expression SEMICOLON {
 
 
 // --- IF ELSE GRAMMAR ---
-if-statement: IF expression LEFTCURLY statements RIGHTCURLY											{puts("if-statement -> IF expression LEFTCURLY statements RIGHTCURLY");}
-			| IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY	{puts("if-statement -> IF expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY");}
+if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
+		newcn(node);
+		string startLabelName = string("start_if_") + to_string(++startLabelIdx); 
+		string endLabelName = string("end_if_") + to_string(++endLabelIdx);
+		node->code = $2->code;
+		node->code += string("?:= ") + startLabelName + sep + $3->val + string("\n"); 
+		node->code += string(":= ") + endLabelName + string("\n");
+		node->code += string(": ") + startLabelName + string("\n");
+		node->code += $4->code;
+		node->code += string(": ") + endLabelName + string("\n");
+		$$ = node;
+	}
+|  	IF  expression LEFTCURLY statements RIGHTCURLY ELSE LEFTCURLY statements RIGHTCURLY	
+	{
+		newcn(node);
+		string ifLabelName = string("start_if_") + to_string(++startLabelIdx); 
+		string elseLabelName = string("start_else_") + to_string(++endLabelIdx);
+		string endElseLabelName = string("end_else_") + to_string(++endLabelIdx);
+		node->code = $2->code;
+		node->code += string("?:= ") + ifLabelName + sep + $3->val + string("\n"); 
+		node->code += string(":= ") + elseLabelName + string("\n");
+		node->code += string(": ") + ifLabelName + string("\n");
+		node->code += $4->code;
+		node->code += string(":= ") + endElseLabelName + string("\n");
+		node->code += string(": ") + elseLabelName + string("\n");
+		node->code += $8->code;
+		node->code += string(": ") + endElseLabelName + string("\n");
+		$$ = node;
+	}
 
 
 
