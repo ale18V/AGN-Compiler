@@ -44,6 +44,17 @@ Function *get_function() {
   return &symbol_table[last];
 }
 
+bool find_function(const string &name) {
+	bool found = false;
+	for(auto &el : symbol_table) {
+		if(el.name == name) {
+			if(found) yyerror("Multiple declarations of the same function " + name);
+			found = true;
+		}
+	}
+	return found;
+
+}
 bool find(std::string &value) {
 	bool find = false;
   Function *f = get_function();
@@ -536,14 +547,14 @@ expression: NOT expression %prec NOT				 		{
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
 			std::string func_name = $1->val;
-			if(!find(func_name)) yyerror((string("Undeclared function ") + string(func_name)).c_str());
+			if(!find_function(func_name)) yyerror((string("Undeclared function ") + string(func_name)).c_str());
 		
 		}
 		| IDENT LEFTPAREN RIGHTPAREN {
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
 			std::string func_name = $1->val;
-			if(!find(func_name)) yyerror("Undeclared function.\n");
+			if(!find_function(func_name)) yyerror("Undeclared function.\n");
 
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
