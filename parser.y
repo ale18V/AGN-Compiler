@@ -178,6 +178,7 @@ function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN A
 	node->code = std::string("func ") + std::string($2->val) + std::string("\n");
 	node->code += statements->code;
 	node->code+= std::string("endfunc\n\n");
+	add_function_to_symbol_table($2->val);
 	$$ = node;
 
 };
@@ -535,7 +536,7 @@ expression: NOT expression %prec NOT				 		{
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
 			std::string func_name = $1->val;
-			if(!find(func_name)) yyerror("Undeclared function.\n");
+			if(!find(func_name)) yyerror((string("Undeclared function ") + string(func_name)).c_str());
 		
 		}
 		| IDENT LEFTPAREN RIGHTPAREN {
@@ -591,6 +592,8 @@ int main(int argc, char** argv) {
 
 void yyerror(const char* s) {
   fprintf(stderr, "Error encountered while parsing token at [%i,%i %i,%i]: %s\n", yylloc.first_line, yylloc.first_column, yylloc.last_line, yylloc.last_column, s);
+  print_symbol_table();
+  fflush(stdout);
   exit(1);
 }
 
