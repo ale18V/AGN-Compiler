@@ -12,7 +12,7 @@ using namespace std;
 
 void yyerror(const char* s);
 
-extern int yylex();
+int yylex();
 extern FILE* yyin;
 int idx = 0;
 int startLabelIdx = 0, endLabelIdx = 0;
