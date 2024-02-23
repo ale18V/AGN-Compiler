@@ -8,9 +8,10 @@
 #include <vector>
 #define newcn(name) struct CodeNode* name = new CodeNode 
 
+using namespace std;
 
 void yyerror(const char* s);
-using namespace std;
+
 extern int yylex();
 extern FILE* yyin;
 int idx = 0;
@@ -344,8 +345,8 @@ IDENT ASSIGN expression SEMICOLON {
 if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 		newcn(node);
 
-		string startLabelName = string("start_if_") + to_string(++startLabelIdx); 
-		string endLabelName = string("end_if_") + to_string(++endLabelIdx);
+		string startLabelName = string("start_if_") + std::to_string(++startLabelIdx); 
+		string endLabelName = string("end_if_") + std::to_string(++endLabelIdx);
 		node->code = $2->code;
 		node->code += string("?:= ") + startLabelName + sep + $2->val + string("\n"); 
 		node->code += string(":= ") + endLabelName + string("\n");
