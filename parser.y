@@ -130,6 +130,7 @@ void print_symbol_table(void) {
 
 program: statements {
 			cout << $1->code;
+			print_symbol_table();
 		}
 		| %empty {};
 
@@ -186,14 +187,14 @@ read-statement: READ LEFTPAREN expression RIGHTPAREN SEMICOLON{
 }
 
 // --- FUNCTION GRAMMAR ---
-function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY {
+function-declaration: DEFINE IDENT {add_function_to_symbol_table($2->val);} AS LEFTPAREN function-parameters RIGHTPAREN ARROW return-type LEFTCURLY statements RIGHTCURLY {
 	
 	struct CodeNode* node = new CodeNode;
-	struct CodeNode* statements = $10;
+	struct CodeNode* statements = $11;
 	node->code = string("func ") + string($2->val) + string("\n");
+	node->code += $6->code;
 	node->code += statements->code;
-	node->code+= string("endfunc\n\n");
-	add_function_to_symbol_table($2->val);
+	node->code += string("endfunc\n\n");
 	$$ = node;
 
 };
@@ -201,19 +202,22 @@ function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN A
 function-parameters:  function-parameters-sequence	{
 			$$ = $1;
 		}
-		| %empty						{};
-
-
+		| %empty {$$ = new CodeNode;};
 
 
 
 function-parameters-sequence: type IDENT COMMA function-parameters	{
 			struct CodeNode* node = new CodeNode;
+			add_variable_to_symbol_table($2->val, Integer);
+			node->code = string(". ") + $2->val + string("\n");
+			node->code += $4->code;
 			$$ = node;
 		}
  		| type IDENT	{
 			struct CodeNode* node = new CodeNode;
-  			$$ = node;
+			add_variable_to_symbol_table($2->val, Integer);
+  			node->code = string(". ") + $2->val + string("\n");
+			$$ = node;
   		};
 
 
@@ -230,14 +234,13 @@ return-type:  type{
 
 return-statement: RETURN expression SEMICOLON	{
 	struct CodeNode* node = new CodeNode;
-	node->code = string("ret ") + string($2->code) +  string("\n");
-
+	node->code = $2->code;
+	node->code += string("ret ") + $2->val +  string("\n");
 	$$=node;
 }
 | RETURN SEMICOLON {
 	struct CodeNode* node = new CodeNode;
-	node->code = string("ret") +  string("\n");
-
+	node->code = string("ret ") + "0" +  string("\n");
 	$$=node;
 };
 
@@ -396,7 +399,8 @@ expression: NOT expression %prec NOT				 		{
 			string val = string("_tmp_") + to_string(++idx);
 			node->code = string(". ") + val + string("\n");
 			node->code += $2->code;
-			node->code += string("* ") + val + sep + $2->val + sep + "-1" + string("\n"); // Multiply by -1 to get negative. Ugly
+			// Implement -a by computing 0 - a
+			node->code += string("- ") + val + sep + "0" + sep + $2->val + string("\n"); 
 			node->val = val;
 			$$ = node;
 		}
@@ -538,7 +542,14 @@ expression: NOT expression %prec NOT				 		{
 			//FIND THE FUNCTION IN SYMBOL TABLE
 			string func_name = $1->val;
 			if(!find_function(func_name)) yyerror("Undeclared function " + func_name);
-		
+			
+			newcn(node);
+			string val = string("_tmp_") + to_string(++idx);
+			node->code = $3->code;
+			node->code += string(". ") + val + string("\n");
+			node->code += string("call ") + $1->val + sep + val + string("\n");
+			node->val = val;
+			$$ = node;
 		}
 		| IDENT LEFTPAREN RIGHTPAREN {
 
