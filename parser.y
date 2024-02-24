@@ -263,7 +263,7 @@ variable-declaration: type variable-sequence SEMICOLON { $$ = $2; }
 };
 
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
-	add_variable_to_symbol_table($2->val, Array); 
+	add_variable_to_symbol_table($5->val, Array); 
 
 	struct CodeNode* node = new CodeNode;
 	node->code = string(".[] ") + $5->val + sep + $3->val +  string("\n");
@@ -573,7 +573,7 @@ expression: NOT expression %prec NOT				 		{
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
 			node->code = string(". ") + val + string("\n");
-			node->code = $3->code;
+			node->code += $3->code;
 			node->code += string("=[] ") + val +  sep + $1->val + sep + $3->val + string("\n");
 			node->val = val;
 			$$ = node;
