@@ -15,13 +15,13 @@ extern FILE* yyin;
 enum Type { Integer, Array };
 
 struct Symbol {
-  std::string name;
+  string name;
   Type type;
 };
 
 struct Function {
-  std::string name;
-  std::vector<Symbol> declarations;
+  string name;
+  vector<Symbol> declarations;
 };
 
 // Code variables
@@ -55,7 +55,7 @@ bool find_function(const string &name) {
 	return found;
 
 }
-bool find(std::string &value) {
+bool find(string &value) {
 	bool find = false;
   Function *f = get_function();
   for(int i=0; i < f->declarations.size(); i++) {
@@ -68,13 +68,13 @@ bool find(std::string &value) {
   return find;
 }
 
-void add_function_to_symbol_table(std::string const &value) {
+void add_function_to_symbol_table(string const &value) {
   Function f; 
   f.name = value; 
   symbol_table.push_back(f);
 }
 
-void add_variable_to_symbol_table(std::string const &name, Type t) {
+void add_variable_to_symbol_table(string const &name, Type t) {
 	if(symbol_table.size() == 0){
 		add_function_to_symbol_table("GLOBAL");
 	}
@@ -152,12 +152,12 @@ statement: function-declaration		{$$ = $1;}
 		| read-statement			{$$ = $1;}
 		| CONTINUE SEMICOLON		{
 			struct CodeNode* node = new CodeNode;
-			node->code = std::string(":= ") + std::string(labelStack.top().first);
+			node->code = string(":= ") + string(labelStack.top().first);
 			$$ = node;
 		}
 		| BREAK SEMICOLON			{
 			struct CodeNode* node = new CodeNode;
-			node->code = std::string(":= ") + std::string(labelStack.top().second);
+			node->code = string(":= ") + string(labelStack.top().second);
 			$$ = node;
 		}
 		;
@@ -170,7 +170,7 @@ write-statement: WRITE LEFTPAREN expression RIGHTPAREN SEMICOLON {
 	struct CodeNode* node = new CodeNode;
 	struct CodeNode* expression = $3;
 	node->code = expression->code;
-	node->code += std::string(".> ") + expression->val + string("\n");
+	node->code += string(".> ") + expression->val + string("\n");
 	
 	$$ = node;
 }
@@ -190,9 +190,9 @@ function-declaration: DEFINE IDENT AS LEFTPAREN function-parameters RIGHTPAREN A
 	
 	struct CodeNode* node = new CodeNode;
 	struct CodeNode* statements = $10;
-	node->code = std::string("func ") + std::string($2->val) + std::string("\n");
+	node->code = string("func ") + string($2->val) + string("\n");
 	node->code += statements->code;
-	node->code+= std::string("endfunc\n\n");
+	node->code+= string("endfunc\n\n");
 	add_function_to_symbol_table($2->val);
 	$$ = node;
 
@@ -230,13 +230,13 @@ return-type:  type{
 
 return-statement: RETURN expression SEMICOLON	{
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string("ret ") + std::string($2->code) +  std::string("\n");
+	node->code = string("ret ") + string($2->code) +  string("\n");
 
 	$$=node;
 }
 | RETURN SEMICOLON {
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string("ret") +  std::string("\n");
+	node->code = string("ret") +  string("\n");
 
 	$$=node;
 };
@@ -252,20 +252,18 @@ variable-declaration: type variable-sequence SEMICOLON { $$ = $2; }
 	add_variable_to_symbol_table($2->val, Integer); 
 
 	struct CodeNode* node = new CodeNode;
-	
-	node->code = string(". ") + $2->val + string("\n");
+	node->code = $4->code;
+	node->code += string(". ") + $2->val + string("\n");
 	node->code += string("= ") + $2->val + sep + $4->val + string("\n");
 	
 	$$=node;
 };
 
 | type LEFTBRACKET NUM RIGHTBRACKET IDENT SEMICOLON	{
-
-	////ADD VARIABLE TO SYMBOL TABLE
-	
+	add_variable_to_symbol_table($2->val, Array); 
 
 	struct CodeNode* node = new CodeNode;
-	node->code = std::string(".[] ") + std::string($5->val) + std::string(", ") + std::string($3->val) +  std::string("\n");
+	node->code = string(".[] ") + $5->val + sep + $3->val +  string("\n");
 	$$=node;
 };
 
@@ -308,7 +306,7 @@ IDENT ASSIGN expression SEMICOLON {
 	string index = $3->val;
 	string src = $6->val;
 	node->code = $3->code + $6->code;
-	node->code += std::string("[]= ") + dst + sep + index + sep + src + string("\n");
+	node->code += string("[]= ") + dst + sep + index + sep + src + string("\n");
 
 	$$ = node;
 }
@@ -321,8 +319,8 @@ IDENT ASSIGN expression SEMICOLON {
 if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 		newcn(node);
 
-		string startLabelName = string("start_if_") + std::to_string(++startLabelIdx); 
-		string endLabelName = string("end_if_") + std::to_string(++endLabelIdx);
+		string startLabelName = string("start_if_") + to_string(++startLabelIdx); 
+		string endLabelName = string("end_if_") + to_string(++endLabelIdx);
 		node->code = $2->code;
 		node->code += string("?:= ") + startLabelName + sep + $2->val + string("\n"); 
 		node->code += string(":= ") + endLabelName + string("\n");
@@ -538,14 +536,14 @@ expression: NOT expression %prec NOT				 		{
 		| IDENT LEFTPAREN func-call-params RIGHTPAREN	{
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
-			std::string func_name = $1->val;
+			string func_name = $1->val;
 			if(!find_function(func_name)) yyerror("Undeclared function " + func_name);
 		
 		}
 		| IDENT LEFTPAREN RIGHTPAREN {
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
-			std::string func_name = $1->val;
+			string func_name = $1->val;
 			if(!find_function(func_name)) yyerror("Undeclared function.\n");
 
 			newcn(node);
@@ -558,7 +556,7 @@ expression: NOT expression %prec NOT				 		{
 		| IDENT LEFTBRACKET expression RIGHTBRACKET			{
 
 			//FIND THE VARIABLE IN SYMBOL TABLE
-			std::string var_name = $1->val;
+			string var_name = $1->val;
 			if(!find(var_name)) yyerror("Undeclared variable.\n");
 
 			newcn(node);
