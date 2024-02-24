@@ -153,12 +153,12 @@ statement: function-declaration		{$$ = $1;}
 		| read-statement			{$$ = $1;}
 		| CONTINUE SEMICOLON		{
 			struct CodeNode* node = new CodeNode;
-			node->code = string(":= ") + string(labelStack.top().first);
+			node->code = string(":= ") + string(labelStack.top().first) + string("\n");
 			$$ = node;
 		}
 		| BREAK SEMICOLON			{
 			struct CodeNode* node = new CodeNode;
-			node->code = string(":= ") + string(labelStack.top().second);
+			node->code = string(":= ") + string(labelStack.top().second) + string("\n");
 			$$ = node;
 		}
 		;
