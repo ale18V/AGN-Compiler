@@ -10,3 +10,10 @@ func main
 .> z
 endfunc
 
+symbol table:
+--------------------
+function: main
+  locals: z
+  locals: y
+  locals: x
+--------------------

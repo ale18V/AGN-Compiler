@@ -1,21 +1,51 @@
 func add
-ret . _tmp_1
+. x
+= x, $2
+. y
+= y, $1
+. _tmp_1
 + _tmp_1, x, y
-
+ret _tmp_1
 endfunc
 
 func mul
-ret . _tmp_2
+. x
+= x, $2
+. y
+= y, $1
+. _tmp_2
 * _tmp_2, x, y
-
+ret _tmp_2
 endfunc
 
 func main
 . x
 . y
-= x, add
+param 10
+param 2
+. _tmp_3
+call add, _tmp_3
+= x, _tmp_3
 .> x
-= y, mul
+param x
+. _tmp_4
++ _tmp_4, x, y
+param _tmp_4
+. _tmp_5
+call mul, _tmp_5
+= y, _tmp_5
 .> y
 endfunc
 
+symbol table:
+--------------------
+function: add
+  locals: y
+  locals: x
+function: mul
+  locals: y
+  locals: x
+function: main
+  locals: x
+  locals: y
+--------------------

@@ -32,3 +32,10 @@ func main
 .> _tmp_4
 endfunc
 
+symbol table:
+--------------------
+function: main
+  locals: x
+  locals: y
+  locals: z
+--------------------

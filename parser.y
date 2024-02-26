@@ -212,7 +212,7 @@ function-parameters-sequence: type IDENT COMMA function-parameters	{
 			node->code = string(". ") + $2->val + string("\n");
 			
 			Function* f = get_function();
-			node->code += string("= ") + $2->val + string("$") + string(f->declarations.size()) + string("\n");
+			node->code += string("= ") + $2->val + sep + string("$") + to_string(f->declarations.size()) + string("\n");
 			
 			node->code += $4->code;
 			$$ = node;
@@ -223,7 +223,7 @@ function-parameters-sequence: type IDENT COMMA function-parameters	{
   			node->code = string(". ") + $2->val + string("\n");
 
 			Function* f = get_function();
-			node->code += string("= ") + $2->val + string("$") + string(f->declarations.size()) + string("\n");
+			node->code += string("= ") + $2->val + sep + string("$") + to_string(f->declarations.size()) + string("\n");
 			$$ = node;
   		};
 

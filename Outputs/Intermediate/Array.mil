@@ -3,3 +3,8 @@ func main
 []= array, 0, 0
 endfunc
 
+symbol table:
+--------------------
+function: main
+  locals: array
+--------------------

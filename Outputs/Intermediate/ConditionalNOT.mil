@@ -1,10 +1,10 @@
 func main
 . x
-= x
+= x, 5
 . _tmp_1
-* _tmp_1, 1, -1
+- _tmp_1, 0, 1
 . result
-= result
+= result, _tmp_1
 . _tmp_3
 . _tmp_2
 < _tmp_2, x, 7
@@ -19,3 +19,9 @@ func main
 : end_else_2
 endfunc
 
+symbol table:
+--------------------
+function: main
+  locals: x
+  locals: result
+--------------------
