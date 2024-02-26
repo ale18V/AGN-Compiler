@@ -210,6 +210,10 @@ function-parameters-sequence: type IDENT COMMA function-parameters	{
 			struct CodeNode* node = new CodeNode;
 			add_variable_to_symbol_table($2->val, Integer);
 			node->code = string(". ") + $2->val + string("\n");
+			
+			Function* f = get_function();
+			node->code += string("= ") + $2->val + string("$") + string(f->declarations.size()) + string("\n");
+			
 			node->code += $4->code;
 			$$ = node;
 		}
@@ -217,8 +221,14 @@ function-parameters-sequence: type IDENT COMMA function-parameters	{
 			struct CodeNode* node = new CodeNode;
 			add_variable_to_symbol_table($2->val, Integer);
   			node->code = string(". ") + $2->val + string("\n");
+
+			Function* f = get_function();
+			node->code += string("= ") + $2->val + string("$") + string(f->declarations.size()) + string("\n");
 			$$ = node;
   		};
+
+//IDEA: SET THE VARIABLE TO THE LIST OF PARAMS WITH AN EXTRA LINE. = X, $0 BUT IT INCREMENTS
+//USING A COUNTER INSIDE EACH FUNCTION DECLARATION
 
 
 return-type:  type{
@@ -539,12 +549,14 @@ expression: NOT expression %prec NOT				 		{
 		}
 		| IDENT LEFTPAREN func-call-params RIGHTPAREN	{
 
+			//THIS IS A FUNCTION CALL ---------
+
 			//FIND THE FUNCTION IN SYMBOL TABLE
 			string func_name = $1->val;
 			if(!find_function(func_name)) yyerror("Undeclared function " + func_name);
 			
 			newcn(node);
-			string val = string("_tmp_") + to_string(++idx);
+			string val = string("_tmp_") + to_string(++idx); //return value for the function
 			node->code = $3->code;
 			node->code += string(". ") + val + string("\n");
 			node->code += string("call ") + $1->val + sep + val + string("\n");
