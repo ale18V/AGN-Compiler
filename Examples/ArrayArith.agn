@@ -1,0 +1,8 @@
+define main as() -> {
+
+  int[4] array; //sets array of type int with length 8
+  array[0] = 2;
+  array[1] = 5;
+  array[2] = 3;
+  array[3] = array[1] * array[2];
+}
