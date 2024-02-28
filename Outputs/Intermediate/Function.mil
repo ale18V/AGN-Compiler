@@ -1,8 +1,8 @@
 func add
 . x
-= x, $2
+= x, $1
 . y
-= y, $1
+= y, $0
 . _tmp_1
 + _tmp_1, x, y
 ret _tmp_1
@@ -10,9 +10,9 @@ endfunc
 
 func mul
 . x
-= x, $2
+= x, $1
 . y
-= y, $1
+= y, $0
 . _tmp_2
 * _tmp_2, x, y
 ret _tmp_2

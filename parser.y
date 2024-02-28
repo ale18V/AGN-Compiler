@@ -22,6 +22,7 @@ struct Symbol {
 struct Function {
   string name;
   vector<Symbol> declarations;
+  int declarationIndex;
 };
 
 // Code variables
@@ -84,6 +85,7 @@ void add_variable_to_symbol_table(string const &name, Type t) {
   	s.type = t;
   	Function *f = get_function();
   	f->declarations.push_back(s);
+	f->declarationIndex = (f->declarations.size() >= 2) ? f->declarations.size()-1 : 0;
 }
 
 void print_symbol_table(void) {
@@ -212,7 +214,7 @@ function-parameters-sequence: type IDENT COMMA function-parameters	{
 			node->code = string(". ") + $2->val + string("\n");
 			
 			Function* f = get_function();
-			node->code += string("= ") + $2->val + sep + string("$") + to_string(f->declarations.size()) + string("\n");
+			node->code += string("= ") + $2->val + sep + string("$") + to_string(f->declarationIndex) + string("\n");
 			
 			node->code += $4->code;
 			$$ = node;
@@ -223,7 +225,7 @@ function-parameters-sequence: type IDENT COMMA function-parameters	{
   			node->code = string(". ") + $2->val + string("\n");
 
 			Function* f = get_function();
-			node->code += string("= ") + $2->val + sep + string("$") + to_string(f->declarations.size()) + string("\n");
+			node->code += string("= ") + $2->val + sep + string("$") + to_string(f->declarationIndex) + string("\n");
 			$$ = node;
   		};
 
