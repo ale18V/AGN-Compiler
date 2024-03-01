@@ -1,7 +1,7 @@
 all: parser clean generate 
 
 parser: lexer.yy.c parser.tab.c parser.tab.h
-	g++ -std=c++0x -O2 -g -o parser.bin parser.tab.c lexer.yy.c -lm
+	g++ -std=c++17 -O2 -g -o parser.bin parser.tab.c lexer.yy.c -lm
 
 %.yy.c: %.lex
 	flex -o$@ $<

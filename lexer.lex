@@ -57,7 +57,8 @@ Greater             >
 GreaterEqual        >=                      
 Equality            == 
 NotEqual            !=   
-Not		    !
+Not		            !
+Colon              :
 Num                 [0-9]+
 Ident               [a-zA-Z]+[a-zA-Z_0-9]*
 IncorrectIdent      [_0-9]+{Ident}?
@@ -100,6 +101,7 @@ WhiteSpace          [ \r\t]
 {Assign}			{return ASSIGN;}
 {NotEqual}			{return NOTEQ;}
 {Not}				{return NOT;}
+{Colon}             {return COLON;}
 {Num}				{
     newcn(node);
     node->val = string(yytext, yyleng);

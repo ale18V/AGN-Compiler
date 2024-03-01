@@ -25,11 +25,18 @@ struct Function {
   int declarationIndex;
 };
 
+struct LoopStackElement {
+	string startLabel;
+	string endLabel;
+	string name;
+};
+
 // Code variables
 int idx = 0;
 int startLabelIdx = 0, endLabelIdx = 0;
 string sep = string(", ");
-stack<pair<string, string>> labelStack;
+
+vector<LoopStackElement> loopStack;
 vector <Function> symbol_table;
 
 
@@ -117,6 +124,7 @@ void print_symbol_table(void) {
 %token LEFTPAREN RIGHTPAREN LEFTCURLY RIGHTCURLY LEFTBRACKET RIGHTBRACKET
 %token COMMA SEMICOLON 
 %token NUM IDENT 
+%token COLON
 
 %left LLAND LLOR LLXOR 
 %left LT LTEQ GT GTEQ EQ NOTEQ 
@@ -154,19 +162,41 @@ statement: function-declaration		{$$ = $1;}
 		| write-statement			{$$ = $1;}
 		| read-statement			{$$ = $1;}
 		| CONTINUE SEMICOLON		{
-			if(labelStack.empty()) {
+			if(loopStack.empty()) {
 				yyerror("Continue statement used outside of a loop");
 			}
 			struct CodeNode* node = new CodeNode;
-			node->code = string(":= ") + string(labelStack.top().first) + string("\n");
+			auto &[startLabel, endLabel, name] = loopStack.back();
+			node->code = string(":= ") + startLabel + string("\n");
 			$$ = node;
 		}
 		| BREAK SEMICOLON			{
-			if(labelStack.empty()) {
+			if(loopStack.empty()) {
 				yyerror("Break statement used outside of a loop");
 			}
 			struct CodeNode* node = new CodeNode;
-			node->code = string(":= ") + string(labelStack.top().second) + string("\n");
+			auto &[startLabel, endLabel, name] = loopStack.back();
+			node->code = string(":= ") + endLabel + string("\n");
+			$$ = node;
+		}
+		| BREAK IDENT SEMICOLON {
+			if(loopStack.empty()) {
+				yyerror("Break statement used outside of a loop");
+			}
+			struct CodeNode* node = new CodeNode;
+			// Check that the label exists
+			string label_name = $2->val;
+			string labelToJump;
+			bool found = false;
+			for(auto& [startLabel, endLabel, name] : loopStack) {
+				if(label_name == name) {
+					labelToJump = endLabel;
+					found = true;
+					break;
+				}
+			} 
+			if(!found) yyerror("Label referenced by break does not exists");
+			node->code = string(":= ") + labelToJump + string("\n");
 			$$ = node;
 		}
 		;
@@ -375,35 +405,36 @@ if-statement: IF expression LEFTCURLY statements RIGHTCURLY {
 	}
 
 
-
-
-
 // --- LOOPS GRAMMAR ---
-while-statement: WHILE 
-
-{
+while-statement-preamble: IDENT COLON WHILE {
 	string startLabelName = string("start_while_") + to_string(++startLabelIdx); 
 	string endLabelName = string("end_while_") + to_string(++endLabelIdx);
 	
-	labelStack.push({startLabelName, endLabelName});
+	loopStack.push_back({startLabelName, endLabelName, $1->val});
+	
+}
+| WHILE {
+	string startLabelName = string("start_while_") + to_string(++startLabelIdx); 
+	string endLabelName = string("end_while_") + to_string(++endLabelIdx);
+	
+	loopStack.push_back({startLabelName, endLabelName, ""});
 }
 
-expression LEFTCURLY statements RIGHTCURLY {
+while-statement: while-statement-preamble expression LEFTCURLY statements RIGHTCURLY {
 	
 		newcn(node);
-		string startLabelName = labelStack.top().first;
-		string endLabelName = labelStack.top().second;
+		auto [startLabelName, endLabelName, loopName] = loopStack.back();
 
 
 		node->code = string(": ") + startLabelName + string("\n");
 		node->code += $3->code;
-		node->code += string("! ") + $3->val + sep + $3->val + string("\n"); // Negate the condition
-		node->code += string("?:= ") + endLabelName + sep + $3->val + string("\n"); // So you can jump to the end if it's !false = true
+		node->code += string("! ") + $2->val + sep + $2->val + string("\n"); // Negate the condition
+		node->code += string("?:= ") + endLabelName + sep + $2->val + string("\n"); // So you can jump to the end if it's !false = true
 		node->code += $5->code;
 		node->code += string(":= ") + startLabelName  + string("\n");
 		node->code += string(": ") + endLabelName + string("\n");
 		$$ = node;
-		labelStack.pop();
+		loopStack.pop_back();
 	
 }
 
