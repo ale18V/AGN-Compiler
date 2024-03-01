@@ -1,0 +1,10 @@
+define main as (){
+
+    int z = 0;
+    while(z < 5) {
+
+        z++;
+
+    }
+    break;
+}
