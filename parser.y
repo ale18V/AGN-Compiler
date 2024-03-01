@@ -56,17 +56,17 @@ bool find_function(const string &name) {
 	return found;
 
 }
-bool find(string &value) {
-	bool find = false;
-  Function *f = get_function();
-  for(int i=0; i < f->declarations.size(); i++) {
-    Symbol *s = &f->declarations[i];
-    if (s->name == value) {
-      if(find) yyerror("Multiple declarations of same variable.\n");
-	  find = true;
-    }
-  }
-  return find;
+bool find(string &value, Type type) {
+	bool found = false;
+	Function *f = get_function();
+	for(int i=0; i < f->declarations.size(); i++) {
+		Symbol *s = &f->declarations[i];
+		if (s->name == value && s->type == type) {
+			if(found) yyerror("Multiple declarations of same variable " + s->name);
+			found = true;
+		}
+	}
+	return found;
 }
 
 void add_function_to_symbol_table(string const &value) {
@@ -308,6 +308,9 @@ IDENT COMMA variable-sequence {
 variable-assignment: 
 
 IDENT ASSIGN expression SEMICOLON {
+	string var_name = $1->val;
+	if(!find(var_name, Integer)) yyerror("Undeclared identifier " + var_name);
+
 	struct CodeNode* node = new CodeNode;
 	node->code = $3->code;
 	node->code += string("= ") + $1->val + sep + $3->val + string("\n");
@@ -315,6 +318,9 @@ IDENT ASSIGN expression SEMICOLON {
 	$$ = node;
 }
 |IDENT LEFTBRACKET expression RIGHTBRACKET ASSIGN expression SEMICOLON	{
+	string var_name = $1->val;
+	if(!find(var_name, Array)) yyerror("Undeclared array " + var_name);
+
 	//assign new node
 	struct CodeNode* node = new CodeNode;
 	string dst = $1->val;
@@ -569,7 +575,7 @@ expression: NOT expression %prec NOT				 		{
 
 			//FIND THE FUNCTION IN SYMBOL TABLE
 			string func_name = $1->val;
-			if(!find_function(func_name)) yyerror("Undeclared function.\n");
+			if(!find_function(func_name)) yyerror("Undeclared function " + func_name);
 
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
@@ -582,7 +588,7 @@ expression: NOT expression %prec NOT				 		{
 
 			//FIND THE VARIABLE IN SYMBOL TABLE
 			string var_name = $1->val;
-			if(!find(var_name)) yyerror("Undeclared variable.\n");
+			if(!find(var_name, Array)) yyerror("Undeclared array " + var_name);
 
 			newcn(node);
 			string val = string("_tmp_") + to_string(++idx);
@@ -592,7 +598,11 @@ expression: NOT expression %prec NOT				 		{
 			node->val = val;
 			$$ = node;
 		}
-		| IDENT { $$ = $1; }
+		| IDENT {
+			string var_name = $1->val;
+			if(!find(var_name, Integer)) yyerror("Undeclared identifier " + var_name);
+			$$ = $1; 
+		}
 		| NUM { $$ = $1;};
 
 
@@ -619,7 +629,7 @@ int main(int argc, char** argv) {
 }
 
 void yyerror(const string &error) {
-  fprintf(stderr, "Error encountered while parsing token at [%i,%i %i,%i]: %s\n", yylloc.first_line, yylloc.first_column, yylloc.last_line, yylloc.last_column, error.c_str());
+  fprintf(stderr, "Error encountered while parsing token at [%i,%i %i,%i].\n%s.\n\n", yylloc.first_line, yylloc.first_column, yylloc.last_line, yylloc.last_column, error.c_str());
   print_symbol_table();
   fflush(stdout);
   exit(1);
