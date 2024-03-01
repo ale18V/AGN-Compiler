@@ -154,11 +154,17 @@ statement: function-declaration		{$$ = $1;}
 		| write-statement			{$$ = $1;}
 		| read-statement			{$$ = $1;}
 		| CONTINUE SEMICOLON		{
+			if(labelStack.empty()) {
+				yyerror("Continue statement used outside of a loop");
+			}
 			struct CodeNode* node = new CodeNode;
 			node->code = string(":= ") + string(labelStack.top().first) + string("\n");
 			$$ = node;
 		}
 		| BREAK SEMICOLON			{
+			if(labelStack.empty()) {
+				yyerror("Break statement used outside of a loop");
+			}
 			struct CodeNode* node = new CodeNode;
 			node->code = string(":= ") + string(labelStack.top().second) + string("\n");
 			$$ = node;
@@ -306,7 +312,7 @@ IDENT COMMA variable-sequence {
 
 
 variable-assignment: 
-
+ 
 IDENT ASSIGN expression SEMICOLON {
 	string var_name = $1->val;
 	if(!find(var_name, Integer)) yyerror("Undeclared identifier " + var_name);
