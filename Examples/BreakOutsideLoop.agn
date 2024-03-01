@@ -1,9 +1,9 @@
-define main as (){
+define main as () -> {
 
     int z = 0;
-    while(z < 5) {
+    while z < 5 {
 
-        z++;
+        z = z + 1;
 
     }
     break;
