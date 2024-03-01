@@ -427,10 +427,10 @@ while-statement: while-statement-preamble expression LEFTCURLY statements RIGHTC
 
 
 		node->code = string(": ") + startLabelName + string("\n");
-		node->code += $3->code;
+		node->code += $2->code;
 		node->code += string("! ") + $2->val + sep + $2->val + string("\n"); // Negate the condition
 		node->code += string("?:= ") + endLabelName + sep + $2->val + string("\n"); // So you can jump to the end if it's !false = true
-		node->code += $5->code;
+		node->code += $4->code;
 		node->code += string(":= ") + startLabelName  + string("\n");
 		node->code += string(": ") + endLabelName + string("\n");
 		$$ = node;
